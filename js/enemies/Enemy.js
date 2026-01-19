@@ -1,0 +1,192 @@
+import StatusEffectManager from './StatusEffectManager.js';
+
+/**
+ * Enemy class - 敌人基类
+ */
+export default class Enemy {
+    constructor(x, y, data) {
+        this.x = x;
+        this.y = y;
+        this.name = data.name;
+        this.maxHp = data.maxHp;
+        this.hp = data.hp;
+        this.attack = data.attack;
+        this.defense = data.defense;
+        this.speed = data.speed;
+        this.radius = data.radius;
+        this.color = data.color;
+        this.exp = data.exp;
+        this.gold = data.gold;
+
+        // 使用新的状态效果管理器
+        this.statusEffects = new StatusEffectManager();
+    }
+
+    /**
+     * 受到伤害
+     * @param {number} rawDamage - 原始伤害值
+     * @returns {number} - 实际受到的伤害
+     */
+    takeDamage(rawDamage) {
+        const defense = this.defense || 0;
+        let actualDamage = Math.max(1, rawDamage - defense);
+
+        // 应用易伤倍率
+        actualDamage *= this.statusEffects.getVulnerabilityMultiplier();
+
+        this.hp -= actualDamage;
+        return actualDamage;
+    }
+
+    /**
+     * 应用状态效果
+     * @param {string} effectId - 效果ID
+     * @param {number} duration - 持续时间
+     * @param {Object} params - 效果参数
+     */
+    applyStatusEffect(effectId, duration, params = {}) {
+        this.statusEffects.applyEffect(effectId, duration, params);
+    }
+
+    /**
+     * 兼容旧API - 施加冰冻
+     */
+    applyFreeze(duration) {
+        this.statusEffects.applyEffect('frozen', duration);
+    }
+
+    /**
+     * 兼容旧API - 施加燃烧
+     */
+    applyBurn(duration, damagePerFrame) {
+        this.statusEffects.applyEffect('burning', duration, { damagePerFrame });
+    }
+
+    /**
+     * 兼容旧API - 施加中毒
+     */
+    applyPoison(duration, damagePerStack = 5 / 60) {
+        this.statusEffects.applyEffect('poisoned', duration, {
+            damagePerStack,
+            stacks: 1
+        });
+    }
+
+    /**
+     * 兼容旧API - 施加易伤
+     */
+    applyVulnerable(amount, duration) {
+        this.statusEffects.applyEffect('vulnerable', duration, {
+            vulnerabilityAmount: amount
+        });
+    }
+
+    /**
+     * 兼容旧API - 施加致盲
+     */
+    applyBlind(duration) {
+        this.statusEffects.applyEffect('blinded', duration);
+    }
+
+    /**
+     * 更新逻辑
+     * @param {Object} playerPos - 玩家位置 {x, y}
+     * @param {number} scrollY - 滚动位置
+     * @param {number} canvasHeight - 画布高度
+     */
+    update(playerPos, scrollY, canvasHeight) {
+        if (this.hp <= 0) return;
+
+        // 更新状态效果并应用持续伤害
+        const dotDamage = this.statusEffects.update(this);
+        if (dotDamage > 0) {
+            this.hp -= dotDamage;
+        }
+
+        // 移动逻辑 (如果不冰冻)
+        if (!this.statusEffects.isFrozen()) {
+            // playerWorldY = scrollY + playerPos.y (玩家屏幕坐标转世界坐标)
+            const playerWorldY = scrollY + playerPos.y;
+            const dx = playerPos.x - this.x;
+            const dy = playerWorldY - this.y;
+            const d = Math.sqrt(dx * dx + dy * dy);
+            if (d > 0) {
+                // 应用速度倍率（考虑减速效果）
+                const speedMultiplier = this.statusEffects.getSpeedMultiplier();
+                this.x += (dx / d) * this.speed * speedMultiplier;
+                this.y += (dy / d) * this.speed * speedMultiplier;
+            }
+        }
+    }
+
+    /**
+     * 检查是否被致盲（兼容旧代码）
+     */
+    get blinded() {
+        return this.statusEffects.isBlinded();
+    }
+
+    /**
+     * 检查是否被冰冻（兼容旧代码）
+     */
+    get frozen() {
+        return this.statusEffects.isFrozen();
+    }
+
+    /**
+     * 绘制敌人
+     */
+    draw(ctx, scrollY) {
+        if (this.hp <= 0) return;
+
+        ctx.save();
+
+        // 基础圆
+        ctx.beginPath();
+        ctx.arc(this.x, this.y - scrollY, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+
+        // 描边效果 (优先显示最重要的状态)
+        const activeEffects = this.statusEffects.getAllEffects();
+        if (activeEffects.length > 0) {
+            // 按优先级排序：冻结 > 燃烧 > 中毒
+            let primaryEffect = null;
+            if (this.frozen) primaryEffect = this.statusEffects.getEffect('frozen');
+            else if (this.statusEffects.hasEffect('burning')) primaryEffect = this.statusEffects.getEffect('burning');
+            else if (this.statusEffects.hasEffect('poisoned')) primaryEffect = this.statusEffects.getEffect('poisoned');
+
+            if (primaryEffect) {
+                ctx.strokeStyle = primaryEffect.color;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        }
+
+        // 致盲标识
+        if (this.blinded) {
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+            ctx.fill();
+            ctx.fillStyle = 'white';
+            ctx.font = '10px Arial';
+            ctx.fillText('X', this.x - 3, this.y - scrollY + 4);
+        }
+
+        // 血条
+        const healthBarW = this.radius * 2;
+        const healthBarH = 4;
+        ctx.fillStyle = 'red';
+        ctx.fillRect(this.x - this.radius, this.y - scrollY - this.radius - 8, healthBarW, healthBarH);
+        ctx.fillStyle = 'green';
+        ctx.fillRect(this.x - this.radius, this.y - scrollY - this.radius - 8, healthBarW * (this.hp / this.maxHp), healthBarH);
+
+        ctx.restore();
+    }
+
+    /**
+     * 兼容旧代码 - burning getter
+     */
+    get burning() {
+        return this.statusEffects.hasEffect('burning');
+    }
+}

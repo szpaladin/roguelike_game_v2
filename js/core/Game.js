@@ -1,0 +1,225 @@
+import { GAME_CONFIG, TILE, ENTITY } from '../config.js';
+import { log } from '../utils.js';
+import MapManager from './MapManager.js';
+import Player from './Player.js';
+import EnemySpawner from '../enemies/EnemySpawner.js';
+import BulletPool from '../combat/BulletPool.js';
+import CollisionManager from '../combat/CollisionManager.js';
+import EffectsManager from '../effects/EffectsManager.js';
+import ChestManager from '../chest/ChestManager.js';
+import HUD from '../ui/HUD.js';
+import UpgradeUI from '../ui/UpgradeUI.js';
+import ChestUI from '../ui/ChestUI.js';
+import GameOverUI from '../ui/GameOverUI.js';
+
+/**
+ * Game - 游戏主控类
+ * 整合所有子系统并驱动游戏运行
+ */
+export default class Game {
+    /**
+     * @param {CanvasRenderingContext2D} ctx - 绘图上下文
+     * @param {number} width - 画布宽度
+     * @param {number} height - 画布高度
+     */
+    constructor(ctx, width, height) {
+        this.ctx = ctx;
+        this.width = width;
+        this.height = height;
+
+        // 状态
+        this.paused = false;
+        this.gameOver = false;
+        this.gameTime = 0;
+        this.distance = 0;
+        this.scrollY = 0;
+        this.keys = {};
+
+        // 初始化子系统
+        this.mapManager = new MapManager();
+        this.player = new Player(this.width / 2, this.height * 0.3);
+        this.enemySpawner = new EnemySpawner();
+        this.bulletPool = new BulletPool();
+        this.collisionManager = new CollisionManager();
+        this.effectsManager = new EffectsManager();
+
+        // UI 系统
+        this.hud = new HUD();
+        this.upgradeUI = new UpgradeUI();
+        this.chestUI = new ChestUI();
+        this.gameOverUI = new GameOverUI();
+
+        this.enemies = [];
+
+        // 宝箱系统
+        this.chestManager = new ChestManager(this.chestUI);
+
+        // 初始设置
+        this.init();
+    }
+
+    init() {
+        this.mapManager.initMap();
+        this.upgradeUI.init(this.player);
+
+        // 注册升级菜单关闭回调
+        this.upgradeUI.onClose(() => {
+            this.paused = false;
+        });
+
+        // 设置碰撞管理器的依赖项（用于攻击范围效果）
+        this.collisionManager.setDependencies(this.effectsManager, this.bulletPool, this.player);
+    }
+
+    /**
+     * 更新逻辑
+     * @param {number} dt - 帧间隔 (秒)
+     */
+    update(dt) {
+        if (this.paused || this.gameOver) return;
+
+        this.gameTime++;
+        // distance 就是像素单位的滚动距离
+        this.distance += GAME_CONFIG.AUTO_SCROLL_SPEED * (dt * 60);
+        this.scrollY = this.distance;
+
+        // 1. 地图更新
+        this.mapManager.update(this.scrollY, this.height);
+
+        // 2. 生成敌人（传入玩家世界坐标）
+        const playerWorldPos = { x: this.player.x, y: this.player.y + this.scrollY };
+        const newEnemy = this.enemySpawner.spawn(this.distance, playerWorldPos);
+        if (newEnemy) {
+            this.enemies.push(newEnemy);
+        }
+
+        // 3. 玩家更新
+        this.player.update(this.keys, dt, this.scrollY);
+
+        // 4. 自动攻击 (子弹生成)
+        this.player.weaponSystem.autoShoot(
+            { x: this.player.x, y: this.player.y },
+            this.player.stats.strength,
+            this.enemies,
+            this.bulletPool,
+            this.scrollY
+        );
+
+        // 5. 敌人和子弹物理更新
+        this.bulletPool.update();
+        this.effectsManager.update();
+
+        // 6. 更新待掉落宝箱数量
+        this.chestManager.updatePendingChests(this.distance);
+
+        // 7. 更新敌人位置和状态
+        const playerPos = { x: this.player.x, y: this.player.y };
+        for (let i = this.enemies.length - 1; i >= 0; i--) {
+            const enemy = this.enemies[i];
+            enemy.update(playerPos, this.scrollY, this.height);
+            if (enemy.hp <= 0 && !enemy.isDead) {
+                // 处理敌人死亡 (经验、金币等)
+                this.player.stats.gainExp(enemy.exp || 1);
+                this.player.stats.addGold(enemy.gold || 1);
+                enemy.isDead = true;
+
+                // 尝试掉落宝箱
+                this.chestManager.tryDropChest(enemy.x, enemy.y);
+            }
+            // 移除视野外的敌人
+            if (enemy.y + enemy.radius < this.scrollY - 100) {
+                this.enemies.splice(i, 1);
+            }
+        }
+
+        // 8. 碰撞检测
+        const playerCollisions = this.collisionManager.checkPlayerEnemyCollisions(this.player, this.enemies, this.scrollY);
+
+        // 处理玩家与敌人碰撞（玩家受伤）
+        for (const enemy of playerCollisions) {
+            if (!enemy.blinded) {
+                const damage = this.player.takeDamage(enemy.attack);
+                if (damage > 0) {
+                    log(`${enemy.name} 对你造成了 ${damage} 点伤害！`, 'damage');
+                }
+            }
+        }
+
+        this.collisionManager.checkBulletEnemyCollisions(this.bulletPool.getActiveBullets(), this.enemies, this.player.stats.strength);
+
+        // 9. 检查游戏结束
+        if (!this.player.stats.isAlive()) {
+            this.handleGameOver();
+        }
+
+        // 10. 更新宝箱
+        this.chestManager.update(this.player, this.scrollY, (chest) => {
+            this.paused = true;
+            this.chestManager.openChest(chest, this.player, () => {
+                this.paused = false;
+            });
+        });
+
+        // 11. 更新 HUD
+        this.hud.update(this.player, this.distance);
+    }
+
+    /**
+     * 绘制
+     */
+    draw() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+
+        // 绘制地图
+        this.mapManager.draw(this.ctx, this.scrollY, this.width, this.height);
+
+        // 绘制敌人
+        this.enemies.forEach(enemy => {
+            enemy.draw(this.ctx, this.scrollY);
+        });
+
+        // 绘制宝箱
+        this.chestManager.draw(this.ctx, this.scrollY);
+
+        // 绘制子弹
+        this.bulletPool.draw(this.ctx, this.scrollY);
+
+        // 绘制视觉特效
+        this.effectsManager.draw(this.ctx, this.scrollY);
+
+        // 绘制玩家
+        this.player.draw(this.ctx);
+    }
+
+    togglePause() {
+        this.paused = !this.paused;
+    }
+
+    handleGameOver() {
+        this.gameOver = true;
+        this.gameOverUI.show(Math.floor(this.distance), this.player.stats.level);
+    }
+
+    handleInput(e, isDown) {
+        const key = e.key.toLowerCase();
+        this.keys[key] = isDown;
+
+        if (isDown) {
+            if (key === 'e') {
+                // 打开/关闭升级菜单
+                if (this.upgradeUI.isOpen()) {
+                    this.upgradeUI.close();
+                    this.paused = false;
+                } else if (this.player.stats.skillPoints > 0) {
+                    this.upgradeUI.open();
+                    this.paused = true;
+                }
+            }
+            if (key === 'escape') {
+                this.upgradeUI.close();
+                this.chestUI.close();
+                this.paused = false;
+            }
+        }
+    }
+}
