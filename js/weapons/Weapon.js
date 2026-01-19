@@ -71,4 +71,52 @@ export default class Weapon {
             active: true
         };
     }
+
+    /**
+     * 带扩散角度发射武器
+     * @param {number} startX - 发射起始位置 X
+     * @param {number} startY - 发射起始位置 Y (世界坐标)
+     * @param {Object} targetPos - 目标位置 {x, y} (世界坐标)
+     * @param {number} playerAttack - 玩家攻击力
+     * @param {number} spreadAngle - 扩散角度 (弧度)
+     * @returns {Object} - 子弹初始化数据
+     */
+    fireWithSpread(startX, startY, targetPos, playerAttack = 5, spreadAngle = 0) {
+        if (!this.canFire()) return null;
+
+        // 计算基础角度
+        const dx = targetPos.x - startX;
+        const dy = targetPos.y - startY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        // 计算带扩散的角度
+        let angle = Math.atan2(dy, dx) + spreadAngle;
+
+        // 如果没有距离（目标就在原地），默认向上发射
+        let vx, vy;
+        if (dist > 0) {
+            vx = Math.cos(angle) * this.def.speed;
+            vy = Math.sin(angle) * this.def.speed;
+        } else {
+            vx = 0;
+            vy = -this.def.speed;
+        }
+
+        // 重置冷却
+        this.cooldown = this.def.interval;
+
+        // 计算最终伤害 = 武器伤害倍率 * 力量 / 10
+        const finalDamage = this.def.damage * (playerAttack / 10);
+
+        // 返回子弹数据 (合并武器定义的所有属性)
+        return {
+            x: startX,
+            y: startY,
+            vx,
+            vy,
+            ...this.def,
+            damage: finalDamage, // 覆盖伤害为最终计算值
+            active: true
+        };
+    }
 }

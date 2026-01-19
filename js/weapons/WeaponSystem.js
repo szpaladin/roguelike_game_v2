@@ -39,13 +39,25 @@ export default class WeaponSystem {
      */
     autoShoot(playerPos, playerAttack, enemies, bulletPool, scrollY = 0) {
         const playerWorldY = scrollY + playerPos.y;
+        const weaponCount = this.weapons.length;
 
-        for (const weapon of this.weapons) {
+        for (let i = 0; i < weaponCount; i++) {
+            const weapon = this.weapons[i];
             if (!weapon.canFire()) continue;
 
             const target = this.findNearestEnemy(playerPos.x, playerWorldY, enemies);
             if (target) {
-                const bulletData = weapon.fire(playerPos.x, playerWorldY, { x: target.x, y: target.y }, playerAttack);
+                // 计算扩散角度：每个武器基于索引有微小角度偏移
+                // spread = (索引 - (武器数-1)/2) * 0.05 弧度（约3度）
+                const spread = (i - (weaponCount - 1) / 2) * 0.05;
+
+                const bulletData = weapon.fireWithSpread(
+                    playerPos.x,
+                    playerWorldY,
+                    { x: target.x, y: target.y },
+                    playerAttack,
+                    spread
+                );
                 if (bulletData) {
                     bulletPool.spawnBullet(bulletData);
                 }
