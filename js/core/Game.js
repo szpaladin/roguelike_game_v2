@@ -2,6 +2,7 @@ import { GAME_CONFIG, TILE, ENTITY } from '../config.js';
 import { log } from '../utils.js';
 import MapManager from './MapManager.js';
 import Player from './Player.js';
+import OxygenSystem from './OxygenSystem.js';
 import EnemySpawner from '../enemies/EnemySpawner.js';
 import BulletPool from '../combat/BulletPool.js';
 import CollisionManager from '../combat/CollisionManager.js';
@@ -34,6 +35,9 @@ export default class Game {
         this.distance = 0;
         this.scrollY = 0;
         this.keys = {};
+
+        // 氧气系统（每秒扣1点HP）
+        this.oxygenSystem = new OxygenSystem(1);
 
         // 初始化子系统
         this.mapManager = new MapManager();
@@ -95,6 +99,9 @@ export default class Game {
 
         // 3. 玩家更新
         this.player.update(this.keys, dt, this.scrollY);
+
+        // 3.5 氧气消耗
+        this.oxygenSystem.update(dt, this.player.stats);
 
         // 4. 自动攻击 (子弹生成)
         this.player.weaponSystem.autoShoot(

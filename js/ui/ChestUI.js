@@ -70,11 +70,12 @@ export default class ChestUI {
     createFusionCard(recipe) {
         const div = document.createElement('div');
         div.className = 'fusion-card';
-        // 这里简化实现，实际逻辑会包含材料图标等
         div.innerHTML = `
-      <div class="fusion-result-name">${recipe.message || '进化'}</div>
-      <div class="fusion-description">${recipe.description || ''}</div>
-    `;
+            <div class="fusion-icon">${recipe.icon || '⚗️'}</div>
+            <div class="fusion-result-name">${recipe.name}</div>
+            <div class="fusion-materials">${recipe.materials.join(' + ')}</div>
+            <div class="fusion-description">${recipe.description || ''}</div>
+        `;
         return div;
     }
 

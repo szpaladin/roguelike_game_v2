@@ -1,5 +1,5 @@
 import { log } from '../utils.js';
-import { WEAPONS } from '../weapons/WeaponsData.js';
+import { WEAPONS, getAvailableFusions } from '../weapons/WeaponsData.js';
 
 /**
  * ChestManager - 宝箱管理器
@@ -97,35 +97,59 @@ export default class ChestManager {
     }
 
     /**
-     * 打开宝箱
+     * 打开宝箱 - 显示可用的武器融合选项
      * @param {Object} chest - 宝箱对象
      * @param {Object} player - 玩家对象
      * @param {Function} onComplete - 完成回调 (paused: boolean)
      */
     openChest(chest, player, onComplete) {
-        // 生成候选武器列表（排除已拥有的武器）
-        const ownedIds = player.weaponSystem.weapons.map(w => w.def.id);
-        const availableWeapons = Object.values(WEAPONS)
-            .filter(w => !ownedIds.includes(w.id))
-            .slice(0, 3);
+        // 获取可用的融合配方
+        const playerWeapons = player.weaponSystem.getWeapons();
+        const availableFusions = getAvailableFusions(playerWeapons);
 
-        if (availableWeapons.length === 0) {
-            // 无可选武器，直接移除宝箱
+        if (availableFusions.length === 0) {
+            // 无可用融合配方，直接移除宝箱
+            log('当前武器无法进化，宝箱消失了...', 'info');
             this.removeChest(chest);
             if (onComplete) onComplete(false);
             return;
         }
 
-        this.chestUI.open(availableWeapons, (selectedWeapon) => {
-            if (selectedWeapon) {
-                player.weaponSystem.addWeapon(selectedWeapon);
-                log(`从宝箱获得武器：${selectedWeapon.name}！`, 'important');
+        // 显示融合选项
+        this.chestUI.showFusions(availableFusions, (selectedRecipe) => {
+            if (selectedRecipe) {
+                // 执行融合 - 手动处理以确保创建正确的 Weapon 实例
+                this.executeFusion(player.weaponSystem, selectedRecipe);
                 this.removeChest(chest);
             } else {
+                // 取消选择，设置冷却
                 chest.interactionCooldown = 60;
             }
             if (onComplete) onComplete(false);
         });
+    }
+
+    /**
+     * 执行武器融合
+     * @param {WeaponSystem} weaponSystem - 武器系统
+     * @param {Object} recipe - 融合配方
+     */
+    executeFusion(weaponSystem, recipe) {
+        // 移除材料武器
+        for (const materialId of recipe.materials) {
+            weaponSystem.removeWeapon(materialId);
+        }
+
+        // 获取结果武器定义
+        const resultWeaponKey = Object.keys(WEAPONS).find(
+            key => WEAPONS[key].id === recipe.result
+        );
+
+        if (resultWeaponKey) {
+            // 使用 addWeapon 正确创建 Weapon 实例
+            weaponSystem.addWeapon(WEAPONS[resultWeaponKey]);
+            log(`武器进化成功！获得了 ${WEAPONS[resultWeaponKey].name}！`, 'important');
+        }
     }
 
     /**

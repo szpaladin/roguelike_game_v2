@@ -53,7 +53,7 @@ export default class HUD {
         }
 
         // 更新基础数值
-        if (e.level) e.level.textContent = String(s.level);
+        if (e.level) e.level.textContent = `Lv.${s.level}`;
         if (e.skillPoints) e.skillPoints.textContent = String(s.skillPoints);
         if (e.strength) e.strength.textContent = String(s.strength);
         if (e.intelligence) e.intelligence.textContent = String(s.intelligence);

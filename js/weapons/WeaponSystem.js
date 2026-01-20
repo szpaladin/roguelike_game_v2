@@ -106,4 +106,12 @@ export default class WeaponSystem {
     getWeapons() {
         return this.weapons;
     }
+
+    /**
+     * 设置武器列表（用于武器融合）
+     * @param {Array} weapons - 新的武器数组
+     */
+    setWeapons(weapons) {
+        this.weapons = weapons;
+    }
 }
