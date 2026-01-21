@@ -114,4 +114,14 @@ export default class WeaponSystem {
     setWeapons(weapons) {
         this.weapons = weapons;
     }
+
+    /**
+     * 获取所有进化武器的ID
+     * @returns {Array<string>} - 进化武器ID列表
+     */
+    getEvolutionWeaponIds() {
+        return this.weapons
+            .filter(w => w.def && w.def.tier === 'evolution')
+            .map(w => w.def.id);
+    }
 }

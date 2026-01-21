@@ -13,7 +13,13 @@ export const GAME_CONFIG = {
     MAP_WIDTH: 20,
     AUTO_SCROLL_SPEED: 0.8,
     SPAWN_INTERVAL: 200,
-    PLAYER_INVULNERABLE_TIME: 60
+    PLAYER_INVULNERABLE_TIME: 60,
+    // 撤离系统配置
+    EVACUATION: {
+        SPAWN_INTERVAL: 5000,    // 每5000像素(500米)生成撤离点
+        EVACUATION_TIME: 3000,   // 撤离需要3秒（毫秒）
+        DEATH_PENALTY: 0.5       // 死亡损失50%收益
+    }
 };
 
 /**

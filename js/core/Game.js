@@ -3,6 +3,8 @@ import { log } from '../utils.js';
 import MapManager from './MapManager.js';
 import Player from './Player.js';
 import OxygenSystem from './OxygenSystem.js';
+import EvacuationManager from './EvacuationManager.js';
+import MetaProgress from './MetaProgress.js';
 import EnemySpawner from '../enemies/EnemySpawner.js';
 import BulletPool from '../combat/BulletPool.js';
 import CollisionManager from '../combat/CollisionManager.js';
@@ -12,6 +14,7 @@ import HUD from '../ui/HUD.js';
 import UpgradeUI from '../ui/UpgradeUI.js';
 import ChestUI from '../ui/ChestUI.js';
 import GameOverUI from '../ui/GameOverUI.js';
+import EvacuationResultUI from '../ui/EvacuationResultUI.js';
 
 /**
  * Game - 游戏主控类
@@ -36,8 +39,13 @@ export default class Game {
         this.scrollY = 0;
         this.keys = {};
 
-        // 氧气系统（每秒扣1点HP）
-        this.oxygenSystem = new OxygenSystem(1);
+        // 氧气系统（每4秒扣1点HP）
+        this.oxygenSystem = new OxygenSystem(4, 1);
+
+        // 撤离系统
+        this.evacuationManager = new EvacuationManager();
+        this.metaProgress = new MetaProgress();
+        this.evacuationResultUI = new EvacuationResultUI();
 
         // 初始化子系统
         this.mapManager = new MapManager();
@@ -73,6 +81,12 @@ export default class Game {
 
         // 设置碰撞管理器的依赖项（用于攻击范围效果）
         this.collisionManager.setDependencies(this.effectsManager, this.bulletPool, this.player);
+
+        // 设置撤离完成回调
+        this.evacuationManager.setEvacuationCallback(() => this.handleEvacuation());
+
+        // 设置结算界面回调
+        this.evacuationResultUI.onContinue(() => location.reload());
     }
 
     /**
@@ -118,6 +132,10 @@ export default class Game {
 
         // 6. 更新待掉落宝箱数量
         this.chestManager.updatePendingChests(this.distance);
+
+        // 6.5 撤离系统更新
+        this.evacuationManager.updateSpawning(this.distance);
+        this.evacuationManager.update(this.player, this.scrollY, dt);
 
         // 7. 更新敌人位置和状态
         const playerPos = { x: this.player.x, y: this.player.y };
@@ -194,6 +212,9 @@ export default class Game {
         // 绘制视觉特效
         this.effectsManager.draw(this.ctx, this.scrollY);
 
+        // 绘制撤离点
+        this.evacuationManager.draw(this.ctx, this.scrollY);
+
         // 绘制玩家
         this.player.draw(this.ctx);
     }
@@ -204,7 +225,25 @@ export default class Game {
 
     handleGameOver() {
         this.gameOver = true;
-        this.gameOverUI.show(Math.floor(this.distance), this.player.stats.level);
+        // 死亡结算（损失50%收益）
+        const result = this.metaProgress.processDeath({
+            gold: this.player.stats.gold,
+            distance: Math.floor(this.distance / 10),
+            weapons: this.player.weaponSystem.getEvolutionWeaponIds()
+        }, GAME_CONFIG.EVACUATION.DEATH_PENALTY);
+        this.evacuationResultUI.showDeath(result);
+    }
+
+    handleEvacuation() {
+        this.gameOver = true;
+        // 撤离成功结算（100%收益）
+        const result = this.metaProgress.processEvacuation({
+            gold: this.player.stats.gold,
+            distance: Math.floor(this.distance / 10),
+            weapons: this.player.weaponSystem.getEvolutionWeaponIds()
+        });
+        this.evacuationResultUI.showSuccess(result);
+        log('撤离成功！', 'important');
     }
 
     handleInput(e, isDown) {

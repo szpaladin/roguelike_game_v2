@@ -312,7 +312,7 @@ export const WEAPON_FUSION_TABLE = [
         result: 'inferno',
         description: '疾风的穿透与火焰的灼烧融合为炼狱',
         tier: 1,
-        icon: '🔴'
+        icon: '🌋'
     },
     {
         id: 'fusion_frostfire',

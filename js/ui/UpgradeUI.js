@@ -170,19 +170,25 @@ export default class UpgradeUI {
      */
     getWeaponIcon(weaponId) {
         const iconMap = {
-            'swift': '🏹',
             'fire': '🔥',
             'frost': '❄️',
+            'swift': '💨',
             'vampire': '🩸',
             'poison': '☠️',
-            'steel': '⚔️',
+            'steel': '🔩',
             'dark': '🌑',
             'lightning': '⚡',
             'light': '✨',
-            'frostfire': '🔥❄️',
+            'rock': '🪨',
+            'ghost': '👻',
+            'ray': '📡',
+            'cell': '🧬',
+            'inferno': '🌋',
+            'blizzard': '🌨️',
+            'frostfire': '💠',
             'bomb': '💣',
             'storm': '⛈️',
-            'poisonmist': '☁️'
+            'poison_mist': '☁️'
         };
         return iconMap[weaponId] || '⚔️';
     }

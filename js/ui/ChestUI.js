@@ -70,13 +70,45 @@ export default class ChestUI {
     createFusionCard(recipe) {
         const div = document.createElement('div');
         div.className = 'fusion-card';
+
+        // 获取材料图标
+        const materialIcons = recipe.materials.map(id => this.getWeaponIcon(id)).join(' + ');
+
         div.innerHTML = `
             <div class="fusion-icon">${recipe.icon || '⚗️'}</div>
             <div class="fusion-result-name">${recipe.name}</div>
-            <div class="fusion-materials">${recipe.materials.join(' + ')}</div>
+            <div class="fusion-materials">${materialIcons}</div>
             <div class="fusion-description">${recipe.description || ''}</div>
         `;
         return div;
+    }
+
+    /**
+     * 获取武器图标
+     */
+    getWeaponIcon(weaponId) {
+        const iconMap = {
+            'fire': '🔥',
+            'frost': '❄️',
+            'swift': '💨',
+            'vampire': '🩸',
+            'poison': '☠️',
+            'steel': '🔩',
+            'dark': '🌑',
+            'lightning': '⚡',
+            'light': '✨',
+            'rock': '🪨',
+            'ghost': '👻',
+            'ray': '📡',
+            'cell': '🧬',
+            'inferno': '🌋',
+            'blizzard': '🌨️',
+            'frostfire': '💠',
+            'bomb': '💣',
+            'storm': '⛈️',
+            'poison_mist': '☁️'
+        };
+        return iconMap[weaponId] || '⚔️';
     }
 
     close() {

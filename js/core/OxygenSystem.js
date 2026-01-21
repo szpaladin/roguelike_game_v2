@@ -1,13 +1,15 @@
 /**
  * OxygenSystem - 氧气系统
- * 管理玩家的氧气消耗（每秒扣除生命值）
+ * 管理玩家的氧气消耗（每隔一段时间扣除生命值）
  */
 export default class OxygenSystem {
     /**
-     * @param {number} drainRate - 每秒消耗的氧气量（默认1点/秒）
+     * @param {number} interval - 扣血间隔（秒），默认1秒
+     * @param {number} damage - 每次扣除的血量，默认1点
      */
-    constructor(drainRate = 1) {
-        this.drainRate = drainRate;
+    constructor(interval = 1, damage = 1) {
+        this.interval = interval;
+        this.damage = damage;
         this.timer = 0;
     }
 
@@ -21,10 +23,10 @@ export default class OxygenSystem {
         this.timer += dt;
 
         let drained = 0;
-        if (this.timer >= 1.0) {
-            this.timer -= 1.0;
-            playerStats.takeDamage(this.drainRate);
-            drained = this.drainRate;
+        if (this.timer >= this.interval) {
+            this.timer -= this.interval;
+            playerStats.takeDamage(this.damage);
+            drained = this.damage;
         }
 
         return drained;
@@ -38,10 +40,10 @@ export default class OxygenSystem {
     }
 
     /**
-     * 设置消耗速率
-     * @param {number} rate - 新的消耗速率
+     * 设置消耗间隔
+     * @param {number} interval - 新的扣血间隔（秒）
      */
-    setDrainRate(rate) {
-        this.drainRate = rate;
+    setInterval(interval) {
+        this.interval = interval;
     }
 }
