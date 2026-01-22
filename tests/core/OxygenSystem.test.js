@@ -37,46 +37,24 @@ describe('OxygenSystem', () => {
         });
     });
 
-    describe('深度加速消耗', () => {
-        test('updateIntervalByDepth 应该在0-1000m返回4秒', () => {
-            system.updateIntervalByDepth(0);
-            expect(system.interval).toBe(4);
-
-            system.updateIntervalByDepth(500);
-            expect(system.interval).toBe(4);
-
-            system.updateIntervalByDepth(999);
-            expect(system.interval).toBe(4);
-        });
-
-        test('updateIntervalByDepth 应该在1000-2500m返回2.5秒', () => {
-            system.updateIntervalByDepth(1000);
-            expect(system.interval).toBe(2.5);
-
-            system.updateIntervalByDepth(2000);
+    describe('外部间隔设置', () => {
+        test('setInterval 应该更新消耗间隔', () => {
+            system.setInterval(2.5);
             expect(system.interval).toBe(2.5);
         });
 
-        test('updateIntervalByDepth 应该在2500-5000m返回1.5秒', () => {
-            system.updateIntervalByDepth(2500);
-            expect(system.interval).toBe(1.5);
+        test('更新间隔后应该按新间隔消耗', () => {
+            let damageReceived = 0;
+            const mockStats = { takeDamage: (dmg) => { damageReceived += dmg; } };
 
-            system.updateIntervalByDepth(4000);
-            expect(system.interval).toBe(1.5);
-        });
+            system.setInterval(2);
 
-        test('updateIntervalByDepth 应该在5000m+返回0.8秒', () => {
-            system.updateIntervalByDepth(5000);
-            expect(system.interval).toBe(0.8);
+            // 模拟2秒过去
+            for (let i = 0; i < 2; i++) {
+                system.update(1, mockStats);
+            }
 
-            system.updateIntervalByDepth(10000);
-            expect(system.interval).toBe(0.8);
-        });
-
-        test('getCurrentZoneInfo 应该返回当前区域信息', () => {
-            const zone = system.getCurrentZoneInfo(3000);
-            expect(zone.name).toBeDefined();
-            expect(zone.interval).toBe(1.5);
+            expect(damageReceived).toBe(1);
         });
     });
 });

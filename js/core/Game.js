@@ -4,9 +4,12 @@ import MapManager from './MapManager.js';
 import Player from './Player.js';
 import OxygenSystem from './OxygenSystem.js';
 import LightingSystem from './LightingSystem.js';
+import RiskSystem from './RiskSystem.js';
 import EvacuationManager from './EvacuationManager.js';
 import MetaProgress from './MetaProgress.js';
 import EnemySpawner from '../enemies/EnemySpawner.js';
+import Enemy from '../enemies/Enemy.js';
+import { getRandomEnemyType } from '../enemies/EnemiesData.js';
 import BulletPool from '../combat/BulletPool.js';
 import CollisionManager from '../combat/CollisionManager.js';
 import EffectsManager from '../effects/EffectsManager.js';
@@ -45,6 +48,9 @@ export default class Game {
 
         // 光照系统
         this.lightingSystem = new LightingSystem();
+
+        // 风险系统
+        this.riskSystem = new RiskSystem();
 
         // 撤离系统
         this.evacuationManager = new EvacuationManager();
@@ -97,6 +103,9 @@ export default class Game {
         // 设置撤离完成回调
         this.evacuationManager.setEvacuationCallback(() => this.handleEvacuation());
 
+        // 设置围攻触发回调
+        this.evacuationManager.setSiegeCallback(() => this.spawnSiegeEnemies());
+
         // 设置结算界面回调
         this.evacuationResultUI.onContinue(() => location.reload());
     }
@@ -116,6 +125,17 @@ export default class Game {
         // 1. 地图更新
         this.mapManager.update(this.scrollY, this.height);
 
+        // 1.5 风险系统更新（影响敌人生成频率）
+        const distanceInMeters = Math.floor(this.distance / 10);
+        const spawnMultiplier = this.riskSystem.getSpawnIntervalMultiplier(distanceInMeters);
+        this.enemySpawner.setSpawnIntervalMultiplier(spawnMultiplier);
+
+        // 1.6 检测深度区域变化
+        const newZone = this.riskSystem.checkZoneChange(distanceInMeters);
+        if (newZone) {
+            log('随着深度增加，光线变暗了……危险更多了……氧气消耗也加快了……', 'important');
+        }
+
         // 2. 生成敌人（传入玩家世界坐标）
         const playerWorldPos = { x: this.player.x, y: this.player.y + this.scrollY };
         const newEnemy = this.enemySpawner.spawn(this.distance, playerWorldPos);
@@ -126,13 +146,15 @@ export default class Game {
         // 3. 玩家更新
         this.player.update(this.keys, dt, this.scrollY);
 
-        // 3.5 氧气消耗（根据深度加速）
-        const distanceInMeters = Math.floor(this.distance / 10);
-        this.oxygenSystem.updateIntervalByDepth(distanceInMeters);
+        // 3.5 氧气消耗（从 RiskSystem 获取间隔）
+        const oxygenInterval = this.riskSystem.getOxygenInterval(distanceInMeters);
+        this.oxygenSystem.setInterval(oxygenInterval);
         this.oxygenSystem.update(dt, this.player.stats);
 
-        // 3.6 光照更新（根据深度变暗）
-        this.lightingSystem.update(distanceInMeters, dt);
+        // 3.6 光照更新（从 RiskSystem 获取透明度）
+        const lightingAlpha = this.riskSystem.getLightingAlpha(distanceInMeters);
+        this.lightingSystem.setTargetAlpha(lightingAlpha);
+        this.lightingSystem.update(dt);
 
         // 4. 自动攻击 (子弹生成)
         this.player.weaponSystem.autoShoot(
@@ -152,6 +174,9 @@ export default class Game {
 
         // 6.5 撤离系统更新
         this.evacuationManager.updateSpawning(this.distance);
+        // 更新围攻配置（根据当前深度）
+        const siegeConfig = this.riskSystem.getSiegeConfig(distanceInMeters);
+        this.evacuationManager.setSiegeConfig(siegeConfig);
         this.evacuationManager.update(this.player, this.scrollY, dt);
 
         // 7. 更新敌人位置和状态
@@ -245,13 +270,16 @@ export default class Game {
 
     handleGameOver() {
         this.gameOver = true;
-        // 死亡结算（损失50%收益）
+        // 死亡结算（惩罚比例根据深度动态变化）
+        const distanceInMeters = Math.floor(this.distance / 10);
+        const deathPenalty = this.riskSystem.getDeathPenalty(distanceInMeters);
+        const goldRetentionPercent = Math.round(this.riskSystem.getGoldRetention(distanceInMeters) * 100);
         const result = this.metaProgress.processDeath({
             gold: this.player.stats.gold,
-            distance: Math.floor(this.distance / 10),
+            distance: distanceInMeters,
             weapons: this.player.weaponSystem.getEvolutionWeaponIds()
-        }, GAME_CONFIG.EVACUATION.DEATH_PENALTY);
-        this.evacuationResultUI.showDeath(result);
+        }, deathPenalty);
+        this.evacuationResultUI.showDeath(result, goldRetentionPercent);
     }
 
     handleEvacuation() {
@@ -288,4 +316,19 @@ export default class Game {
             }
         }
     }
+
+    /**
+     * 生成围攻敌人（进入撤离区时触发）
+     * 位置计算由 EvacuationManager 处理
+     */
+    spawnSiegeEnemies() {
+        const positions = this.evacuationManager.generateSiegeEnemyPositions();
+
+        for (const pos of positions) {
+            const type = getRandomEnemyType(this.distance);
+            const enemy = new Enemy(pos.x, pos.y, type);
+            this.enemies.push(enemy);
+        }
+    }
 }
+

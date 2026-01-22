@@ -26,6 +26,14 @@ export default class EvacuationManager {
 
         // 回调
         this.onEvacuationComplete = null;
+        this.onSiegeTriggered = null; // 围攻触发回调
+
+        // 围攻配置（从外部设置）
+        this.siegeConfig = { waves: 1, enemyCount: 6 };
+    }
+
+    setSiegeConfig(config) {
+        this.siegeConfig = config;
     }
 
     /**
@@ -34,6 +42,14 @@ export default class EvacuationManager {
      */
     setEvacuationCallback(callback) {
         this.onEvacuationComplete = callback;
+    }
+
+    /**
+     * 设置围攻触发回调
+     * @param {Function} callback - 回调函数，接收 siegeConfig 参数
+     */
+    setSiegeCallback(callback) {
+        this.onSiegeTriggered = callback;
     }
 
     /**
@@ -153,6 +169,11 @@ export default class EvacuationManager {
             if (!this.isEvacuating) {
                 this.isEvacuating = true;
                 this.evacuationProgress = 0;
+
+                // 首次进入撤离区域，触发围攻
+                if (this.onSiegeTriggered) {
+                    this.onSiegeTriggered(this.siegeConfig);
+                }
             }
 
             // 增加进度
@@ -196,6 +217,36 @@ export default class EvacuationManager {
             progress: this.evacuationProgress,
             evacuationPoints: this.evacuationPoints.length
         };
+    }
+
+    /**
+     * 生成围攻敌人的位置数据（进入撤离区时调用）
+     * @returns {Array} - 敌人生成位置列表 [{ x, y }, ...]
+     */
+    generateSiegeEnemyPositions() {
+        const { waves, enemyCount } = this.siegeConfig;
+
+        // 获取当前撤离点位置
+        if (!this.currentEvacPoint) return [];
+
+        const centerX = this.currentEvacPoint.x;
+        const centerY = this.currentEvacPoint.y;
+        const spawnRadius = 200; // 在撤离点周围200像素范围内生成
+        const positions = [];
+
+        log(`⚔️ 围攻开始！${waves}波共${enemyCount}只敌人！`, 'important');
+
+        // 生成敌人围绕撤离点的位置
+        for (let i = 0; i < enemyCount; i++) {
+            // 环形分布
+            const angle = (i / enemyCount) * Math.PI * 2;
+            const radius = spawnRadius + Math.random() * 50;
+            const spawnX = centerX + Math.cos(angle) * radius;
+            const spawnY = centerY + Math.sin(angle) * radius;
+            positions.push({ x: spawnX, y: spawnY });
+        }
+
+        return positions;
     }
 
     /**

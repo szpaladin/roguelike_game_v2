@@ -93,8 +93,9 @@ export default class EvacuationResultUI {
     /**
      * 显示死亡结算
      * @param {Object} result - 结算结果
+     * @param {number} goldRetentionPercent - 金币保留百分比（如 60 表示 60%）
      */
-    showDeath(result) {
+    showDeath(result, goldRetentionPercent = 50) {
         this.container.innerHTML = `
             <h2 style="color: #ff4444; margin: 0 0 24px 0; font-size: 28px;">
                 💀 噶了，小问题
@@ -113,7 +114,7 @@ export default class EvacuationResultUI {
                     <span style="color: #888;">空</span>
                 </div>
                 <div style="color: #888; font-size: 12px; margin-top: 16px; text-align: center;">
-                    ⚠️ 死亡获取本次探索 50% 金币收益
+                    ⚠️ 当前区域内死亡获取本次探索 ${goldRetentionPercent}% 金币收益
                 </div>
             </div>
             <button id="evacuation-continue-btn" style="

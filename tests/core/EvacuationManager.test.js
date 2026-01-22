@@ -167,4 +167,71 @@ describe('EvacuationManager', () => {
             expect(manager.hasPendingEvacuation()).toBe(true);
         });
     });
+
+    describe('撤离围攻机制', () => {
+        test('setSiegeCallback 应该设置围攻回调', () => {
+            let siegeTriggered = false;
+            manager.setSiegeCallback(() => { siegeTriggered = true; });
+            expect(manager.onSiegeTriggered).toBeDefined();
+        });
+
+        test('进入撤离区域首次应该触发围攻回调', () => {
+            let siegeConfig = null;
+            manager.setSiegeCallback((config) => { siegeConfig = config; });
+
+            // 手动添加一个撤离点
+            manager.evacuationPoints.push({
+                x: 100, y: 100, radius: 40, active: true, pulsePhase: 0
+            });
+
+            const player = { x: 100, y: 100 };
+            manager.update(player, 0, 0.1);
+
+            expect(siegeConfig).not.toBeNull();
+            expect(siegeConfig.waves).toBeDefined();
+            expect(siegeConfig.enemyCount).toBeDefined();
+        });
+
+        test('离开再进入撤离区域应该重新触发围攻', () => {
+            let triggerCount = 0;
+            manager.setSiegeCallback(() => { triggerCount++; });
+
+            manager.evacuationPoints.push({
+                x: 100, y: 100, radius: 40, active: true, pulsePhase: 0
+            });
+
+            const playerIn = { x: 100, y: 100 };
+            const playerOut = { x: 300, y: 300 };
+
+            // 进入 -> 触发一次
+            manager.update(playerIn, 0, 0.1);
+            expect(triggerCount).toBe(1);
+
+            // 离开
+            manager.update(playerOut, 0, 0.1);
+
+            // 重新进入 -> 再触发一次
+            manager.update(playerIn, 0, 0.1);
+            expect(triggerCount).toBe(2);
+        });
+
+        test('待在撤离区域内不应重复触发围攻', () => {
+            let triggerCount = 0;
+            manager.setSiegeCallback(() => { triggerCount++; });
+
+            manager.evacuationPoints.push({
+                x: 100, y: 100, radius: 40, active: true, pulsePhase: 0
+            });
+
+            const player = { x: 100, y: 100 };
+
+            // 多次更新但不离开
+            for (let i = 0; i < 10; i++) {
+                manager.update(player, 0, 0.1);
+            }
+
+            expect(triggerCount).toBe(1); // 只触发一次
+        });
+    });
 });
+

@@ -60,7 +60,7 @@ export default class ChestManager {
             color: '#ffd700',
             interactionCooldown: 0
         });
-        log('敌人掉落了宝箱！', 'important');
+        log('敌人掉落了宝箱！', 'info');
     }
 
     /**

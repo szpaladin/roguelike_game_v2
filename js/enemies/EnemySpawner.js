@@ -9,11 +9,27 @@ import { GAME_CONFIG } from '../config.js';
 export default class EnemySpawner {
     constructor() {
         this.lastSpawnY = 0;
-        this.spawnInterval = GAME_CONFIG.SPAWN_INTERVAL;
+        this.baseSpawnInterval = GAME_CONFIG.SPAWN_INTERVAL;
+        this.spawnIntervalMultiplier = 1.0; // 风险系统倍率调整
 
         // 默认画布尺寸，实际运行速度时可以更新
         this.canvasWidth = GAME_CONFIG.TILE_SIZE * GAME_CONFIG.MAP_WIDTH;
         this.canvasHeight = 600;
+    }
+
+    /**
+     * 设置生成间隔倍率（由风险系统调用）
+     * @param {number} multiplier - 倍率（小于1表示生成更快）
+     */
+    setSpawnIntervalMultiplier(multiplier) {
+        this.spawnIntervalMultiplier = multiplier;
+    }
+
+    /**
+     * 获取当前有效的生成间隔
+     */
+    getEffectiveSpawnInterval() {
+        return this.baseSpawnInterval * this.spawnIntervalMultiplier;
     }
 
     /**
@@ -23,8 +39,9 @@ export default class EnemySpawner {
      * @returns {Enemy|null} - 生成的敌人实例或 null
      */
     spawn(distance, playerPos) {
-        // 检查是否达到生成间隔 (每 100 距离/渲染单位生成一次)
-        if (Math.abs(distance - this.lastSpawnY) < this.spawnInterval) {
+        // 检查是否达到生成间隔（使用动态间隔）
+        const effectiveInterval = this.getEffectiveSpawnInterval();
+        if (Math.abs(distance - this.lastSpawnY) < effectiveInterval) {
             return null;
         }
 
@@ -47,3 +64,4 @@ export default class EnemySpawner {
         this.canvasHeight = height;
     }
 }
+
