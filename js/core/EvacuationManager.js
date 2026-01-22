@@ -71,8 +71,10 @@ export default class EvacuationManager {
      * @param {number} screenHeight - 屏幕高度
      */
     spawnEvacuationPoint(distance, screenHeight = 800) {
-        // 在屏幕中央，玩家前方较远位置生成（屏幕下方）
-        const x = GAME_CONFIG.MAP_WIDTH * GAME_CONFIG.TILE_SIZE / 2;
+        // 在屏幕水平随机位置，玩家前方较远位置生成（屏幕下方）
+        const mapWidth = GAME_CONFIG.MAP_WIDTH * GAME_CONFIG.TILE_SIZE;
+        const margin = 60; // 距离边缘的安全边距
+        const x = margin + Math.random() * (mapWidth - margin * 2);
         const y = distance + screenHeight + 200; // 在当前滚动位置 + 屏幕高度 + 200，让撤离点出现在屏幕下方
 
         this.evacuationPoints.push({
@@ -92,8 +94,10 @@ export default class EvacuationManager {
      * @param {number} screenHeight - 屏幕高度
      */
     requestEvacuation(scrollY, screenHeight = 800) {
-        // 在屏幕中央，玩家前方较远位置生成（屏幕下方，与按距离生成一致）
-        const x = GAME_CONFIG.MAP_WIDTH * GAME_CONFIG.TILE_SIZE / 2;
+        // 在屏幕水平随机位置，玩家前方较远位置生成（屏幕下方）
+        const mapWidth = GAME_CONFIG.MAP_WIDTH * GAME_CONFIG.TILE_SIZE;
+        const margin = 60; // 距离边缘的安全边距
+        const x = margin + Math.random() * (mapWidth - margin * 2);
         const y = scrollY + screenHeight + 200;
 
         this.pendingEvacuations.push({
