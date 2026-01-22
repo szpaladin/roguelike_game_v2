@@ -42,11 +42,11 @@ describe('PlayerStats', () => {
             expect(stats.skillPoints).toBeGreaterThan(0);
         });
 
-        test('levelUp increases maxHp and heals to full', () => {
-            stats.hp = 50;
+        test('levelUp increases maxHp and keeps HP proportional', () => {
+            stats.hp = 50; // 50% of maxHp (100)
             stats.gainExp(10); // Trigger level up
-            expect(stats.maxHp).toBe(110);
-            expect(stats.hp).toBe(110);
+            expect(stats.maxHp).toBe(105); // 100 + 5
+            expect(stats.hp).toBe(52); // floor(105 * 0.5) = 52 (proportional)
         });
     });
 

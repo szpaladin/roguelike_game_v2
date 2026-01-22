@@ -33,6 +33,7 @@ describe('Weapon', () => {
         const bulletData = weapon.fire(0, 0, { x: 100, y: 0 });
         expect(weapon.cooldown).toBe(WEAPONS.FIRE.interval);
         expect(bulletData.vx).toBeGreaterThan(0);
-        expect(bulletData.damage).toBe(WEAPONS.FIRE.damage);
+        // damage = damageRatio * playerAttack/10 = 1.0 * 5/10 = 0.5
+        expect(bulletData.damage).toBeCloseTo(0.5);
     });
 });

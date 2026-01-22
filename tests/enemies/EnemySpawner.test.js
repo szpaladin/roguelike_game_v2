@@ -10,7 +10,7 @@ describe('EnemySpawner', () => {
 
     test('initializes with default values', () => {
         expect(spawner.lastSpawnY).toBe(0);
-        expect(spawner.spawnInterval).toBe(GAME_CONFIG.SPAWN_INTERVAL);
+        expect(spawner.baseSpawnInterval).toBe(GAME_CONFIG.SPAWN_INTERVAL);
     });
 
     test('spawn returns null if interval not reached', () => {

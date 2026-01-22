@@ -1,5 +1,5 @@
 import { circleCollision } from '../js/utils.js';
-import CollisionManager from '../js/enemies/CollisionManager.js';
+import CollisionManager from '../js/combat/CollisionManager.js';
 
 describe('Minimal Collision Check', () => {
     test('direct utility call', () => {

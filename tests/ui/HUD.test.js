@@ -44,7 +44,7 @@ describe('HUD', () => {
         expect(mockElements['health-fill'].style.width).toBe('50%');
         expect(mockElements['health-text'].textContent).toBe('50/100');
         expect(mockElements['exp-fill'].style.width).toBe('50%');
-        expect(mockElements['level'].textContent).toBe('2');
+        expect(mockElements['level'].textContent).toBe('Lv.2');
         expect(mockElements['gold'].textContent).toBe('100');
         expect(mockElements['floor'].textContent).toBe('500');
     });

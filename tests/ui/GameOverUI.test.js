@@ -18,7 +18,7 @@ describe('GameOverUI', () => {
 
     test('show sets display to block and updates stats', () => {
         ui.show(1234, 10);
-        expect(mockElements['game-over'].style.display).toBe('block');
+        expect(mockElements['game-over'].style.display).toBe('flex');
         expect(mockElements['final-score'].textContent).toBe('1234');
         expect(mockElements['final-level'].textContent).toBe('10');
     });

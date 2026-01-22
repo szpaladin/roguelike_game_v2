@@ -27,12 +27,12 @@ describe('EnemiesData', () => {
     });
 
     test('getMaxEnemyTier returns correct tier based on distance', () => {
-        // Slime available at 0 distance
+        // Using production thresholds: 0->0, 500->1, 1500->2, 3000->3, 5000->4
         expect(getMaxEnemyTier(0)).toBe(0);
-        // Goblin available at 20 distance (test mode)
-        expect(getMaxEnemyTier(20)).toBe(1);
-        // Demon available at 100 distance (test mode)
-        expect(getMaxEnemyTier(100)).toBe(4);
+        // Goblin available at 500 distance
+        expect(getMaxEnemyTier(500)).toBe(1);
+        // Demon available at 5000 distance
+        expect(getMaxEnemyTier(5000)).toBe(4);
         // Large distance still returns max tier
         expect(getMaxEnemyTier(10000)).toBe(4);
     });

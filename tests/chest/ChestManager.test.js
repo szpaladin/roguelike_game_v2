@@ -1,5 +1,6 @@
 import ChestManager from '../../js/chest/ChestManager.js';
 import { WEAPONS, getAvailableFusions, performFusion } from '../../js/weapons/WeaponsData.js';
+import { jest } from '@jest/globals';
 
 // Mock ChestUI
 const mockChestUI = {
@@ -67,7 +68,13 @@ describe('ChestManager - Weapon Fusion', () => {
                         { def: WEAPONS.FROST, name: '冰霜', color: '#00ccff', cooldown: 0 }
                     ],
                     getWeapons: function () { return this.weapons; },
-                    setWeapons: function (w) { this.weapons = w; }
+                    setWeapons: function (w) { this.weapons = w; },
+                    removeWeapon: function (id) {
+                        this.weapons = this.weapons.filter(w => w.def.id !== id);
+                    },
+                    addWeapon: function (def) {
+                        this.weapons.push({ def, name: def.name, color: def.color, cooldown: 0 });
+                    }
                 }
             };
             const mockChest = { x: 100, y: 200, interactionCooldown: 0 };
