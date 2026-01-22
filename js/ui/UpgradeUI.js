@@ -12,6 +12,7 @@ export default class UpgradeUI {
         this.optionsContainer = document.getElementById('upgrade-options');
         this.player = null;
         this.onCloseCallback = null; // 关闭时的回调
+        this.onEvacuationCallback = null; // 撤离时的回调
     }
 
     /**
@@ -29,6 +30,13 @@ export default class UpgradeUI {
     }
 
     /**
+     * 设置撤离回调（由Game调用）
+     */
+    setEvacuationCallback(callback) {
+        this.onEvacuationCallback = callback;
+    }
+
+    /**
      * 打开升级菜单
      */
     open() {
@@ -38,23 +46,33 @@ export default class UpgradeUI {
 
         // 生成武器选项
         const options = this.generateWeaponOptions();
-        if (options.length === 0) {
-            log('武器栏已满！', 'important');
-            return;
-        }
+        const weaponsFull = options.length === 0;
 
         // 更新标题
         if (this.title) {
-            this.title.textContent = `选择一项武器 (${this.player.stats.skillPoints}点可用)`;
+            if (weaponsFull) {
+                this.title.textContent = `武器栏已满 (${this.player.stats.skillPoints}点可用)`;
+            } else {
+                this.title.textContent = `选择一项武器 (${this.player.stats.skillPoints}点可用)`;
+            }
         }
 
         // 清空并填充选项
         if (this.optionsContainer) {
             this.optionsContainer.innerHTML = '';
-            options.forEach(weaponDef => {
-                const card = this.createWeaponCard(weaponDef);
-                this.optionsContainer.appendChild(card);
-            });
+
+            // 只有武器栏未满时才显示武器选项
+            if (!weaponsFull) {
+                options.forEach(weaponDef => {
+                    const card = this.createWeaponCard(weaponDef);
+                    this.optionsContainer.appendChild(card);
+                });
+            }
+
+            // 添加撤离选项（始终显示）
+            const hasEnergy = this.player.stats.skillPoints >= 1;
+            const evacCard = this.createEvacuationCard(hasEnergy);
+            this.optionsContainer.appendChild(evacCard);
         }
 
         if (this.overlay) {
@@ -191,5 +209,54 @@ export default class UpgradeUI {
             'poison_mist': '☁️'
         };
         return iconMap[weaponId] || '⚔️';
+    }
+
+    /**
+     * 创建撤离选项卡片
+     * @param {boolean} hasEnergy - 是否有足够能源
+     */
+    createEvacuationCard(hasEnergy) {
+        const card = document.createElement('div');
+        card.className = 'upgrade-card evacuation-card';
+
+        if (!hasEnergy) {
+            card.classList.add('disabled');
+        }
+
+        card.innerHTML = `
+            <div class="weapon-icon-box evacuation-icon-box">
+                <span class="weapon-icon">🚁</span>
+            </div>
+            <div class="weapon-name">发送撤离信号</div>
+            <div class="status-text">${hasEnergy ? '消耗1能源' : '能源不足'}</div>
+        `;
+
+        if (hasEnergy) {
+            card.onclick = () => this.selectEvacuation();
+        }
+
+        return card;
+    }
+
+    /**
+     * 选择撤离选项
+     */
+    selectEvacuation() {
+        if (!this.player || this.player.stats.skillPoints < 1) {
+            return;
+        }
+
+        // 消耗1能源
+        this.player.stats.skillPoints--;
+
+        // 触发撤离回调
+        if (this.onEvacuationCallback) {
+            this.onEvacuationCallback();
+        }
+
+        log('📡 撤离信号已发送！', 'important');
+
+        // 关闭菜单
+        this.close();
     }
 }

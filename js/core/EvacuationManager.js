@@ -10,10 +10,14 @@ export default class EvacuationManager {
         // 撤离点配置
         this.spawnInterval = GAME_CONFIG.EVACUATION?.SPAWN_INTERVAL || 5000; // 5000像素=500米
         this.evacuationTime = GAME_CONFIG.EVACUATION?.EVACUATION_TIME || 3000; // 3秒
+        this.summonDelay = GAME_CONFIG.EVACUATION?.SUMMON_DELAY || 5.0; // 召唤延迟5秒
 
         // 撤离点列表
         this.evacuationPoints = [];
         this.lastSpawnDistance = 0;
+
+        // 待处理撤离召唤队列
+        this.pendingEvacuations = [];
 
         // 撤离状态
         this.isEvacuating = false;
@@ -67,12 +71,57 @@ export default class EvacuationManager {
     }
 
     /**
+     * 召唤撤离点（消耗能源，5秒后生成）
+     * @param {number} scrollY - 当前滚动偏移
+     * @param {number} screenHeight - 屏幕高度
+     */
+    requestEvacuation(scrollY, screenHeight = 800) {
+        // 在屏幕中央，玩家前方较远位置生成（屏幕下方，与按距离生成一致）
+        const x = GAME_CONFIG.MAP_WIDTH * GAME_CONFIG.TILE_SIZE / 2;
+        const y = scrollY + screenHeight + 200;
+
+        this.pendingEvacuations.push({
+            timer: this.summonDelay,
+            x: x,
+            y: y
+        });
+        log('📡 撤离信号已发送，队友5秒后抵达！', 'important');
+    }
+
+    /**
+     * 检查是否有待处理的撤离召唤
+     * @returns {boolean}
+     */
+    hasPendingEvacuation() {
+        return this.pendingEvacuations.length > 0;
+    }
+
+    /**
      * 更新撤离点状态
      * @param {Object} player - 玩家对象
      * @param {number} scrollY - 滚动偏移
      * @param {number} dt - 帧间隔（秒）
      */
     update(player, scrollY, dt) {
+        // 处理待处理撤离召唤
+        this.pendingEvacuations = this.pendingEvacuations.filter(pending => {
+            pending.timer -= dt;
+            if (pending.timer <= 0) {
+                // 生成撤离点
+                this.evacuationPoints.push({
+                    x: pending.x,
+                    y: pending.y,
+                    radius: 40,
+                    active: true,
+                    pulsePhase: 0,
+                    summoned: true // 标记为召唤的撤离点
+                });
+                log('🚁 撤离点已到达！', 'important');
+                return false; // 移除已处理的
+            }
+            return true; // 保留未完成的
+        });
+
         // 更新动画
         for (const point of this.evacuationPoints) {
             point.pulsePhase += dt * 2;
@@ -242,6 +291,7 @@ export default class EvacuationManager {
      */
     reset() {
         this.evacuationPoints = [];
+        this.pendingEvacuations = [];
         this.lastSpawnDistance = 0;
         this.isEvacuating = false;
         this.evacuationProgress = 0;

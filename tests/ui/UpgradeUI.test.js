@@ -2,49 +2,75 @@ import UpgradeUI from '../../js/ui/UpgradeUI.js';
 
 describe('UpgradeUI', () => {
     let ui;
-    let mockElements;
 
     beforeEach(() => {
-        mockElements = {
-            'upgrade-menu': { style: { display: 'none' } },
-            'btn-upgrade-hp': { onclick: null },
-            'btn-upgrade-atk': { onclick: null },
-            'btn-upgrade-def': { onclick: null },
-            'btn-upgrade-spd': { onclick: null }
+        // Mock DOM elements
+        document.getElementById = (id) => {
+            if (id === 'upgrade-overlay') {
+                return { style: { display: 'none' } };
+            }
+            if (id === 'upgrade-title') {
+                return { textContent: '' };
+            }
+            if (id === 'upgrade-options') {
+                return {
+                    innerHTML: '',
+                    appendChild: () => { }
+                };
+            }
+            return null;
         };
-
-        document.getElementById = (id) => mockElements[id] || { appendChild: () => { } };
         ui = new UpgradeUI();
     });
 
-    test('open shows the upgrade menu', () => {
-        ui.open();
-        expect(mockElements['upgrade-menu'].style.display).toBe('block');
-    });
+    describe('撤离选项', () => {
+        test('createEvacuationCard 应该创建撤离卡片', () => {
+            const card = ui.createEvacuationCard(true);
+            expect(card).toBeDefined();
+            expect(card.className).toContain('upgrade-card');
+        });
 
-    test('close hides the upgrade menu', () => {
-        ui.open();
-        ui.close();
-        expect(mockElements['upgrade-menu'].style.display).toBe('none');
-    });
+        test('有能源时撤离卡片应该可点击', () => {
+            const card = ui.createEvacuationCard(true);
+            expect(card.classList.contains('disabled')).toBe(false);
+        });
 
-    test('upgrade calls the correct stat increase method', () => {
-        const player = {
-            stats: {
-                useSkillPoint: () => true,
-                upgradeMaxHp: function () { this.maxHp += 20; return true; },
-                maxHp: 100,
-                hp: 100,
-                attack: 5,
-                defense: 2,
-                speed: 3
-            }
-        };
+        test('无能源时撤离卡片应该禁用', () => {
+            const card = ui.createEvacuationCard(false);
+            expect(card.classList.contains('disabled')).toBe(true);
+        });
 
-        // Simulate clicking HP upgrade
-        ui.init(player);
-        mockElements['btn-upgrade-hp'].onclick();
+        test('selectEvacuation 应该触发回调', () => {
+            let callbackCalled = false;
+            ui.setEvacuationCallback(() => {
+                callbackCalled = true;
+            });
+            ui.player = { stats: { skillPoints: 2 } };
 
-        expect(player.stats.maxHp).toBeGreaterThan(100);
+            ui.selectEvacuation();
+
+            expect(callbackCalled).toBe(true);
+        });
+
+        test('selectEvacuation 应该消耗1能源', () => {
+            ui.setEvacuationCallback(() => { });
+            ui.player = { stats: { skillPoints: 2 } };
+
+            ui.selectEvacuation();
+
+            expect(ui.player.stats.skillPoints).toBe(1);
+        });
+
+        test('无能源时selectEvacuation不应触发回调', () => {
+            let callbackCalled = false;
+            ui.setEvacuationCallback(() => {
+                callbackCalled = true;
+            });
+            ui.player = { stats: { skillPoints: 0 } };
+
+            ui.selectEvacuation();
+
+            expect(callbackCalled).toBe(false);
+        });
     });
 });

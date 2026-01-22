@@ -3,6 +3,7 @@ import { log } from '../utils.js';
 import MapManager from './MapManager.js';
 import Player from './Player.js';
 import OxygenSystem from './OxygenSystem.js';
+import LightingSystem from './LightingSystem.js';
 import EvacuationManager from './EvacuationManager.js';
 import MetaProgress from './MetaProgress.js';
 import EnemySpawner from '../enemies/EnemySpawner.js';
@@ -42,6 +43,9 @@ export default class Game {
         // 氧气系统（每4秒扣1点HP）
         this.oxygenSystem = new OxygenSystem(4, 1);
 
+        // 光照系统
+        this.lightingSystem = new LightingSystem();
+
         // 撤离系统
         this.evacuationManager = new EvacuationManager();
         this.metaProgress = new MetaProgress();
@@ -79,6 +83,14 @@ export default class Game {
             this.paused = false;
         });
 
+        // 注册撤离召唤回调
+        this.upgradeUI.setEvacuationCallback(() => {
+            this.evacuationManager.requestEvacuation(
+                this.scrollY,
+                this.height
+            );
+        });
+
         // 设置碰撞管理器的依赖项（用于攻击范围效果）
         this.collisionManager.setDependencies(this.effectsManager, this.bulletPool, this.player);
 
@@ -114,8 +126,13 @@ export default class Game {
         // 3. 玩家更新
         this.player.update(this.keys, dt, this.scrollY);
 
-        // 3.5 氧气消耗
+        // 3.5 氧气消耗（根据深度加速）
+        const distanceInMeters = Math.floor(this.distance / 10);
+        this.oxygenSystem.updateIntervalByDepth(distanceInMeters);
         this.oxygenSystem.update(dt, this.player.stats);
+
+        // 3.6 光照更新（根据深度变暗）
+        this.lightingSystem.update(distanceInMeters, dt);
 
         // 4. 自动攻击 (子弹生成)
         this.player.weaponSystem.autoShoot(
@@ -217,6 +234,9 @@ export default class Game {
 
         // 绘制玩家
         this.player.draw(this.ctx);
+
+        // 绘制光照遮罩（最后绘制）
+        this.lightingSystem.draw(this.ctx, this.width, this.height);
     }
 
     togglePause() {

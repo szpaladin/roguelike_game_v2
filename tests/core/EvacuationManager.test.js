@@ -111,4 +111,60 @@ describe('EvacuationManager', () => {
             expect(manager.lastSpawnDistance).toBe(0);
         });
     });
+
+    describe('撤离召唤机制', () => {
+        test('requestEvacuation 应该添加待处理撤离请求', () => {
+            manager.requestEvacuation(1000, 800);
+
+            expect(manager.pendingEvacuations.length).toBe(1);
+            expect(manager.pendingEvacuations[0].timer).toBe(5.0);
+        });
+
+        test('待处理撤离应该在5秒后生成撤离点', () => {
+            manager.requestEvacuation(1000, 800);
+            const player = { x: 0, y: 0 };
+
+            // 模拟5.1秒过去（51次*0.1秒），避免浮点数精度问题
+            for (let i = 0; i < 51; i++) {
+                manager.update(player, 2000, 0.1);
+            }
+
+            expect(manager.pendingEvacuations.length).toBe(0);
+            expect(manager.evacuationPoints.length).toBe(1);
+        });
+
+        test('待处理撤离在5秒前不应生成撤离点', () => {
+            manager.requestEvacuation(1000, 800);
+            const player = { x: 0, y: 0 };
+
+            // 模拟4秒
+            for (let i = 0; i < 40; i++) {
+                manager.update(player, 0, 0.1);
+            }
+
+            expect(manager.pendingEvacuations.length).toBe(1);
+            expect(manager.evacuationPoints.length).toBe(0);
+        });
+
+        test('可以同时存在多个待处理撤离', () => {
+            manager.requestEvacuation(1000, 800);
+            manager.requestEvacuation(2000, 800);
+
+            expect(manager.pendingEvacuations.length).toBe(2);
+        });
+
+        test('重置应该清空待处理撤离', () => {
+            manager.requestEvacuation(1000, 800);
+            manager.reset();
+
+            expect(manager.pendingEvacuations.length).toBe(0);
+        });
+
+        test('hasPendingEvacuation 应该正确返回状态', () => {
+            expect(manager.hasPendingEvacuation()).toBe(false);
+
+            manager.requestEvacuation(1000, 800);
+            expect(manager.hasPendingEvacuation()).toBe(true);
+        });
+    });
 });
