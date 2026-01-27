@@ -1,4 +1,4 @@
-import { WEAPONS } from '../weapons/WeaponsData.js';
+import { WEAPONS, WEAPON_ICON_MAP, WEAPON_TIER } from '../weapons/WeaponsData.js';
 import { log } from '../utils.js';
 
 /**
@@ -111,17 +111,7 @@ export default class UpgradeUI {
         }
 
         // 所有基础武器池
-        const allWeapons = [
-            WEAPONS.SWIFT,
-            WEAPONS.FIRE,
-            WEAPONS.FROST,
-            WEAPONS.VAMPIRE,
-            WEAPONS.POISON,
-            WEAPONS.STEEL,
-            WEAPONS.DARK,
-            WEAPONS.LIGHTNING,
-            WEAPONS.LIGHT
-        ];
+        const allWeapons = this.getBasicWeaponPool();
 
         // 过滤掉已拥有的武器
         const available = allWeapons.filter(w =>
@@ -132,6 +122,12 @@ export default class UpgradeUI {
         return available
             .sort(() => Math.random() - 0.5)
             .slice(0, 4);
+    }
+
+    getBasicWeaponPool() {
+        return Object.values(WEAPONS).filter(
+            weapon => weapon.tier === WEAPON_TIER.BASIC
+        );
     }
 
     /**
@@ -187,28 +183,7 @@ export default class UpgradeUI {
      * 获取武器图标
      */
     getWeaponIcon(weaponId) {
-        const iconMap = {
-            'fire': '🔥',
-            'frost': '❄️',
-            'swift': '💨',
-            'vampire': '🩸',
-            'poison': '☠️',
-            'steel': '🔩',
-            'dark': '🌑',
-            'lightning': '⚡',
-            'light': '✨',
-            'rock': '🪨',
-            'ghost': '👻',
-            'ray': '📡',
-            'cell': '🧬',
-            'inferno': '🌋',
-            'blizzard': '🌨️',
-            'frostfire': '💠',
-            'bomb': '💣',
-            'storm': '⛈️',
-            'poison_mist': '☁️'
-        };
-        return iconMap[weaponId] || '⚔️';
+        return WEAPON_ICON_MAP[weaponId] || '??';
     }
 
     /**

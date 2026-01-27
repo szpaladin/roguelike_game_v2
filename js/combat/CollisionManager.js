@@ -78,7 +78,8 @@ export default class CollisionManager {
                     applyBulletStatusEffects(bullet, enemy, playerStats);
 
                     // 应用攻击范围效果
-                    this.aoeHandler.handleRangeEffects(bullet, enemy, enemies, playerAttack);
+                    const applyStatuses = (target) => applyBulletStatusEffects(bullet, target, playerStats);
+                    this.aoeHandler.handleRangeEffects(bullet, enemy, enemies, playerAttack, applyStatuses);
 
                     hits.push({ bullet, enemy, damage: actualDamage });
 

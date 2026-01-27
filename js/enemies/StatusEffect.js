@@ -12,7 +12,7 @@ export default class StatusEffect {
         this.id = definition.id;
         this.name = definition.name;
         this.type = definition.type;
-        this.color = definition.color;
+        this.color = params.color || definition.color;
         this.duration = duration;
         this.maxDuration = duration;
         this.stacks = params.stacks || 1;

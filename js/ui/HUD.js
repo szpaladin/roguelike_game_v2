@@ -1,4 +1,5 @@
 import SkillPointUI from './SkillPointUI.js';
+import { WEAPON_ICON_MAP } from '../weapons/WeaponsData.js';
 
 /**
  * HUD - 头部显示系统
@@ -103,27 +104,6 @@ export default class HUD {
      * 获取武器图标
      */
     getWeaponIcon(weaponId) {
-        const iconMap = {
-            'fire': '🔥',
-            'frost': '❄️',
-            'swift': '💨',
-            'vampire': '🩸',
-            'poison': '☠️',
-            'steel': '🔩',
-            'dark': '🌑',
-            'lightning': '⚡',
-            'light': '✨',
-            'rock': '🪨',
-            'ghost': '👻',
-            'ray': '📡',
-            'cell': '🧬',
-            'inferno': '🌋',
-            'blizzard': '🌨️',
-            'frostfire': '💠',
-            'bomb': '💣',
-            'storm': '⛈️',
-            'poison_mist': '☁️'
-        };
-        return iconMap[weaponId] || '⚔️';
+        return WEAPON_ICON_MAP[weaponId] || '??';
     }
 }

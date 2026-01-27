@@ -58,8 +58,8 @@ export default class Enemy {
     /**
      * 兼容旧API - 施加燃烧
      */
-    applyBurn(duration, damagePerFrame) {
-        this.statusEffects.applyEffect('burning', duration, { damagePerFrame });
+    applyBurn(duration, damagePerFrame, color = null) {
+        this.statusEffects.applyEffect('burning', duration, { damagePerFrame, color });
     }
 
     /**

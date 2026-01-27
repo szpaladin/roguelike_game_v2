@@ -120,14 +120,17 @@ export function getAllStatusEffects() {
  */
 export function extractStatusEffectsFromBullet(bulletData) {
     const effects = [];
+    const hasBurn = bulletData.burnDuration > 0;
+    const hasFreeze = bulletData.freezeChance > 0;
 
     // 燃烧效果
-    if (bulletData.burnDuration > 0) {
+    if (hasBurn) {
         effects.push({
             effectId: 'burning',
             duration: bulletData.burnDuration,
             params: {
-                damagePerFrame: bulletData.burnDamagePerFrame || STATUS_EFFECTS.BURNING.defaultDamagePerFrame
+                damagePerFrame: bulletData.burnDamagePerFrame || STATUS_EFFECTS.BURNING.defaultDamagePerFrame,
+                color: bulletData.burnColor
             }
         });
 
@@ -144,12 +147,22 @@ export function extractStatusEffectsFromBullet(bulletData) {
     }
 
     // 冰冻效果
-    if (bulletData.freezeChance > 0 && Math.random() < bulletData.freezeChance) {
+    if (hasFreeze && Math.random() < bulletData.freezeChance) {
         effects.push({
             effectId: 'frozen',
             duration: bulletData.freezeDuration || STATUS_EFFECTS.FROZEN.defaultDuration,
             params: {
                 slowAmount: 1.0 // 完全冻结
+            }
+        });
+    }
+
+    if (bulletData.vulnerability > 0 && !hasBurn && !hasFreeze) {
+        effects.push({
+            effectId: 'vulnerable',
+            duration: bulletData.vulnerabilityDuration || STATUS_EFFECTS.VULNERABLE.defaultDuration,
+            params: {
+                vulnerabilityAmount: bulletData.vulnerability
             }
         });
     }
@@ -189,9 +202,11 @@ export function extractStatusEffectsFromBullet(bulletData) {
 export function applyBulletStatusEffects(bullet, enemy, playerStats = null) {
     // 获取智力倍率（用于 DOT 伤害）
     const intMultiplier = playerStats ? playerStats.intelligence / 50 : 1;
+    const hasBurn = bullet.burnDuration > 0;
+    const hasFreeze = bullet.freezeChance > 0;
 
     // 冰冻效果（触发时同时施加易伤）
-    if (bullet.freezeChance > 0 && Math.random() < bullet.freezeChance) {
+    if (hasFreeze && Math.random() < bullet.freezeChance) {
         const freezeDuration = bullet.freezeDuration || STATUS_EFFECTS.FROZEN.defaultDuration;
         enemy.applyFreeze(freezeDuration);
 
@@ -201,13 +216,18 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null) {
     }
 
     // 燃烧效果（DOT 伤害 = 基础伤害 × 智力倍率）
-    if (bullet.burnDuration > 0) {
+    if (hasBurn) {
         const burnDamage = (bullet.burnDamagePerFrame || STATUS_EFFECTS.BURNING.defaultDamagePerFrame) * intMultiplier;
-        enemy.applyBurn(bullet.burnDuration, burnDamage);
+        enemy.applyBurn(bullet.burnDuration, burnDamage, bullet.burnColor);
 
         if (bullet.vulnerability > 0) {
             enemy.applyVulnerable(bullet.vulnerability, bullet.burnDuration);
         }
+    }
+
+    if (bullet.vulnerability > 0 && !hasBurn && !hasFreeze) {
+        const vulnDuration = bullet.vulnerabilityDuration || STATUS_EFFECTS.VULNERABLE.defaultDuration;
+        enemy.applyVulnerable(bullet.vulnerability, vulnDuration);
     }
 
     // 致盲效果

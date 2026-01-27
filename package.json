@@ -6,7 +6,9 @@
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
-    "serve": "node server.js"
+    "serve": "node server.js",
+    "generate:weapon-drafts": "node tools/generate-weapon-drafts.js",
+    "validate:weapons": "node tools/validate-weapons.js"
   },
   "devDependencies": {
     "jest": "^29.7.0",

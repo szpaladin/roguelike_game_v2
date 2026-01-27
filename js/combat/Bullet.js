@@ -24,6 +24,7 @@ export default class Bullet {
         this.lifetime = data.lifetime;
         this.piercing = data.piercing || false;
         this.active = true;
+        this.chainCooldownRemaining = 0;
 
         // 存储所有其他额外属性 (各种武器特效)
         // 这样不需要为每种武器子弹写子类
@@ -46,6 +47,9 @@ export default class Bullet {
         this.x += this.vx;
         this.y += this.vy;
         this.lifetime--;
+        if (this.chainCooldownRemaining > 0) {
+            this.chainCooldownRemaining--;
+        }
 
         if (this.lifetime <= 0) {
             this.active = false;

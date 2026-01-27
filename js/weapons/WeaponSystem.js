@@ -1,4 +1,5 @@
 import Weapon from './Weapon.js';
+import { WEAPON_TIER } from './WeaponsData.js';
 
 /**
  * WeaponSystem - 武器系统管理
@@ -121,7 +122,8 @@ export default class WeaponSystem {
      */
     getEvolutionWeaponIds() {
         return this.weapons
-            .filter(w => w.def && w.def.tier === 'evolution')
+            .filter(w => w.def && w.def.tier === WEAPON_TIER.EVOLUTION)
             .map(w => w.def.id);
     }
 }
+

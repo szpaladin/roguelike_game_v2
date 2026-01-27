@@ -27,25 +27,25 @@ export default class AOEHandler {
      * @param {Array<Enemy>} enemies - 所有敌人列表
      * @param {number} playerAttack - 玩家攻击力
      */
-    handleRangeEffects(bullet, hitEnemy, enemies, playerAttack) {
+    handleRangeEffects(bullet, hitEnemy, enemies, playerAttack, applyStatusEffects = null) {
         // 闪电连锁
         if (bullet.chainCount > 0) {
-            this.handleChainLightning(bullet, hitEnemy, enemies, playerAttack);
+            this.handleChainLightning(bullet, hitEnemy, enemies, playerAttack, applyStatusEffects);
         }
 
         // 爆炸AOE
         if (bullet.explosionRadius > 0) {
-            this.handleExplosionAOE(bullet, hitEnemy, enemies, playerAttack);
+            this.handleExplosionAOE(bullet, hitEnemy, enemies, playerAttack, applyStatusEffects);
         }
 
         // 岩石/通用AOE
         if (bullet.aoeRadius > 0) {
-            this.handleCircleAOE(bullet, hitEnemy, enemies, playerAttack);
+            this.handleCircleAOE(bullet, hitEnemy, enemies, playerAttack, applyStatusEffects);
         }
 
         // 射线伤害
         if (bullet.rayRange > 0) {
-            this.handleRayDamage(bullet, hitEnemy, enemies, playerAttack);
+            this.handleRayDamage(bullet, hitEnemy, enemies, playerAttack, applyStatusEffects);
         }
 
         // 分裂子弹
@@ -57,7 +57,12 @@ export default class AOEHandler {
     /**
      * 闪电连锁效果
      */
-    handleChainLightning(bullet, hitEnemy, enemies, playerAttack) {
+    handleChainLightning(bullet, hitEnemy, enemies, playerAttack, applyStatusEffects = null) {
+        const cooldown = bullet.chainCooldown || 0;
+        if (cooldown > 0 && bullet.chainCooldownRemaining > 0) {
+            return;
+        }
+
         const chainTargets = [];
         const hitEnemies = new Set([hitEnemy]);
         let currentSource = hitEnemy;
@@ -84,6 +89,9 @@ export default class AOEHandler {
                 // 造成伤害
                 const chainDamage = bullet.damage || playerAttack;
                 nearestEnemy.takeDamage(chainDamage);
+                if (applyStatusEffects) {
+                    applyStatusEffects(nearestEnemy);
+                }
 
                 // 记录连锁目标用于视觉特效
                 chainTargets.push({ from: currentSource, to: nearestEnemy });
@@ -99,12 +107,16 @@ export default class AOEHandler {
         if (chainTargets.length > 0 && this.effectsManager) {
             this.effectsManager.addLightningChain(chainTargets);
         }
+
+        if (chainTargets.length > 0 && cooldown > 0) {
+            bullet.chainCooldownRemaining = cooldown;
+        }
     }
 
     /**
      * 爆炸AOE效果（炸弹类武器）
      */
-    handleExplosionAOE(bullet, hitEnemy, enemies, playerAttack) {
+    handleExplosionAOE(bullet, hitEnemy, enemies, playerAttack, applyStatusEffects = null) {
         // 生成爆炸特效
         if (this.effectsManager) {
             this.effectsManager.addExplosion(hitEnemy.x, hitEnemy.y, bullet.explosionRadius, '#ff4500');
@@ -121,6 +133,9 @@ export default class AOEHandler {
             if (dist < bullet.explosionRadius) {
                 const aoeDamage = playerAttack * (bullet.explosionDamage || 1);
                 target.takeDamage(aoeDamage);
+                if (applyStatusEffects) {
+                    applyStatusEffects(target);
+                }
             }
         }
     }
@@ -128,7 +143,7 @@ export default class AOEHandler {
     /**
      * 圆形AOE效果（岩石类武器）
      */
-    handleCircleAOE(bullet, hitEnemy, enemies, playerAttack) {
+    handleCircleAOE(bullet, hitEnemy, enemies, playerAttack, applyStatusEffects = null) {
         // 生成碎土特效
         if (this.effectsManager) {
             this.effectsManager.addExplosion(hitEnemy.x, hitEnemy.y, bullet.aoeRadius, '#8B4513');
@@ -145,6 +160,9 @@ export default class AOEHandler {
             if (dist < bullet.aoeRadius) {
                 const aoeDamage = playerAttack * (bullet.aoeDamage || 0.5);
                 target.takeDamage(aoeDamage);
+                if (applyStatusEffects) {
+                    applyStatusEffects(target);
+                }
             }
         }
     }
@@ -152,7 +170,7 @@ export default class AOEHandler {
     /**
      * 射线AOE效果
      */
-    handleRayDamage(bullet, hitEnemy, enemies, playerAttack) {
+    handleRayDamage(bullet, hitEnemy, enemies, playerAttack, applyStatusEffects = null) {
         let rayDirX, rayDirY;
 
         // 寻找范围内最近的敌人作为射线目标
@@ -218,8 +236,11 @@ export default class AOEHandler {
 
                 // 如果敌人在射线宽度范围内
                 if (perpDist < rayWidth) {
-                    const rayDmg = playerAttack * (bullet.damage || 1);
+                    const rayDmg = bullet.damage || playerAttack;
                     target.takeDamage(rayDmg);
+                    if (applyStatusEffects && target !== hitEnemy) {
+                        applyStatusEffects(target);
+                    }
                 }
             }
         }

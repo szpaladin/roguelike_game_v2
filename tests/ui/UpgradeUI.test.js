@@ -1,4 +1,5 @@
 import UpgradeUI from '../../js/ui/UpgradeUI.js';
+import { WEAPONS, WEAPON_TIER } from '../../js/weapons/WeaponsData.js';
 
 describe('UpgradeUI', () => {
     let ui;
@@ -72,5 +73,13 @@ describe('UpgradeUI', () => {
 
             expect(callbackCalled).toBe(false);
         });
+    });
+    test('basic weapon pool includes all basic weapons', () => {
+        const poolIds = ui.getBasicWeaponPool().map(weapon => weapon.id);
+        const expectedIds = Object.values(WEAPONS)
+            .filter(weapon => weapon.tier === WEAPON_TIER.BASIC)
+            .map(weapon => weapon.id);
+
+        expectedIds.forEach(id => expect(poolIds).toContain(id));
     });
 });
