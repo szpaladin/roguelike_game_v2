@@ -21,6 +21,7 @@ import UpgradeUI from '../ui/UpgradeUI.js';
 import ChestUI from '../ui/ChestUI.js';
 import GameOverUI from '../ui/GameOverUI.js';
 import EvacuationResultUI from '../ui/EvacuationResultUI.js';
+import WeaponCodexUI from '../ui/WeaponCodexUI.js';
 
 /**
  * Game - 娓告垙涓绘帶绫?
@@ -74,6 +75,16 @@ export default class Game {
         this.chestUI = new ChestUI();
         this.gameOverUI = new GameOverUI();
         this.debugOverlay = new DebugOverlay();
+        this.weaponCodexUI = new WeaponCodexUI({
+            getPaused: () => this.paused,
+            setPaused: (v) => { this.paused = v; },
+            isBlocked: () => {
+                return this.upgradeUI.isOpen() ||
+                    this.chestUI.isOpen() ||
+                    this.gameOverUI.isVisible() ||
+                    this.evacuationResultUI.isVisible();
+            }
+        });
 
         this.enemies = [];
 
@@ -87,6 +98,7 @@ export default class Game {
     init() {
         this.mapManager.initMap();
         this.upgradeUI.init(this.player);
+        this.weaponCodexUI.init();
 
         // 娉ㄥ唽鍗囩骇鑿滃崟鍏抽棴鍥炶皟
         this.upgradeUI.onClose(() => {
@@ -325,6 +337,10 @@ export default class Game {
                 }
             }
             if (key === 'escape') {
+                // 优先关闭图鉴（避免后续逻辑强制把 paused 设置为 false）
+                if (this.weaponCodexUI && this.weaponCodexUI.handleEscape()) {
+                    return;
+                }
                 this.upgradeUI.close();
                 this.chestUI.close();
                 this.paused = false;
