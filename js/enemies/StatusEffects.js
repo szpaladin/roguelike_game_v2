@@ -1,4 +1,4 @@
-/**
+﻿/**
  * StatusEffects - 状态效果定义和注册表
  * 集中管理所有游戏中的状态效果
  */
@@ -51,6 +51,7 @@ export const STATUS_EFFECTS = {
         color: '#00ff00',
         icon: '☠️',
         maxStacks: 100,
+        stackBehavior: 'independent',
         description: '持续毒性伤害，可叠加',
         defaultDuration: 300,
         defaultDamagePerStack: 5 / 60
@@ -67,6 +68,20 @@ export const STATUS_EFFECTS = {
         description: '受到的伤害增加',
         defaultDuration: 180,
         defaultVulnerabilityAmount: 0.5 // 50% 额外伤害
+    },
+
+    // 辐射易伤 - 可叠加的易伤
+    RADIATION_VULNERABLE: {
+        id: 'radiation_vulnerable',
+        name: '辐射易伤',
+        type: STATUS_TYPE.DEBUFF,
+        color: '#7CFC00',
+        icon: '☢️',
+        maxStacks: 5,
+        stackBehavior: 'independent',
+        description: '由辐射造成易伤，可叠加',
+        defaultDuration: 600,
+        defaultVulnerabilityAmount: 0.1 // 每层 +10% 易伤
     },
 
     // 致盲 - 无法攻击玩家
@@ -167,6 +182,17 @@ export function extractStatusEffectsFromBullet(bulletData) {
         });
     }
 
+    if (bulletData.radiationVulnerability > 0) {
+        effects.push({
+            effectId: 'radiation_vulnerable',
+            duration: bulletData.radiationVulnerabilityDuration || STATUS_EFFECTS.RADIATION_VULNERABLE.defaultDuration,
+            params: {
+                vulnerabilityAmount: bulletData.radiationVulnerability,
+                stacks: 1
+            }
+        });
+    }
+
     // 中毒效果
     if (bulletData.poisonDuration > 0) {
         effects.push({
@@ -230,6 +256,14 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null) {
         enemy.applyVulnerable(bullet.vulnerability, vulnDuration);
     }
 
+    if (bullet.radiationVulnerability > 0) {
+        const radiationDuration = bullet.radiationVulnerabilityDuration || STATUS_EFFECTS.RADIATION_VULNERABLE.defaultDuration;
+        enemy.applyStatusEffect('radiation_vulnerable', radiationDuration, {
+            vulnerabilityAmount: bullet.radiationVulnerability,
+            stacks: 1
+        });
+    }
+
     // 致盲效果
     if (bullet.blindChance > 0 && Math.random() < bullet.blindChance) {
         enemy.applyBlind(bullet.blindDuration || STATUS_EFFECTS.BLINDED.defaultDuration);
@@ -248,3 +282,4 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null) {
         }
     }
 }
+

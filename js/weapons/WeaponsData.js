@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 武器 Tier 分级枚举
  * INITIAL: 初始武器 - 普通弹珠，游戏开始自带
  * BASIC: 基础武器 - 通过消耗技能点获取
@@ -445,24 +445,23 @@ export const WEAPONS = {
         status: '建议'
     },
 
-    LATTICE_BEAM: {
-        id: 'lattice_beam',
-        name: '晶格束',
+    RADIATION_BEAM: {
+        id: 'radiation_beam',
+        name: '辐射射线',
         tier: WEAPON_TIER.EVOLUTION,
         damage: 0.8,
         interval: 30,
         speed: 8,
         radius: 12,
-        color: '#90ac55',
+        color: '#7CFC00',
         lifetime: 120,
         piercing: false,
         rayRange: 300,
         rayLength: 600,
         rayWidth: 10,
-        canSplit: true,
-        splitCount: 2,
-        splitRange: 200,
-        effects: '射线AOE + 分裂子弹',
+        radiationVulnerability: 0.1,
+        radiationVulnerabilityDuration: 600,
+        effects: '射线AOE + 辐射易伤叠层',
         sources: ['cell', 'ray'],
         status: '建议'
     },
@@ -1105,24 +1104,6 @@ export const WEAPONS = {
         status: '建议'
     },
 
-    PHASE_BEAM: {
-        id: 'phase_beam',
-        name: '相位束',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.9,
-        interval: 30,
-        speed: 10,
-        radius: 12,
-        color: '#8f7045',
-        lifetime: 120,
-        piercing: true,
-        rayRange: 300,
-        rayLength: 600,
-        rayWidth: 10,
-        effects: '射线AOE + 穿透',
-        sources: ['ghost', 'ray'],
-        status: '建议'
-    },
 
     SPECTRAL_ROCK: {
         id: 'spectral_rock',
@@ -1434,26 +1415,6 @@ export const WEAPONS = {
         status: '建议'
     },
 
-    ACID_BEAM: {
-        id: 'acid_beam',
-        name: '酸束',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.65,
-        interval: 30,
-        speed: 8,
-        radius: 12,
-        color: '#80d200',
-        lifetime: 120,
-        piercing: false,
-        rayRange: 300,
-        rayLength: 600,
-        rayWidth: 10,
-        poisonDuration: 900,
-        poisonDamagePerStack: 0.05,
-        effects: '中毒DOT + 射线AOE',
-        sources: ['poison', 'ray'],
-        status: '建议'
-    },
 
     TOXIC_BURST: {
         id: 'toxic_burst',
@@ -1733,7 +1694,7 @@ export const WEAPON_ID_MAP = {
     PRISM_SWARM: { id: 'prism_swarm', name: '棱光群', tier: WEAPON_TIER.EVOLUTION, order: 24 },
     SPARK_SPORE_SWARM: { id: 'spark_spore_swarm', name: '电孢群', tier: WEAPON_TIER.EVOLUTION, order: 25 },
     TOXIC_SPORE_SWARM: { id: 'toxic_spore_swarm', name: '毒孢群', tier: WEAPON_TIER.EVOLUTION, order: 26 },
-    LATTICE_BEAM: { id: 'lattice_beam', name: '晶格束', tier: WEAPON_TIER.EVOLUTION, order: 27 },
+    RADIATION_BEAM: { id: 'radiation_beam', name: '辐射射线', tier: WEAPON_TIER.EVOLUTION, order: 27 },
     ROCK_SHARD_BLOOM: { id: 'rock_shard_bloom', name: '岩片花', tier: WEAPON_TIER.EVOLUTION, order: 28 },
     SHRAPNEL_CORE: { id: 'shrapnel_core', name: '破片核', tier: WEAPON_TIER.EVOLUTION, order: 29 },
     SPLIT_WIND_SWARM: { id: 'split_wind_swarm', name: '裂风群', tier: WEAPON_TIER.EVOLUTION, order: 30 },
@@ -1767,7 +1728,6 @@ export const WEAPON_ID_MAP = {
     HOLY_WISP: { id: 'holy_wisp', name: '圣灵', tier: WEAPON_TIER.EVOLUTION, order: 58 },
     PHANTOM_ARC: { id: 'phantom_arc', name: '幽电', tier: WEAPON_TIER.EVOLUTION, order: 59 },
     TOXIC_WRAITH: { id: 'toxic_wraith', name: '毒灵', tier: WEAPON_TIER.EVOLUTION, order: 60 },
-    PHASE_BEAM: { id: 'phase_beam', name: '相位束', tier: WEAPON_TIER.EVOLUTION, order: 61 },
     SPECTRAL_ROCK: { id: 'spectral_rock', name: '灵岩', tier: WEAPON_TIER.EVOLUTION, order: 62 },
     PHANTOM_BLADE: { id: 'phantom_blade', name: '幽刃', tier: WEAPON_TIER.EVOLUTION, order: 63 },
     SHADOW_RUSH: { id: 'shadow_rush', name: '影疾', tier: WEAPON_TIER.EVOLUTION, order: 64 },
@@ -1784,7 +1744,6 @@ export const WEAPON_ID_MAP = {
     THUNDER_QUAKE: { id: 'thunder_quake', name: '雷震', tier: WEAPON_TIER.EVOLUTION, order: 75 },
     MAG_RAIL: { id: 'mag_rail', name: '磁轨', tier: WEAPON_TIER.EVOLUTION, order: 76 },
     LEECH_ARC: { id: 'leech_arc', name: '吸雷链', tier: WEAPON_TIER.EVOLUTION, order: 77 },
-    ACID_BEAM: { id: 'acid_beam', name: '酸束', tier: WEAPON_TIER.EVOLUTION, order: 78 },
     TOXIC_BURST: { id: 'toxic_burst', name: '毒爆', tier: WEAPON_TIER.EVOLUTION, order: 79 },
     TOXIC_SPIKE: { id: 'toxic_spike', name: '毒钉', tier: WEAPON_TIER.EVOLUTION, order: 80 },
     LEECH_TOXIN: { id: 'leech_toxin', name: '吸毒', tier: WEAPON_TIER.EVOLUTION, order: 81 },
@@ -1876,12 +1835,12 @@ export const WEAPON_FUSION_TABLE = [
     },
     {
         id: 'fusion_cell_ray',
-        name: '晶格束',
+        name: '辐射射线',
         materials: ['cell', 'ray'],
-        result: 'lattice_beam',
-        description: '由细胞与射线融合而成，效果：射线AOE + 分裂子弹',
+        result: 'radiation_beam',
+        description: '由细胞与射线融合而成，效果：射线AOE + 辐射易伤',
         tier: 1,
-        icon: '🔦',
+        icon: '☢️',
         status: '建议'
     },
     {
@@ -2256,12 +2215,12 @@ export const WEAPON_FUSION_TABLE = [
     },
     {
         id: 'fusion_ghost_ray',
-        name: '相位束',
+        name: '辐射射线',
         materials: ['ghost', 'ray'],
-        result: 'phase_beam',
-        description: '由幽灵与射线融合而成，效果：射线AOE + 穿透',
+        result: 'radiation_beam',
+        description: '由幽灵与射线融合而成，效果：射线AOE + 辐射易伤',
         tier: 1,
-        icon: '🔦',
+        icon: '☢️',
         status: '建议'
     },
     {
@@ -2436,12 +2395,12 @@ export const WEAPON_FUSION_TABLE = [
     },
     {
         id: 'fusion_poison_ray',
-        name: '酸束',
+        name: '辐射射线',
         materials: ['poison', 'ray'],
-        result: 'acid_beam',
-        description: '由剧毒与射线融合而成，效果：中毒DOT + 射线AOE',
+        result: 'radiation_beam',
+        description: '由剧毒与射线融合而成，效果：射线AOE + 辐射易伤',
         tier: 1,
-        icon: '☠️',
+        icon: '☢️',
         status: '建议'
     },
     {
@@ -2587,7 +2546,6 @@ export const WEAPON_FUSION_TABLE = [
 ];
 
 export const WEAPON_ICON_MAP = {
-    acid_beam: '☠️',
     blizzard: '🌨️',
     blood_beam: '🩸',
     blood_flame: '🔥',
@@ -2627,7 +2585,6 @@ export const WEAPON_ICON_MAP = {
     icebreaker_hammer: '❄️',
     inferno: '🌋',
     ion_beam: '⚡',
-    lattice_beam: '🔦',
     leech_arc: '⚡',
     leech_toxin: '☠️',
     light: '✨',
@@ -2637,7 +2594,6 @@ export const WEAPON_ICON_MAP = {
     night_blade: '🗡️',
     phantom_arc: '⚡',
     phantom_blade: '👻',
-    phase_beam: '🔦',
     plague_curse: '☠️',
     plasma_chain: '🔥',
     poison: '☠️',
@@ -2648,6 +2604,8 @@ export const WEAPON_ICON_MAP = {
     rapid_beam: '✨',
     rapid_lance: '🗡️',
     ray: '📡',
+
+    radiation_beam: '☢️',
     rock: '🪨',
     rock_shard_bloom: '🪨',
     sandstorm: '🗡️',
@@ -2773,3 +2731,6 @@ export function performFusion(playerWeapons, recipe) {
         newWeapon: newWeapon
     };
 }
+
+
+

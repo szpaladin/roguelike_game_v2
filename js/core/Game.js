@@ -16,6 +16,7 @@ import EffectsManager from '../effects/EffectsManager.js';
 import StatusVFXManager from '../effects/StatusVFXManager.js';
 import ChestManager from '../chest/ChestManager.js';
 import HUD from '../ui/HUD.js';
+import DebugOverlay from '../ui/DebugOverlay.js';
 import UpgradeUI from '../ui/UpgradeUI.js';
 import ChestUI from '../ui/ChestUI.js';
 import GameOverUI from '../ui/GameOverUI.js';
@@ -72,6 +73,7 @@ export default class Game {
         this.upgradeUI = new UpgradeUI();
         this.chestUI = new ChestUI();
         this.gameOverUI = new GameOverUI();
+        this.debugOverlay = new DebugOverlay();
 
         this.enemies = [];
 
@@ -117,6 +119,7 @@ export default class Game {
      * @param {number} dt - 甯ч棿闅?(绉?
      */
     update(dt) {
+        this.debugOverlay.update(dt);
         if (this.paused || this.gameOver) return;
 
         this.gameTime++;
@@ -268,6 +271,8 @@ export default class Game {
 
         // 缁樺埗鍏夌収閬僵锛堟渶鍚庣粯鍒讹級
         this.lightingSystem.draw(this.ctx, this.width, this.height);
+
+        this.debugOverlay.draw(this.ctx, this);
     }
 
     togglePause() {
@@ -305,6 +310,10 @@ export default class Game {
         this.keys[key] = isDown;
 
         if (isDown) {
+            if (key === '`' || key === '~') {
+                const enabled = this.debugOverlay.toggle();
+                log(`调试模式已${enabled ? '开启' : '关闭'}`);
+            }
             if (key === 'e') {
                 // 鎵撳紑/鍏抽棴鍗囩骇鑿滃崟
                 if (this.upgradeUI.isOpen()) {

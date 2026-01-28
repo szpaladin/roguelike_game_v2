@@ -70,4 +70,26 @@ describe('Enemy', () => {
         // Poison deals damage (exact amount depends on StatusEffect implementation)
         expect(enemy.hp).toBeLessThan(initialHp);
     });
+
+    test('poison stacks have independent durations', () => {
+        enemy.applyPoison(3, 1);
+        enemy.update({ x: 50, y: 50 }, 0, false);
+        enemy.applyPoison(3, 1);
+
+        enemy.update({ x: 50, y: 50 }, 0, false);
+        enemy.update({ x: 50, y: 50 }, 0, false);
+
+        const effect = enemy.statusEffects.getEffect('poisoned');
+        expect(effect.getStackCount()).toBe(1);
+    });
+
+    test('radiation vulnerability stacks up to cap', () => {
+        enemy.applyStatusEffect('radiation_vulnerable', 600, { vulnerabilityAmount: 0.1, stacks: 1 });
+        for (let i = 0; i < 10; i++) {
+            enemy.applyStatusEffect('radiation_vulnerable', 600, { vulnerabilityAmount: 0.1, stacks: 1 });
+        }
+
+        const multiplier = enemy.statusEffects.getVulnerabilityMultiplier();
+        expect(multiplier).toBeCloseTo(1 + 0.1 * 5);
+    });
 });

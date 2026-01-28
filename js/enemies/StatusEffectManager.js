@@ -25,10 +25,22 @@ export default class StatusEffectManager {
         // 如果效果已存在
         if (this.effects.has(effectId)) {
             const existingEffect = this.effects.get(effectId);
+            const stackBehavior = definition.stackBehavior || 'refresh';
+
+            if (params && typeof params === 'object') {
+                existingEffect.params = { ...existingEffect.params, ...params };
+                if (params.color) {
+                    existingEffect.color = params.color;
+                }
+            }
 
             // 可叠加效果（如中毒）
             if (definition.maxStacks > 1) {
-                existingEffect.stack(params.stacks || 1, duration);
+                if (stackBehavior === 'independent') {
+                    existingEffect.addStacks(params.stacks || 1, duration);
+                } else {
+                    existingEffect.stack(params.stacks || 1, duration);
+                }
             } else {
                 // 不可叠加效果，刷新持续时间
                 existingEffect.duration = Math.max(existingEffect.duration, duration);
@@ -142,9 +154,12 @@ export default class StatusEffectManager {
     getVulnerabilityMultiplier() {
         let multiplier = 1.0;
 
-        if (this.hasEffect('vulnerable')) {
-            const effect = this.getEffect('vulnerable');
-            multiplier += effect.params.vulnerabilityAmount;
+        for (const effect of this.effects.values()) {
+            const amount = effect.params ? effect.params.vulnerabilityAmount : 0;
+            if (amount > 0) {
+                const stackCount = typeof effect.getStackCount === 'function' ? effect.getStackCount() : (effect.stacks || 1);
+                multiplier += amount * stackCount;
+            }
         }
 
         return multiplier;

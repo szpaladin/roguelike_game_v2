@@ -46,4 +46,12 @@ describe('Bullet', () => {
         expect(bullet.active).toBe(true);
         expect(bullet.x).toBe(200);
     });
+
+    test('reset clears stale extra properties', () => {
+        bullet.canSplit = true;
+        bullet.splitCount = 2;
+        bullet.reset({ ...defaultData, x: 150 });
+        expect(bullet.canSplit).toBeUndefined();
+        expect(bullet.splitCount).toBeUndefined();
+    });
 });

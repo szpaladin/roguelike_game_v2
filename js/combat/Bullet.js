@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Bullet - 子弹类
  * 可重用的子弹对象
  */
@@ -14,6 +14,27 @@ export default class Bullet {
      * 重置/初始化子弹属性（用于对象池复用）
      */
     reset(data) {
+        const coreKeys = new Set([
+            'active',
+            'x',
+            'y',
+            'vx',
+            'vy',
+            'damage',
+            'radius',
+            'color',
+            'lifetime',
+            'piercing',
+            'chainCooldownRemaining',
+            'hitEntities'
+        ]);
+
+        for (const key of Object.keys(this)) {
+            if (!coreKeys.has(key)) {
+                delete this[key];
+            }
+        }
+
         this.x = data.x;
         this.y = data.y;
         this.vx = data.vx;
@@ -26,15 +47,15 @@ export default class Bullet {
         this.active = true;
         this.chainCooldownRemaining = 0;
 
-        // 存储所有其他额外属性 (各种武器特效)
+        // 存储所有其他额外属性(各种武器特效)
         // 这样不需要为每种武器子弹写子类
         Object.keys(data).forEach(key => {
-            if (!(key in this)) {
+            if (!coreKeys.has(key)) {
                 this[key] = data[key];
             }
         });
 
-        // 记录该子弹是否已经击中过某个敌人（针对穿透子弹）
+        // 记录该子弹是否已经命中过某个敌人（针对穿透子弹）
         this.hitEntities = new Set();
     }
 
