@@ -1,9 +1,9 @@
-﻿# ??????????
-- ????: 2026-01-29 03:14:07
-- ??: roguelike_game_v2/js/weapons/WeaponsData.js (WEAPON_FUSION_TABLE)
-- ????: 78
+﻿# 武器融合配方（最新）
+- 生成时间: 2026-01-29 03:14:07
+- 数据来源: roguelike_game_v2/js/weapons/WeaponsData.js (WEAPON_FUSION_TABLE)
+- 配方数量: 78
 
-| ??1 | ??2 | ?? | ?? | ?? |
+| 材料1 | 材料2 | 结果 | 状态 | 描述 |
 |---|---|---|---|---|
 | 细胞 (cell) | 黑暗 (dark) | 暗孢群 (dark_spore_swarm) | 建议 | 由细胞与黑暗融合而成，效果：分裂子弹 + 易伤 |
 | 细胞 (cell) | 火焰 (fire) | 炎孢群 (flame_spore_swarm) | 建议 | 由细胞与火焰融合而成，效果：分裂子弹 + 燃烧DOT |
