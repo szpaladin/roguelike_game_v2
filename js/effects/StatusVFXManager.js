@@ -1,13 +1,15 @@
 import BurningVFX from './BurningVFX.js';
 import PoisonVFX from './PoisonVFX.js';
 import FrozenVFX from './FrozenVFX.js';
+import PlagueVFX from './PlagueVFX.js';
 
 export default class StatusVFXManager {
     constructor() {
         this.registry = new Map([
             ['burning', BurningVFX],
             ['poisoned', PoisonVFX],
-            ['frozen', FrozenVFX]
+            ['frozen', FrozenVFX],
+            ['plagued', PlagueVFX]
         ]);
         this.enemyEffects = new Map();
     }

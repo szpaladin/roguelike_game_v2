@@ -57,6 +57,28 @@ export const STATUS_EFFECTS = {
         defaultDamagePerStack: 5 / 60
     },
 
+    // 瘟疫 - 可扩散的持续伤害
+    PLAGUED: {
+        id: 'plagued',
+        name: '瘟疫',
+        type: STATUS_TYPE.DOT,
+        color: '#6f7a66',
+        icon: '🦠',
+        maxStacks: 40,
+        stackBehavior: 'independent',
+        description: '持续瘟疫伤害，可扩散',
+        defaultDuration: 600,
+        defaultDamagePerStack: 2 / 60,
+        cloudRadius: 140,
+        spreadInterval: 30,
+        spreadRadius: 140,
+        spreadStacks: 1,
+        deathCloudDuration: 120,
+        deathCloudInterval: 30,
+        deathCloudRadius: 140,
+        deathCloudStacks: 1
+    },
+
     // 易伤 - 增加受到的伤害
     VULNERABLE: {
         id: 'vulnerable',
@@ -193,6 +215,25 @@ export function extractStatusEffectsFromBullet(bulletData) {
         });
     }
 
+    // 瘟疫效果
+    if (bulletData.plagueDuration > 0) {
+        const cloudRadius = bulletData.plagueCloudRadius
+            || STATUS_EFFECTS.PLAGUED.cloudRadius
+            || STATUS_EFFECTS.PLAGUED.deathCloudRadius
+            || STATUS_EFFECTS.PLAGUED.spreadRadius;
+        effects.push({
+            effectId: 'plagued',
+            duration: bulletData.plagueDuration,
+            params: {
+                damagePerStack: bulletData.plagueDamagePerStack || STATUS_EFFECTS.PLAGUED.defaultDamagePerStack,
+                stacks: 1,
+                baseDuration: bulletData.plagueDuration,
+                color: bulletData.plagueColor,
+                cloudRadius
+            }
+        });
+    }
+
     // 中毒效果
     if (bulletData.poisonDuration > 0) {
         effects.push({
@@ -225,14 +266,15 @@ export function extractStatusEffectsFromBullet(bulletData) {
  * @param {Enemy} enemy - 敌人对象
  * @param {PlayerStats|null} playerStats - 玩家属性（用于获取智力倍率）
  */
-export function applyBulletStatusEffects(bullet, enemy, playerStats = null) {
+export function applyBulletStatusEffects(bullet, enemy, playerStats = null, options = {}) {
     // 获取智力倍率（用于 DOT 伤害）
     const intMultiplier = playerStats ? playerStats.intelligence / 50 : 1;
     const hasBurn = bullet.burnDuration > 0;
     const hasFreeze = bullet.freezeChance > 0;
+    const suppressFreeze = options && options.suppressFreeze === true;
 
     // 冰冻效果（触发时同时施加易伤）
-    if (hasFreeze && Math.random() < bullet.freezeChance) {
+    if (hasFreeze && !suppressFreeze && Math.random() < bullet.freezeChance) {
         const freezeDuration = bullet.freezeDuration || STATUS_EFFECTS.FROZEN.defaultDuration;
         enemy.applyFreeze(freezeDuration);
 
@@ -261,6 +303,23 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null) {
         enemy.applyStatusEffect('radiation_vulnerable', radiationDuration, {
             vulnerabilityAmount: bullet.radiationVulnerability,
             stacks: 1
+        });
+    }
+
+    // 瘟疫效果（DOT 伤害 = 基础伤害 × 智力倍率）
+    if (bullet.plagueDuration > 0) {
+        const plagueDuration = bullet.plagueDuration || STATUS_EFFECTS.PLAGUED.defaultDuration;
+        const plagueDamage = (bullet.plagueDamagePerStack || STATUS_EFFECTS.PLAGUED.defaultDamagePerStack) * intMultiplier;
+        const cloudRadius = bullet.plagueCloudRadius
+            || STATUS_EFFECTS.PLAGUED.cloudRadius
+            || STATUS_EFFECTS.PLAGUED.deathCloudRadius
+            || STATUS_EFFECTS.PLAGUED.spreadRadius;
+        enemy.applyStatusEffect('plagued', plagueDuration, {
+            damagePerStack: plagueDamage,
+            stacks: 1,
+            baseDuration: plagueDuration,
+            color: bullet.plagueColor,
+            cloudRadius
         });
     }
 

@@ -48,4 +48,32 @@ describe('CollisionManager', () => {
         const hits = manager.checkBulletEnemyCollisions(bullets, enemies);
         expect(hits.length).toBe(0);
     });
+
+    test('shatter doubles damage and removes frozen without refreeze', () => {
+        const shatterEnemy = new Enemy(15, 0, {
+            name: 'E2', hp: 100, maxHp: 100, attack: 10, defense: 0, speed: 1, radius: 10, color: 'blue', exp: 10, gold: 10
+        });
+        shatterEnemy.applyFreeze(60);
+
+        const shatterBullet = new Bullet({
+            x: 10,
+            y: 0,
+            vx: 1,
+            vy: 0,
+            damage: 10,
+            radius: 2,
+            lifetime: 60,
+            active: true,
+            shatterMultiplier: 2,
+            shatterConsumesFrozen: true,
+            shatterPreventRefreeze: true,
+            freezeChance: 1,
+            freezeDuration: 120
+        });
+
+        const hits = manager.checkBulletEnemyCollisions([shatterBullet], [shatterEnemy]);
+        expect(hits.length).toBe(1);
+        expect(hits[0].damage).toBe(20);
+        expect(shatterEnemy.statusEffects.hasEffect('frozen')).toBe(false);
+    });
 });

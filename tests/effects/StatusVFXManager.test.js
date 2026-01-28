@@ -37,6 +37,18 @@ describe('StatusVFXManager', () => {
         expect(effects.has('frozen')).toBe(true);
     });
 
+    test('creates plagued vfx when active', () => {
+        const enemy = createEnemy();
+        enemy.statusEffects.applyEffect('plagued', 60, { color: '#6f7a66', damagePerStack: 0.1, stacks: 1 });
+
+        const manager = new StatusVFXManager();
+        manager.update([enemy]);
+
+        const effects = manager.enemyEffects.get(enemy);
+        expect(effects).toBeDefined();
+        expect(effects.has('plagued')).toBe(true);
+    });
+
     test('removes vfx when burning ends', () => {
         const enemy = createEnemy();
         enemy.statusEffects.applyEffect('burning', 60, { color: '#ff5500', damagePerFrame: 0.1 });

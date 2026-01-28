@@ -14,6 +14,7 @@ import BulletPool from '../combat/BulletPool.js';
 import CollisionManager from '../combat/CollisionManager.js';
 import EffectsManager from '../effects/EffectsManager.js';
 import StatusVFXManager from '../effects/StatusVFXManager.js';
+import PlagueSystem from '../effects/PlagueSystem.js';
 import ChestManager from '../chest/ChestManager.js';
 import HUD from '../ui/HUD.js';
 import DebugOverlay from '../ui/DebugOverlay.js';
@@ -68,6 +69,7 @@ export default class Game {
         this.collisionManager = new CollisionManager();
         this.effectsManager = new EffectsManager();
         this.statusVFXManager = new StatusVFXManager();
+        this.plagueSystem = new PlagueSystem();
 
         // UI 系统
         this.hud = new HUD();
@@ -207,6 +209,8 @@ export default class Game {
                 this.player.stats.addGold(enemy.gold || 1);
                 enemy.isDead = true;
 
+                this.plagueSystem.spawnDeathCloud(enemy);
+
                 // 尝试掉落宝箱
                 this.chestManager.tryDropChest(enemy.x, enemy.y);
             }
@@ -232,6 +236,7 @@ export default class Game {
         this.collisionManager.checkBulletEnemyCollisions(this.bulletPool.getActiveBullets(), this.enemies, this.player.stats.strength);
 
         this.statusVFXManager.update(this.enemies);
+        this.plagueSystem.update(this.enemies);
 
         // 9. 检查游戏结束
         if (!this.player.stats.isAlive()) {
@@ -265,6 +270,7 @@ export default class Game {
         });
 
         this.statusVFXManager.draw(this.ctx, this.scrollY);
+        this.plagueSystem.draw(this.ctx, this.scrollY);
 
         // 绘制宝箱
         this.chestManager.draw(this.ctx, this.scrollY);

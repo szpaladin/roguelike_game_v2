@@ -70,12 +70,20 @@ export default class CollisionManager {
 
                 if (circleCollision(bullet.x, bullet.y, bullet.radius, enemy.x, enemy.y, enemy.radius)) {
                     // 计算伤害
-                    const rawDamage = bullet.damage || 0;
+                    const isFrozenBeforeHit = enemy.statusEffects && enemy.statusEffects.isFrozen();
+                    const shatterMultiplier = Number.isFinite(bullet.shatterMultiplier) ? bullet.shatterMultiplier : 1;
+                    const shatterTriggered = shatterMultiplier > 1 && isFrozenBeforeHit;
+                    const rawDamage = (bullet.damage || 0) * (shatterTriggered ? shatterMultiplier : 1);
                     const actualDamage = enemy.takeDamage(rawDamage);
+
+                    if (shatterTriggered && bullet.shatterConsumesFrozen !== false && enemy.statusEffects) {
+                        enemy.statusEffects.removeEffect('frozen');
+                    }
 
                     // 应用状态效果（传入玩家属性用于智力倍率计算）
                     const playerStats = this.player ? this.player.stats : null;
-                    applyBulletStatusEffects(bullet, enemy, playerStats);
+                    const suppressFreeze = shatterTriggered && bullet.shatterPreventRefreeze !== false;
+                    applyBulletStatusEffects(bullet, enemy, playerStats, { suppressFreeze });
 
                     // 应用攻击范围效果
                     const applyStatuses = (target) => applyBulletStatusEffects(bullet, target, playerStats);
