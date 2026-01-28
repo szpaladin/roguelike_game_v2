@@ -14,7 +14,7 @@ export const NAME_TO_ID = {
     '太阳束': 'solar_beam',
     '寒束': 'cold_beam',
     '寒魄吸': 'frost_leech',
-    '岩片花': 'rock_shard_bloom',
+    '蔓延': 'overgrowth',
     '幽刃': 'phantom_blade',
     '幽电': 'phantom_arc',
     '幽群': 'wraith_swarm',
@@ -93,7 +93,9 @@ const OPTIONAL_FIELDS = [
     'aoeRadius', 'aoeDamage',
     'rayRange', 'rayLength', 'rayWidth',
     'canSplit', 'splitCount', 'splitRange',
-    'explosionRadius', 'explosionDamage'
+    'explosionRadius', 'explosionDamage',
+    'overgrowthDuration', 'overgrowthTriggerStacks',
+    'overgrowthExplosionRadius', 'overgrowthExplosionMultiplier'
 ];
 
 function stripBom(value) {

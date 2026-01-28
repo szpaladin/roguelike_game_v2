@@ -9,7 +9,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由细胞与黑暗融合而成，效果：分裂子弹 + 易伤',
         tier: 1,
         icon: '🌑',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_cell_fire',
@@ -19,7 +19,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由细胞与火焰融合而成，效果：分裂子弹 + 燃烧DOT',
         tier: 1,
         icon: '🔥',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_cell_frost',
@@ -29,7 +29,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由细胞与冰霜融合而成，效果：分裂子弹 + 冻结',
         tier: 1,
         icon: '❄️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_cell_ghost',
@@ -39,7 +39,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由细胞与幽灵融合而成，效果：分裂子弹 + 穿透',
         tier: 1,
         icon: '👻',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_cell_light',
@@ -49,7 +49,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由细胞与光芒融合而成，效果：致盲 + 分裂子弹',
         tier: 1,
         icon: '✨',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_cell_lightning',
@@ -59,37 +59,37 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由细胞与闪电融合而成，效果：连锁闪电 + 分裂子弹',
         tier: 1,
         icon: '⚡',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_cell_poison',
-        name: '毒孢群',
+        name: '瘟疫',
         materials: ['cell', 'poison'],
-        result: 'toxic_spore_swarm',
-        description: '由细胞与剧毒融合而成，效果：中毒DOT + 分裂子弹',
+        result: 'plague',
+        description: '由细胞与剧毒融合而成，效果：瘟疫扩散 + 持续DOT',
         tier: 1,
-        icon: '☠️',
-        status: '建议'
+        icon: '🦠',
+        status: '现有'
     },
     {
         id: 'fusion_cell_ray',
-        name: '晶格束',
+        name: '辐射射线',
         materials: ['cell', 'ray'],
-        result: 'lattice_beam',
-        description: '由细胞与射线融合而成，效果：射线AOE + 分裂子弹',
+        result: 'radiation_beam',
+        description: '由细胞与射线融合而成，效果：射线AOE + 辐射易伤',
         tier: 1,
-        icon: '🔦',
-        status: '建议'
+        icon: '☢️',
+        status: '现有'
     },
     {
         id: 'fusion_cell_rock',
-        name: '岩片花',
+        name: '蔓延',
         materials: ['cell', 'rock'],
-        result: 'rock_shard_bloom',
-        description: '由细胞与岩石融合而成，效果：分裂子弹 + 圆形AOE',
+        result: 'overgrowth',
+        description: '由细胞与岩石融合而成，效果：蔓延叠层 + 爆发AOE',
         tier: 1,
-        icon: '🪨',
-        status: '建议'
+        icon: '🌱',
+        status: '现有'
     },
     {
         id: 'fusion_cell_steel',
@@ -99,7 +99,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由细胞与钢铁融合而成，效果：分裂子弹 + 高伤',
         tier: 1,
         icon: '🧬',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_cell_swift',
@@ -109,7 +109,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由细胞与疾风融合而成，效果：分裂子弹 + 高速',
         tier: 1,
         icon: '🧬',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_cell_vampire',
@@ -119,7 +119,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由细胞与吸血融合而成，效果：分裂子弹 + 吸血',
         tier: 1,
         icon: '🩸',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_dark_fire',
@@ -129,7 +129,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由黑暗与火焰融合而成，效果：燃烧DOT + 易伤',
         tier: 1,
         icon: '🔥',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_dark_frost',
@@ -139,7 +139,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由黑暗与冰霜融合而成，效果：冻结 + 易伤',
         tier: 1,
         icon: '❄️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_dark_ghost',
@@ -149,7 +149,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由黑暗与幽灵融合而成，效果：穿透 + 易伤',
         tier: 1,
         icon: '🌑',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_dark_light',
@@ -159,7 +159,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由黑暗与光芒融合而成，效果：致盲 + 易伤',
         tier: 1,
         icon: '✨',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_dark_lightning',
@@ -169,17 +169,17 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由黑暗与闪电融合而成，效果：连锁闪电 + 易伤',
         tier: 1,
         icon: '⚡',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_dark_poison',
-        name: '疫咒',
+        name: '瘟疫',
         materials: ['dark', 'poison'],
-        result: 'plague_curse',
-        description: '由黑暗与剧毒融合而成，效果：中毒DOT + 易伤',
+        result: 'plague',
+        description: '由黑暗与剧毒融合而成，效果：瘟疫扩散 + 持续DOT',
         tier: 1,
-        icon: '☠️',
-        status: '建议'
+        icon: '🦠',
+        status: '现有'
     },
     {
         id: 'fusion_dark_ray',
@@ -189,7 +189,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由黑暗与射线融合而成，效果：射线AOE + 易伤',
         tier: 1,
         icon: '🌑',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_dark_rock',
@@ -199,7 +199,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由黑暗与岩石融合而成，效果：圆形AOE + 易伤',
         tier: 1,
         icon: '🪨',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_dark_steel',
@@ -209,7 +209,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由黑暗与钢铁融合而成，效果：高伤 + 易伤',
         tier: 1,
         icon: '✨',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_dark_swift',
@@ -219,7 +219,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由黑暗与疾风融合而成，效果：穿透 + 易伤',
         tier: 1,
         icon: '🗡️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_dark_vampire',
@@ -229,11 +229,11 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由黑暗与吸血融合而成，效果：易伤 + 吸血',
         tier: 1,
         icon: '🩸',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_frostfire',
-        name: '燃霜进化',
+        name: '燃霜',
         materials: ['frost', 'fire'],
         result: 'frostfire',
         description: '冰霜与火焰的矛盾融合为燃霜',
@@ -249,7 +249,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由火焰与幽灵融合而成，效果：穿透 + 燃烧DOT',
         tier: 1,
         icon: '🔥',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_fire_light',
@@ -259,7 +259,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由火焰与光芒融合而成，效果：燃烧DOT + 致盲',
         tier: 1,
         icon: '🔥',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_fire_lightning',
@@ -269,7 +269,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由火焰与闪电融合而成，效果：燃烧DOT + 连锁闪电',
         tier: 1,
         icon: '🔥',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_fire_poison',
@@ -279,7 +279,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由火焰与剧毒融合而成，效果：燃烧DOT + 中毒DOT',
         tier: 1,
         icon: '🔥',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_fire_ray',
@@ -289,7 +289,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由火焰与射线融合而成，效果：射线AOE + 燃烧DOT',
         tier: 1,
         icon: '🔥',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_fire_rock',
@@ -299,11 +299,11 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由火焰与岩石融合而成，效果：圆形AOE + 燃烧DOT',
         tier: 1,
         icon: '🔥',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_bomb',
-        name: '炸弹进化',
+        name: '炸弹',
         materials: ['steel', 'fire'],
         result: 'bomb',
         description: '钢铁的威力与火焰的爆炸融合为炸弹',
@@ -313,7 +313,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
     },
     {
         id: 'fusion_inferno',
-        name: '炼狱进化',
+        name: '炼狱',
         materials: ['swift', 'fire'],
         result: 'inferno',
         description: '疾风的穿透与火焰的灼烧融合为炼狱',
@@ -329,7 +329,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由火焰与吸血融合而成，效果：燃烧DOT + 吸血',
         tier: 1,
         icon: '🔥',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_frost_ghost',
@@ -339,7 +339,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由冰霜与幽灵融合而成，效果：穿透 + 冻结',
         tier: 1,
         icon: '❄️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_frost_light',
@@ -349,7 +349,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由冰霜与光芒融合而成，效果：冻结 + 致盲',
         tier: 1,
         icon: '❄️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_frost_lightning',
@@ -359,7 +359,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由冰霜与闪电融合而成，效果：冻结 + 连锁闪电',
         tier: 1,
         icon: '❄️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_frost_poison',
@@ -369,7 +369,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由冰霜与剧毒融合而成，效果：冻结 + 中毒DOT',
         tier: 1,
         icon: '❄️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_frost_ray',
@@ -379,7 +379,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由冰霜与射线融合而成，效果：射线AOE + 冻结',
         tier: 1,
         icon: '❄️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_frost_rock',
@@ -389,21 +389,21 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由冰霜与岩石融合而成，效果：圆形AOE + 冻结',
         tier: 1,
         icon: '❄️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_frost_steel',
-        name: '破冰锤',
+        name: '冰锥',
         materials: ['frost', 'steel'],
-        result: 'icebreaker_hammer',
-        description: '由冰霜与钢铁融合而成，效果：冻结 + 高伤',
+        result: 'ice_spike',
+        description: '由冰霜与钢铁融合而成，效果：冻结 + 碎冰倍伤',
         tier: 1,
-        icon: '❄️',
-        status: '建议'
+        icon: '🧊',
+        status: '现有'
     },
     {
         id: 'fusion_blizzard',
-        name: '暴风雪进化',
+        name: '暴风雪',
         materials: ['swift', 'frost'],
         result: 'blizzard',
         description: '疾风的速度与冰霜的寒冷融合为暴风雪',
@@ -419,7 +419,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由冰霜与吸血融合而成，效果：冻结 + 吸血',
         tier: 1,
         icon: '❄️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_ghost_light',
@@ -429,7 +429,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由幽灵与光芒融合而成，效果：致盲 + 穿透',
         tier: 1,
         icon: '✨',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_ghost_lightning',
@@ -439,27 +439,27 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由幽灵与闪电融合而成，效果：连锁闪电 + 穿透',
         tier: 1,
         icon: '⚡',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_ghost_poison',
-        name: '毒灵',
+        name: '瘟疫',
         materials: ['ghost', 'poison'],
-        result: 'toxic_wraith',
-        description: '由幽灵与剧毒融合而成，效果：中毒DOT + 穿透',
+        result: 'plague',
+        description: '由幽灵与剧毒融合而成，效果：瘟疫扩散 + 持续DOT',
         tier: 1,
-        icon: '☠️',
-        status: '建议'
+        icon: '🦠',
+        status: '现有'
     },
     {
         id: 'fusion_ghost_ray',
-        name: '相位束',
+        name: '辐射射线',
         materials: ['ghost', 'ray'],
-        result: 'phase_beam',
-        description: '由幽灵与射线融合而成，效果：射线AOE + 穿透',
+        result: 'radiation_beam',
+        description: '由幽灵与射线融合而成，效果：射线AOE + 辐射易伤',
         tier: 1,
-        icon: '🔦',
-        status: '建议'
+        icon: '☢️',
+        status: '现有'
     },
     {
         id: 'fusion_ghost_rock',
@@ -469,7 +469,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由幽灵与岩石融合而成，效果：圆形AOE + 穿透',
         tier: 1,
         icon: '🪨',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_ghost_steel',
@@ -479,7 +479,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由幽灵与钢铁融合而成，效果：穿透 + 高伤',
         tier: 1,
         icon: '👻',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_ghost_swift',
@@ -489,7 +489,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由幽灵与疾风融合而成，效果：穿透 + 高速',
         tier: 1,
         icon: '🌑',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_ghost_vampire',
@@ -499,7 +499,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由幽灵与吸血融合而成，效果：穿透 + 吸血',
         tier: 1,
         icon: '🩸',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_light_lightning',
@@ -509,7 +509,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由光芒与闪电融合而成，效果：连锁闪电 + 致盲',
         tier: 1,
         icon: '⚡',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_light_poison',
@@ -519,7 +519,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由光芒与剧毒融合而成，效果：中毒DOT + 致盲',
         tier: 1,
         icon: '☠️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_light_ray',
@@ -529,7 +529,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由光芒与射线融合而成，效果：致盲 + 射线AOE',
         tier: 1,
         icon: '✨',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_light_rock',
@@ -539,7 +539,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由光芒与岩石融合而成，效果：致盲 + 圆形AOE',
         tier: 1,
         icon: '⚡',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_light_steel',
@@ -549,7 +549,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由光芒与钢铁融合而成，效果：高伤 + 致盲',
         tier: 1,
         icon: '✨',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_light_swift',
@@ -559,7 +559,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由光芒与疾风融合而成，效果：穿透 + 致盲',
         tier: 1,
         icon: '⚡',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_light_vampire',
@@ -569,7 +569,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由光芒与吸血融合而成，效果：致盲 + 吸血',
         tier: 1,
         icon: '✨',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_lightning_poison',
@@ -579,7 +579,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由闪电与剧毒融合而成，效果：中毒DOT + 连锁闪电',
         tier: 1,
         icon: '☠️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_lightning_ray',
@@ -589,7 +589,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由闪电与射线融合而成，效果：连锁闪电 + 射线AOE',
         tier: 1,
         icon: '⚡',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_lightning_rock',
@@ -599,7 +599,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由闪电与岩石融合而成，效果：连锁闪电 + 圆形AOE',
         tier: 1,
         icon: '⚡',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_lightning_steel',
@@ -609,11 +609,11 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由闪电与钢铁融合而成，效果：高伤 + 连锁闪电',
         tier: 1,
         icon: '⚡',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_storm',
-        name: '风暴进化',
+        name: '风暴',
         materials: ['swift', 'lightning'],
         result: 'storm',
         description: '疾风的穿透与闪电的连锁融合为风暴',
@@ -629,17 +629,17 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由闪电与吸血融合而成，效果：连锁闪电 + 吸血',
         tier: 1,
         icon: '⚡',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_poison_ray',
-        name: '酸束',
+        name: '辐射射线',
         materials: ['poison', 'ray'],
-        result: 'acid_beam',
-        description: '由剧毒与射线融合而成，效果：中毒DOT + 射线AOE',
+        result: 'radiation_beam',
+        description: '由剧毒与射线融合而成，效果：射线AOE + 辐射易伤',
         tier: 1,
-        icon: '☠️',
-        status: '建议'
+        icon: '☢️',
+        status: '现有'
     },
     {
         id: 'fusion_poison_rock',
@@ -649,7 +649,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由剧毒与岩石融合而成，效果：中毒DOT + 圆形AOE',
         tier: 1,
         icon: '☠️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_poison_steel',
@@ -659,11 +659,11 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由剧毒与钢铁融合而成，效果：高伤 + 中毒DOT',
         tier: 1,
         icon: '☠️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_poison_mist',
-        name: '毒雾进化',
+        name: '毒雾',
         materials: ['swift', 'poison'],
         result: 'poison_mist',
         description: '疾风的穿透与剧毒的毒素融合为毒雾',
@@ -673,13 +673,13 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
     },
     {
         id: 'fusion_poison_vampire',
-        name: '吸毒',
+        name: '瘟疫',
         materials: ['poison', 'vampire'],
-        result: 'leech_toxin',
-        description: '由剧毒与吸血融合而成，效果：中毒DOT + 吸血',
+        result: 'plague',
+        description: '由剧毒与吸血融合而成，效果：瘟疫扩散 + 持续DOT',
         tier: 1,
-        icon: '☠️',
-        status: '建议'
+        icon: '🦠',
+        status: '现有'
     },
     {
         id: 'fusion_ray_rock',
@@ -689,7 +689,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由射线与岩石融合而成，效果：射线AOE + 圆形AOE',
         tier: 1,
         icon: '🪨',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_ray_steel',
@@ -699,7 +699,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由射线与钢铁融合而成，效果：射线AOE + 高伤',
         tier: 1,
         icon: '🔦',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_ray_swift',
@@ -709,7 +709,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由射线与疾风融合而成，效果：射线AOE + 高速',
         tier: 1,
         icon: '✨',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_ray_vampire',
@@ -719,7 +719,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由射线与吸血融合而成，效果：射线AOE + 吸血',
         tier: 1,
         icon: '🩸',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_rock_steel',
@@ -729,7 +729,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由岩石与钢铁融合而成，效果：高伤 + 圆形AOE',
         tier: 1,
         icon: '🧬',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_rock_swift',
@@ -739,7 +739,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由岩石与疾风融合而成，效果：穿透 + 圆形AOE',
         tier: 1,
         icon: '🗡️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_rock_vampire',
@@ -749,7 +749,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由岩石与吸血融合而成，效果：圆形AOE + 吸血',
         tier: 1,
         icon: '🩸',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_steel_swift',
@@ -759,7 +759,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由钢铁与疾风融合而成，效果：穿透 + 高伤',
         tier: 1,
         icon: '🗡️',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_steel_vampire',
@@ -769,7 +769,7 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由钢铁与吸血融合而成，效果：高伤 + 吸血',
         tier: 1,
         icon: '🩸',
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'fusion_swift_vampire',
@@ -779,6 +779,6 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
         description: '由疾风与吸血融合而成，效果：穿透 + 吸血',
         tier: 1,
         icon: '🩸',
-        status: '建议'
+        status: '现有'
     },
 ];

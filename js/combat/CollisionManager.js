@@ -58,6 +58,15 @@ export default class CollisionManager {
      */
     checkBulletEnemyCollisions(bullets, enemies, playerAttack = 5) {
         const hits = [];
+        const playerStats = this.player ? this.player.stats : null;
+        const intMultiplier = playerStats ? playerStats.intelligence / 50 : 1;
+
+        const triggerOvergrowthExplosion = (target, statusResult) => {
+            if (!statusResult || !statusResult.overgrowth) return;
+            const { radius, multiplier, color } = statusResult.overgrowth;
+            const damage = playerAttack * multiplier * intMultiplier;
+            this.aoeHandler.handleStatusExplosion(target, enemies, damage, radius, color);
+        };
 
         for (const bullet of bullets) {
             if (!bullet.active) continue;
@@ -81,12 +90,15 @@ export default class CollisionManager {
                     }
 
                     // 应用状态效果（传入玩家属性用于智力倍率计算）
-                    const playerStats = this.player ? this.player.stats : null;
                     const suppressFreeze = shatterTriggered && bullet.shatterPreventRefreeze !== false;
-                    applyBulletStatusEffects(bullet, enemy, playerStats, { suppressFreeze });
+                    const statusResult = applyBulletStatusEffects(bullet, enemy, playerStats, { suppressFreeze });
+                    triggerOvergrowthExplosion(enemy, statusResult);
 
                     // 应用攻击范围效果
-                    const applyStatuses = (target) => applyBulletStatusEffects(bullet, target, playerStats);
+                    const applyStatuses = (target) => {
+                        const result = applyBulletStatusEffects(bullet, target, playerStats);
+                        triggerOvergrowthExplosion(target, result);
+                    };
                     this.aoeHandler.handleRangeEffects(bullet, enemy, enemies, playerAttack, applyStatuses);
 
                     hits.push({ bullet, enemy, damage: actualDamage });

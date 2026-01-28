@@ -13,7 +13,7 @@
 | 细胞 (cell) | 闪电 (lightning) | 电孢群 (spark_spore_swarm) | 建议 | 由细胞与闪电融合而成，效果：连锁闪电 + 分裂子弹 |
 | 细胞 (cell) | 剧毒 (poison) | 瘟疫 (plague) | 现有 | 由细胞与剧毒融合而成，效果：瘟疫扩散 + 持续DOT |
 | 细胞 (cell) | 射线 (ray) | 辐射射线 (radiation_beam) | 现有 | 由细胞与射线融合而成，效果：射线AOE + 辐射易伤 |
-| 细胞 (cell) | 岩石 (rock) | 岩片花 (rock_shard_bloom) | 建议 | 由细胞与岩石融合而成，效果：分裂子弹 + 圆形AOE |
+| 细胞 (cell) | 岩石 (rock) | 蔓延 (overgrowth) | 建议 | 由细胞与岩石融合而成，效果：蔓延叠层 + 爆发AOE |
 | 细胞 (cell) | 钢铁 (steel) | 破片核 (shrapnel_core) | 建议 | 由细胞与钢铁融合而成，效果：分裂子弹 + 高伤 |
 | 细胞 (cell) | 疾风 (swift) | 裂风群 (split_wind_swarm) | 建议 | 由细胞与疾风融合而成，效果：分裂子弹 + 高速 |
 | 细胞 (cell) | 吸血 (vampire) | 血孢群 (blood_spore_swarm) | 建议 | 由细胞与吸血融合而成，效果：分裂子弹 + 吸血 |

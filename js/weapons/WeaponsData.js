@@ -464,9 +464,9 @@ export const WEAPONS = {
         status: '现有'
     },
 
-    ROCK_SHARD_BLOOM: {
-        id: 'rock_shard_bloom',
-        name: '岩片花',
+    OVERGROWTH: {
+        id: 'overgrowth',
+        name: '蔓延',
         tier: WEAPON_TIER.EVOLUTION,
         damage: 0.8,
         interval: 30,
@@ -475,12 +475,11 @@ export const WEAPONS = {
         color: '#567c5f',
         lifetime: 120,
         piercing: false,
-        aoeRadius: 80,
-        aoeDamage: 0.8,
-        canSplit: true,
-        splitCount: 2,
-        splitRange: 200,
-        effects: '分裂子弹 + 圆形AOE',
+        overgrowthDuration: 300,
+        overgrowthTriggerStacks: 3,
+        overgrowthExplosionRadius: 60,
+        overgrowthExplosionMultiplier: 2.5,
+        effects: '蔓延叠层 + 爆发AOE',
         sources: ['cell', 'rock'],
         status: '建议'
     },
@@ -1638,7 +1637,7 @@ export const WEAPON_ID_MAP = {
     SPARK_SPORE_SWARM: { id: 'spark_spore_swarm', name: '电孢群', tier: WEAPON_TIER.EVOLUTION, order: 25 },
     PLAGUE: { id: 'plague', name: '瘟疫', tier: WEAPON_TIER.EVOLUTION, order: 26 },
     RADIATION_BEAM: { id: 'radiation_beam', name: '辐射射线', tier: WEAPON_TIER.EVOLUTION, order: 27 },
-    ROCK_SHARD_BLOOM: { id: 'rock_shard_bloom', name: '岩片花', tier: WEAPON_TIER.EVOLUTION, order: 28 },
+    OVERGROWTH: { id: 'overgrowth', name: '蔓延', tier: WEAPON_TIER.EVOLUTION, order: 28 },
     SHRAPNEL_CORE: { id: 'shrapnel_core', name: '破片核', tier: WEAPON_TIER.EVOLUTION, order: 29 },
     SPLIT_WIND_SWARM: { id: 'split_wind_swarm', name: '裂风群', tier: WEAPON_TIER.EVOLUTION, order: 30 },
     BLOOD_SPORE_SWARM: { id: 'blood_spore_swarm', name: '血孢群', tier: WEAPON_TIER.EVOLUTION, order: 31 },
@@ -1785,12 +1784,12 @@ export const WEAPON_FUSION_TABLE = [
     },
     {
         id: 'fusion_cell_rock',
-        name: '岩片花',
+        name: '蔓延',
         materials: ['cell', 'rock'],
-        result: 'rock_shard_bloom',
-        description: '由细胞与岩石融合而成，效果：分裂子弹 + 圆形AOE',
+        result: 'overgrowth',
+        description: '由细胞与岩石融合而成，效果：蔓延叠层 + 爆发AOE',
         tier: 1,
-        icon: '🪨',
+        icon: '🌱',
         status: '建议'
     },
     {
@@ -2545,7 +2544,7 @@ export const WEAPON_ICON_MAP = {
 
     radiation_beam: '☢️',
     rock: '🪨',
-    rock_shard_bloom: '🪨',
+    overgrowth: '🌱',
     sandstorm: '🗡️',
     shadow_rush: '🌑',
     shadow_wraith: '🌑',

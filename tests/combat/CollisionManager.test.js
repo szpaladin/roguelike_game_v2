@@ -76,4 +76,37 @@ describe('CollisionManager', () => {
         expect(hits[0].damage).toBe(20);
         expect(shatterEnemy.statusEffects.hasEffect('frozen')).toBe(false);
     });
+
+    test('overgrowth detonates at 3 stacks and damages nearby enemies with int scaling', () => {
+        manager.setDependencies(null, null, { stats: { intelligence: 100 } });
+
+        const overgrowthTarget = new Enemy(15, 0, {
+            name: 'E3', hp: 500, maxHp: 500, attack: 10, defense: 0, speed: 1, radius: 10, color: 'green', exp: 10, gold: 10
+        });
+        const nearbyEnemy = new Enemy(60, 0, {
+            name: 'E4', hp: 300, maxHp: 300, attack: 10, defense: 0, speed: 1, radius: 10, color: 'gray', exp: 10, gold: 10
+        });
+
+        const makeBullet = () => new Bullet({
+            x: 10,
+            y: 0,
+            vx: 1,
+            vy: 0,
+            damage: 10,
+            radius: 2,
+            lifetime: 60,
+            active: true,
+            overgrowthDuration: 300,
+            overgrowthTriggerStacks: 3,
+            overgrowthExplosionRadius: 60,
+            overgrowthExplosionMultiplier: 2.5
+        });
+
+        manager.checkBulletEnemyCollisions([makeBullet()], [overgrowthTarget, nearbyEnemy], 50);
+        manager.checkBulletEnemyCollisions([makeBullet()], [overgrowthTarget, nearbyEnemy], 50);
+        expect(nearbyEnemy.hp).toBe(300);
+
+        manager.checkBulletEnemyCollisions([makeBullet()], [overgrowthTarget, nearbyEnemy], 50);
+        expect(nearbyEnemy.hp).toBe(50);
+    });
 });

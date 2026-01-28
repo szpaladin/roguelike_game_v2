@@ -168,6 +168,30 @@ export default class AOEHandler {
     }
 
     /**
+     * 状态爆发AOE效果（如蔓延叠层）
+     */
+    handleStatusExplosion(origin, enemies, damage, radius, color = '#6ccf6d') {
+        if (!origin || !Array.isArray(enemies)) return;
+        if (radius <= 0 || damage <= 0) return;
+
+        if (this.effectsManager) {
+            this.effectsManager.addExplosion(origin.x, origin.y, radius, color);
+        }
+
+        for (const target of enemies) {
+            if (target.hp <= 0) continue;
+
+            const dx = target.x - origin.x;
+            const dy = target.y - origin.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < radius) {
+                target.takeDamage(damage);
+            }
+        }
+    }
+
+    /**
      * 射线AOE效果
      */
     handleRayDamage(bullet, hitEnemy, enemies, playerAttack, applyStatusEffects = null) {

@@ -19,7 +19,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         splitRange: 200,
         effects: '分裂子弹 + 易伤',
         sources: ['cell', 'dark'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'flame_spore_swarm',
@@ -39,7 +39,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         splitRange: 200,
         effects: '分裂子弹 + 燃烧DOT',
         sources: ['cell', 'fire'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'ice_shard_swarm',
@@ -59,7 +59,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         splitRange: 200,
         effects: '分裂子弹 + 冻结',
         sources: ['cell', 'frost'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'wraith_swarm',
@@ -77,7 +77,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         splitRange: 200,
         effects: '分裂子弹 + 穿透',
         sources: ['cell', 'ghost'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'prism_swarm',
@@ -97,7 +97,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         splitRange: 200,
         effects: '致盲 + 分裂子弹',
         sources: ['cell', 'light'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'spark_spore_swarm',
@@ -118,52 +118,44 @@ export const WEAPON_EVOLUTION_DRAFT = [
         splitRange: 200,
         effects: '连锁闪电 + 分裂子弹',
         sources: ['cell', 'lightning'],
-        status: '建议'
+        status: '现有'
     },
     {
-        id: 'toxic_spore_swarm',
-        name: '毒孢群',
+        id: 'plague',
+        name: '瘟疫',
         tier: 2,
-        damage: 0.65,
+        damage: 0.6,
         interval: 30,
         speed: 8,
         radius: 12,
-        color: '#10d955',
+        color: '#6f7a66',
         lifetime: 120,
         piercing: false,
-        poisonDuration: 900,
-        poisonDamagePerStack: 0.05,
-        canSplit: true,
-        splitCount: 2,
-        splitRange: 200,
         effects: '中毒DOT + 分裂子弹',
         sources: ['cell', 'poison'],
-        status: '建议'
+        status: '现有'
     },
     {
-        id: 'lattice_beam',
-        name: '晶格束',
+        id: 'radiation_beam',
+        name: '辐射射线',
         tier: 2,
         damage: 0.8,
         interval: 30,
         speed: 8,
         radius: 12,
-        color: '#90ac55',
+        color: '#7CFC00',
         lifetime: 120,
         piercing: false,
         rayRange: 300,
         rayLength: 600,
         rayWidth: 10,
-        canSplit: true,
-        splitCount: 2,
-        splitRange: 200,
         effects: '射线AOE + 分裂子弹',
         sources: ['cell', 'ray'],
-        status: '建议'
+        status: '现有'
     },
     {
-        id: 'rock_shard_bloom',
-        name: '岩片花',
+        id: 'overgrowth',
+        name: '蔓延',
         tier: 2,
         damage: 0.8,
         interval: 30,
@@ -172,14 +164,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         color: '#567c5f',
         lifetime: 120,
         piercing: false,
-        aoeRadius: 80,
-        aoeDamage: 0.8,
-        canSplit: true,
-        splitCount: 2,
-        splitRange: 200,
-        effects: '分裂子弹 + 圆形AOE',
+        overgrowthDuration: 300,
+        overgrowthTriggerStacks: 3,
+        overgrowthExplosionRadius: 60,
+        overgrowthExplosionMultiplier: 2.5,
+        effects: '蔓延叠层 + 爆发AOE',
         sources: ['cell', 'rock'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'shrapnel_core',
@@ -197,7 +188,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         splitRange: 200,
         effects: '分裂子弹 + 高伤',
         sources: ['cell', 'steel'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'split_wind_swarm',
@@ -215,7 +206,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         splitRange: 200,
         effects: '分裂子弹 + 高速',
         sources: ['cell', 'swift'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'blood_spore_swarm',
@@ -235,7 +226,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         splitRange: 200,
         effects: '分裂子弹 + 吸血',
         sources: ['cell', 'vampire'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'dark_flame',
@@ -253,7 +244,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         vulnerability: 0.25,
         effects: '燃烧DOT + 易伤',
         sources: ['dark', 'fire'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'frost_corrosion',
@@ -271,7 +262,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         vulnerability: 0.25,
         effects: '冻结 + 易伤',
         sources: ['dark', 'frost'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'shadow_wraith',
@@ -287,7 +278,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         vulnerability: 0.25,
         effects: '穿透 + 易伤',
         sources: ['dark', 'ghost'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'eclipse',
@@ -305,7 +296,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         blindDuration: 180,
         effects: '致盲 + 易伤',
         sources: ['dark', 'light'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'void_thunder',
@@ -324,25 +315,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCooldown: 10,
         effects: '连锁闪电 + 易伤',
         sources: ['dark', 'lightning'],
-        status: '建议'
-    },
-    {
-        id: 'plague_curse',
-        name: '疫咒',
-        tier: 2,
-        damage: 1.25,
-        interval: 45,
-        speed: 6.5,
-        radius: 5,
-        color: '#268041',
-        lifetime: 150,
-        piercing: false,
-        vulnerability: 0.25,
-        poisonDuration: 900,
-        poisonDamagePerStack: 0.05,
-        effects: '中毒DOT + 易伤',
-        sources: ['dark', 'poison'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'void_beam',
@@ -361,7 +334,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayWidth: 10,
         effects: '射线AOE + 易伤',
         sources: ['dark', 'ray'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'cursed_stone',
@@ -379,7 +352,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         aoeDamage: 0.8,
         effects: '圆形AOE + 易伤',
         sources: ['dark', 'rock'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'dark_steel',
@@ -395,7 +368,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         vulnerability: 0.25,
         effects: '高伤 + 易伤',
         sources: ['dark', 'steel'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'night_blade',
@@ -411,7 +384,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         vulnerability: 0.25,
         effects: '穿透 + 易伤',
         sources: ['dark', 'swift'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'soul_drain',
@@ -429,7 +402,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         lifeStealAmount: 1,
         effects: '易伤 + 吸血',
         sources: ['dark', 'vampire'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'frostfire',
@@ -465,7 +438,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         burnDamagePerFrame: 0.083333,
         effects: '穿透 + 燃烧DOT',
         sources: ['fire', 'ghost'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'dazzle_flame',
@@ -484,7 +457,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         blindDuration: 180,
         effects: '燃烧DOT + 致盲',
         sources: ['fire', 'light'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'plasma_chain',
@@ -504,7 +477,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCooldown: 10,
         effects: '燃烧DOT + 连锁闪电',
         sources: ['fire', 'lightning'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'toxic_flame',
@@ -523,7 +496,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         poisonDamagePerStack: 0.05,
         effects: '燃烧DOT + 中毒DOT',
         sources: ['fire', 'poison'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'solar_beam',
@@ -543,7 +516,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayWidth: 10,
         effects: '射线AOE + 燃烧DOT',
         sources: ['fire', 'ray'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'magma_burst',
@@ -562,7 +535,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         aoeDamage: 0.8,
         effects: '圆形AOE + 燃烧DOT',
         sources: ['fire', 'rock'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'bomb',
@@ -615,7 +588,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         lifeStealAmount: 1,
         effects: '燃烧DOT + 吸血',
         sources: ['fire', 'vampire'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'frost_wraith',
@@ -632,7 +605,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         freezeDuration: 120,
         effects: '穿透 + 冻结',
         sources: ['frost', 'ghost'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'white_halo',
@@ -651,7 +624,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         blindDuration: 180,
         effects: '冻结 + 致盲',
         sources: ['frost', 'light'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'ice_chain',
@@ -671,7 +644,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCooldown: 10,
         effects: '冻结 + 连锁闪电',
         sources: ['frost', 'lightning'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'ice_toxin',
@@ -690,7 +663,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         poisonDamagePerStack: 0.05,
         effects: '冻结 + 中毒DOT',
         sources: ['frost', 'poison'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'cold_beam',
@@ -710,7 +683,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayWidth: 10,
         effects: '射线AOE + 冻结',
         sources: ['frost', 'ray'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'glacier_quake',
@@ -729,14 +702,14 @@ export const WEAPON_EVOLUTION_DRAFT = [
         aoeDamage: 0.8,
         effects: '圆形AOE + 冻结',
         sources: ['frost', 'rock'],
-        status: '建议'
+        status: '现有'
     },
     {
-        id: 'icebreaker_hammer',
-        name: '破冰锤',
+        id: 'ice_spike',
+        name: '冰锥',
         tier: 2,
-        damage: 3,
-        interval: 90,
+        damage: 2.4,
+        interval: 80,
         speed: 7,
         radius: 6,
         color: '#60c6e0',
@@ -746,7 +719,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         freezeDuration: 120,
         effects: '冻结 + 高伤',
         sources: ['frost', 'steel'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'blizzard',
@@ -783,7 +756,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         lifeStealAmount: 1,
         effects: '冻结 + 吸血',
         sources: ['frost', 'vampire'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'holy_wisp',
@@ -800,7 +773,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         blindDuration: 180,
         effects: '致盲 + 穿透',
         sources: ['ghost', 'light'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'phantom_arc',
@@ -818,42 +791,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCooldown: 10,
         effects: '连锁闪电 + 穿透',
         sources: ['ghost', 'lightning'],
-        status: '建议'
-    },
-    {
-        id: 'toxic_wraith',
-        name: '毒灵',
-        tier: 2,
-        damage: 0.75,
-        interval: 30,
-        speed: 10,
-        radius: 4,
-        color: '#0f9d45',
-        lifetime: 120,
-        piercing: true,
-        poisonDuration: 900,
-        poisonDamagePerStack: 0.05,
-        effects: '中毒DOT + 穿透',
-        sources: ['ghost', 'poison'],
-        status: '建议'
-    },
-    {
-        id: 'phase_beam',
-        name: '相位束',
-        tier: 2,
-        damage: 0.9,
-        interval: 30,
-        speed: 10,
-        radius: 12,
-        color: '#8f7045',
-        lifetime: 120,
-        piercing: true,
-        rayRange: 300,
-        rayLength: 600,
-        rayWidth: 10,
-        effects: '射线AOE + 穿透',
-        sources: ['ghost', 'ray'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'spectral_rock',
@@ -870,7 +808,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         aoeDamage: 0.8,
         effects: '圆形AOE + 穿透',
         sources: ['ghost', 'rock'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'phantom_blade',
@@ -885,7 +823,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: true,
         effects: '穿透 + 高伤',
         sources: ['ghost', 'steel'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'shadow_rush',
@@ -900,7 +838,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: true,
         effects: '穿透 + 高速',
         sources: ['ghost', 'swift'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'blood_wraith',
@@ -917,7 +855,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         lifeStealAmount: 1,
         effects: '穿透 + 吸血',
         sources: ['ghost', 'vampire'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'radiant_arc',
@@ -937,7 +875,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         blindDuration: 180,
         effects: '连锁闪电 + 致盲',
         sources: ['light', 'lightning'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'toxic_daze',
@@ -956,7 +894,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         blindDuration: 180,
         effects: '中毒DOT + 致盲',
         sources: ['light', 'poison'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'sun_lance',
@@ -976,7 +914,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayWidth: 10,
         effects: '致盲 + 射线AOE',
         sources: ['light', 'ray'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'flashbang',
@@ -995,7 +933,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         aoeDamage: 0.8,
         effects: '致盲 + 圆形AOE',
         sources: ['light', 'rock'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'holy_hammer',
@@ -1012,7 +950,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         blindDuration: 180,
         effects: '高伤 + 致盲',
         sources: ['light', 'steel'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'flash_strike',
@@ -1029,7 +967,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         blindDuration: 180,
         effects: '穿透 + 致盲',
         sources: ['light', 'swift'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'blood_glow',
@@ -1048,7 +986,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         blindDuration: 180,
         effects: '致盲 + 吸血',
         sources: ['light', 'vampire'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'venom_arc',
@@ -1068,7 +1006,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCooldown: 10,
         effects: '中毒DOT + 连锁闪电',
         sources: ['lightning', 'poison'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'ion_beam',
@@ -1089,7 +1027,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayWidth: 10,
         effects: '连锁闪电 + 射线AOE',
         sources: ['lightning', 'ray'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'thunder_quake',
@@ -1109,7 +1047,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         aoeDamage: 0.8,
         effects: '连锁闪电 + 圆形AOE',
         sources: ['lightning', 'rock'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'mag_rail',
@@ -1127,7 +1065,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCooldown: 10,
         effects: '高伤 + 连锁闪电',
         sources: ['lightning', 'steel'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'storm',
@@ -1165,27 +1103,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCooldown: 10,
         effects: '连锁闪电 + 吸血',
         sources: ['lightning', 'vampire'],
-        status: '建议'
-    },
-    {
-        id: 'acid_beam',
-        name: '酸束',
-        tier: 2,
-        damage: 0.65,
-        interval: 30,
-        speed: 8,
-        radius: 12,
-        color: '#80d200',
-        lifetime: 120,
-        piercing: false,
-        poisonDuration: 900,
-        poisonDamagePerStack: 0.05,
-        rayRange: 300,
-        rayLength: 600,
-        rayWidth: 10,
-        effects: '中毒DOT + 射线AOE',
-        sources: ['poison', 'ray'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'toxic_burst',
@@ -1204,7 +1122,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         aoeDamage: 0.8,
         effects: '中毒DOT + 圆形AOE',
         sources: ['poison', 'rock'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'toxic_spike',
@@ -1221,7 +1139,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         poisonDamagePerStack: 0.05,
         effects: '高伤 + 中毒DOT',
         sources: ['poison', 'steel'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'poison_mist',
@@ -1241,25 +1159,6 @@ export const WEAPON_EVOLUTION_DRAFT = [
         status: '现有'
     },
     {
-        id: 'leech_toxin',
-        name: '吸毒',
-        tier: 2,
-        damage: 0.75,
-        interval: 30,
-        speed: 7,
-        radius: 4,
-        color: '#468000',
-        lifetime: 120,
-        piercing: false,
-        lifeStealChance: 0.06,
-        lifeStealAmount: 1,
-        poisonDuration: 900,
-        poisonDamagePerStack: 0.05,
-        effects: '中毒DOT + 吸血',
-        sources: ['poison', 'vampire'],
-        status: '建议'
-    },
-    {
         id: 'shockwave_beam',
         name: '震荡束',
         tier: 2,
@@ -1277,7 +1176,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayWidth: 10,
         effects: '射线AOE + 圆形AOE',
         sources: ['ray', 'rock'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'rail_beam',
@@ -1295,7 +1194,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayWidth: 10,
         effects: '射线AOE + 高伤',
         sources: ['ray', 'steel'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'rapid_beam',
@@ -1313,7 +1212,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayWidth: 10,
         effects: '射线AOE + 高速',
         sources: ['ray', 'swift'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'blood_beam',
@@ -1333,7 +1232,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayWidth: 10,
         effects: '射线AOE + 吸血',
         sources: ['ray', 'vampire'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'earthsplitter_hammer',
@@ -1350,7 +1249,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         aoeDamage: 0.8,
         effects: '高伤 + 圆形AOE',
         sources: ['rock', 'steel'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'sandstorm',
@@ -1367,7 +1266,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         aoeDamage: 0.8,
         effects: '穿透 + 圆形AOE',
         sources: ['rock', 'swift'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'blood_quake',
@@ -1386,7 +1285,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         aoeDamage: 0.8,
         effects: '圆形AOE + 吸血',
         sources: ['rock', 'vampire'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'rapid_lance',
@@ -1401,7 +1300,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: true,
         effects: '穿透 + 高伤',
         sources: ['steel', 'swift'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'blood_hammer',
@@ -1418,7 +1317,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         lifeStealAmount: 1,
         effects: '高伤 + 吸血',
         sources: ['steel', 'vampire'],
-        status: '建议'
+        status: '现有'
     },
     {
         id: 'swift_leech',
@@ -1435,6 +1334,6 @@ export const WEAPON_EVOLUTION_DRAFT = [
         lifeStealAmount: 1,
         effects: '穿透 + 吸血',
         sources: ['swift', 'vampire'],
-        status: '建议'
+        status: '现有'
     },
 ];

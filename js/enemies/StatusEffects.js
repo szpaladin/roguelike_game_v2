@@ -79,6 +79,21 @@ export const STATUS_EFFECTS = {
         deathCloudStacks: 1
     },
 
+    // 蔓延 - 叠层爆发
+    OVERGROWTH: {
+        id: 'overgrowth',
+        name: '蔓延',
+        type: STATUS_TYPE.DEBUFF,
+        color: '#6ccf6d',
+        icon: '🌱',
+        maxStacks: 3,
+        description: '叠层至3层后爆发',
+        defaultDuration: 300,
+        defaultTriggerStacks: 3,
+        defaultExplosionRadius: 60,
+        defaultExplosionMultiplier: 2.5
+    },
+
     // 易伤 - 增加受到的伤害
     VULNERABLE: {
         id: 'vulnerable',
@@ -246,6 +261,20 @@ export function extractStatusEffectsFromBullet(bulletData) {
         });
     }
 
+    // 蔓延效果
+    if (bulletData.overgrowthDuration > 0) {
+        effects.push({
+            effectId: 'overgrowth',
+            duration: bulletData.overgrowthDuration || STATUS_EFFECTS.OVERGROWTH.defaultDuration,
+            params: {
+                stacks: 1,
+                triggerStacks: bulletData.overgrowthTriggerStacks || STATUS_EFFECTS.OVERGROWTH.defaultTriggerStacks,
+                explosionRadius: bulletData.overgrowthExplosionRadius || STATUS_EFFECTS.OVERGROWTH.defaultExplosionRadius,
+                explosionMultiplier: bulletData.overgrowthExplosionMultiplier || STATUS_EFFECTS.OVERGROWTH.defaultExplosionMultiplier
+            }
+        });
+    }
+
     // 致盲效果
     if (bulletData.blindChance > 0 && Math.random() < bulletData.blindChance) {
         effects.push({
@@ -267,6 +296,8 @@ export function extractStatusEffectsFromBullet(bulletData) {
  * @param {PlayerStats|null} playerStats - 玩家属性（用于获取智力倍率）
  */
 export function applyBulletStatusEffects(bullet, enemy, playerStats = null, options = {}) {
+    const result = {};
+
     // 获取智力倍率（用于 DOT 伤害）
     const intMultiplier = playerStats ? playerStats.intelligence / 50 : 1;
     const hasBurn = bullet.burnDuration > 0;
@@ -334,11 +365,41 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null, opti
         enemy.applyPoison(bullet.poisonDuration, poisonDamage);
     }
 
+    // 蔓延效果（叠层达到阈值后爆发）
+    if (bullet.overgrowthDuration > 0) {
+        const duration = bullet.overgrowthDuration || STATUS_EFFECTS.OVERGROWTH.defaultDuration;
+        const triggerStacks = bullet.overgrowthTriggerStacks || STATUS_EFFECTS.OVERGROWTH.defaultTriggerStacks;
+        const explosionRadius = bullet.overgrowthExplosionRadius || STATUS_EFFECTS.OVERGROWTH.defaultExplosionRadius;
+        const explosionMultiplier = bullet.overgrowthExplosionMultiplier || STATUS_EFFECTS.OVERGROWTH.defaultExplosionMultiplier;
+        enemy.applyStatusEffect('overgrowth', duration, {
+            stacks: 1,
+            triggerStacks,
+            explosionRadius,
+            explosionMultiplier
+        });
+
+        const overgrowthEffect = enemy.statusEffects ? enemy.statusEffects.getEffect('overgrowth') : null;
+        const stackCount = overgrowthEffect && typeof overgrowthEffect.getStackCount === 'function'
+            ? overgrowthEffect.getStackCount()
+            : (overgrowthEffect ? overgrowthEffect.stacks : 0);
+
+        if (stackCount >= triggerStacks && enemy.statusEffects) {
+            enemy.statusEffects.removeEffect('overgrowth');
+            result.overgrowth = {
+                radius: explosionRadius,
+                multiplier: explosionMultiplier,
+                color: bullet.overgrowthExplosionColor || STATUS_EFFECTS.OVERGROWTH.color
+            };
+        }
+    }
+
     // 吸血效果
     if (bullet.lifeStealChance > 0 && Math.random() < bullet.lifeStealChance) {
         if (playerStats) {
             playerStats.heal(bullet.lifeStealAmount || 1);
         }
     }
+
+    return Object.keys(result).length ? result : null;
 }
 
