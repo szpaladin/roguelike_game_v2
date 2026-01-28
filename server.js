@@ -9,14 +9,14 @@ const __dirname = path.dirname(__filename);
 const PORT = 8080;
 
 const MIME_TYPES = {
-    '.html': 'text/html',
-    '.js': 'text/javascript',
-    '.css': 'text/css',
-    '.json': 'application/json',
+    '.html': 'text/html; charset=utf-8',
+    '.js': 'text/javascript; charset=utf-8',
+    '.css': 'text/css; charset=utf-8',
+    '.json': 'application/json; charset=utf-8',
     '.png': 'image/png',
     '.jpg': 'image/jpg',
     '.gif': 'image/gif',
-    '.svg': 'image/svg+xml',
+    '.svg': 'image/svg+xml; charset=utf-8',
     '.wav': 'audio/wav',
 };
 
