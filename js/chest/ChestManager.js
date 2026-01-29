@@ -19,6 +19,27 @@ export default class ChestManager {
         this.chestInterval = 100;    // 每100米可掉落一个宝箱
     }
 
+    getGoldMultiplier(distanceMeters, riskSystem) {
+        if (!riskSystem || typeof riskSystem.getCurrentZone !== 'function') return 1;
+        const zone = riskSystem.getCurrentZone(distanceMeters);
+        const name = zone && zone.name;
+        const table = {
+            '舒适区': 1.0,
+            '危险区': 1.1,
+            '高危区': 1.25,
+            '极限区': 1.4
+        };
+        return table[name] ?? 1;
+    }
+
+    getGoldReward(distanceMeters, riskSystem) {
+        const min = 75;
+        const max = 100;
+        const base = Math.floor(Math.random() * (max - min + 1)) + min;
+        const multiplier = this.getGoldMultiplier(distanceMeters, riskSystem);
+        return Math.round(base * multiplier);
+    }
+
     /**
      * 更新待掉落宝箱数量（基于距离）
      * @param {number} distance - 当前距离（像素）
@@ -102,29 +123,34 @@ export default class ChestManager {
      * @param {Object} player - 玩家对象
      * @param {Function} onComplete - 完成回调 (paused: boolean)
      */
-    openChest(chest, player, onComplete) {
+    openChest(chest, player, options = {}) {
+        const resolved = typeof options === 'function' ? { onComplete: options } : options;
+        const distanceMeters = resolved && Number.isFinite(resolved.distanceMeters)
+            ? resolved.distanceMeters
+            : 0;
+        const riskSystem = resolved ? resolved.riskSystem : null;
+        const onComplete = resolved ? resolved.onComplete : null;
+
         // 获取可用的融合配方
         const playerWeapons = player.weaponSystem.getWeapons();
         const availableFusions = getAvailableFusions(playerWeapons);
+        const goldReward = this.getGoldReward(distanceMeters, riskSystem);
 
-        if (availableFusions.length === 0) {
-            // 无可用融合配方，直接移除宝箱
-            log('当前武器无法进化，宝箱消失了...', 'info');
-            this.removeChest(chest);
-            if (onComplete) onComplete(false);
-            return;
-        }
-
-        // 显示融合选项
-        this.chestUI.showFusions(availableFusions, (selectedRecipe) => {
-            if (selectedRecipe) {
+        // 显示融合选项 + 金币奖励
+        this.chestUI.showChestChoices(availableFusions, goldReward, (selection) => {
+            if (selection && selection.type === 'fusion' && selection.recipe) {
                 // 执行融合 - 手动处理以确保创建正确的 Weapon 实例
-                this.executeFusion(player.weaponSystem, selectedRecipe);
-                this.removeChest(chest);
+                this.executeFusion(player.weaponSystem, selection.recipe);
             } else {
-                // 取消选择，设置冷却
-                chest.interactionCooldown = 60;
+                const amount = selection && typeof selection.amount === 'number'
+                    ? selection.amount
+                    : goldReward;
+                if (player && player.stats && typeof player.stats.addGold === 'function') {
+                    player.stats.addGold(amount);
+                    log(`获得金币 +${amount}`, 'important');
+                }
             }
+            this.removeChest(chest);
             if (onComplete) onComplete(false);
         });
     }

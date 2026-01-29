@@ -251,8 +251,12 @@ export default class Game {
         // 10. 更新宝箱
         this.chestManager.update(this.player, this.scrollY, (chest) => {
             this.paused = true;
-            this.chestManager.openChest(chest, this.player, () => {
-                this.paused = false;
+            this.chestManager.openChest(chest, this.player, {
+                distanceMeters: Math.floor(this.distance / 10),
+                riskSystem: this.riskSystem,
+                onComplete: () => {
+                    this.paused = false;
+                }
             });
         });
 
@@ -354,6 +358,12 @@ export default class Game {
                 // 优先关闭图鉴（避免后续逻辑强制把 paused 设置为 false）
                 if (this.weaponCodexUI && this.weaponCodexUI.handleEscape()) {
                     return;
+                }
+                if (this.chestUI.isOpen()) {
+                    const handled = this.chestUI.selectDefaultReward();
+                    if (handled) {
+                        return;
+                    }
                 }
                 this.upgradeUI.close();
                 this.chestUI.close();

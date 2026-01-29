@@ -109,6 +109,22 @@ export const STATUS_EFFECTS = {
         defaultDamageMultiplier: 1.5
     },
 
+    // 岩脊带控场 - 地形减速
+    RIDGE_CONTROL: {
+        id: 'ridge_control',
+        name: '岩脊带控场',
+        type: STATUS_TYPE.DEBUFF,
+        color: '#6b5a4a',
+        icon: '⛰️',
+        maxStacks: 1,
+        description: '生成岩脊带，范围内敌人持续减速',
+        defaultDuration: 120,
+        defaultLength: 90,
+        defaultWidth: 18,
+        defaultSlowAmount: 0.3,
+        defaultSlowDuration: 120
+    },
+
     // 易伤 - 增加受到的伤害
     VULNERABLE: {
         id: 'vulnerable',

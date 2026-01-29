@@ -1,10 +1,10 @@
-/**
+﻿/**
  * Weapon - 武器基类
- * 管理单个武器的冷却和发射逻辑
+ * 管理单个武器的冷却与发射逻辑
  */
 export default class Weapon {
     /**
-     * @param {Object} definition - 武器定义数据 (来自 WEAPONS)
+     * @param {Object} definition - 武器定义数据（来自 WEAPONS）
      */
     constructor(definition) {
         this.def = definition;
@@ -23,7 +23,7 @@ export default class Weapon {
     }
 
     /**
-     * 检查是否可以发射
+     * 是否可以发射
      */
     canFire() {
         return this.cooldown <= 0;
@@ -32,8 +32,8 @@ export default class Weapon {
     /**
      * 发射武器
      * @param {number} startX - 发射起始位置 X
-     * @param {number} startY - 发射起始位置 Y (世界坐标)
-     * @param {Object} targetPos - 目标位置 {x, y} (世界坐标)
+     * @param {number} startY - 发射起始位置 Y（世界坐标）
+     * @param {Object} targetPos - 目标位置 {x, y}（世界坐标）
      * @param {number} playerAttack - 玩家攻击力
      * @returns {Object} - 子弹初始化数据
      */
@@ -45,7 +45,7 @@ export default class Weapon {
         const dy = targetPos.y - startY;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        // 如果没有距离（目标就在原地），默认向上发射
+        // 如果没有距离（目标与起点重合），默认向上发射
         let vx = 0;
         let vy = -this.def.speed;
 
@@ -60,14 +60,14 @@ export default class Weapon {
         // 计算最终伤害 = 武器伤害倍率 * 力量 / 10
         const finalDamage = this.def.damage * (playerAttack / 10);
 
-        // 返回子弹数据 (合并武器定义的所有属性)
+        // 返回子弹数据（合并武器定义的所有属性）
         return {
             x: startX,
             y: startY,
             vx,
             vy,
             ...this.def,
-            damage: finalDamage, // 覆盖伤害为最终计算值
+            damage: finalDamage, // 瑕嗙洊浼ゅ涓烘渶缁堣绠楀€?
             active: true
         };
     }
@@ -75,10 +75,10 @@ export default class Weapon {
     /**
      * 带扩散角度发射武器
      * @param {number} startX - 发射起始位置 X
-     * @param {number} startY - 发射起始位置 Y (世界坐标)
-     * @param {Object} targetPos - 目标位置 {x, y} (世界坐标)
+     * @param {number} startY - 发射起始位置 Y（世界坐标）
+     * @param {Object} targetPos - 目标位置 {x, y}（世界坐标）
      * @param {number} playerAttack - 玩家攻击力
-     * @param {number} spreadAngle - 扩散角度 (弧度)
+     * @param {number} spreadAngle - 扩散角度（弧度）
      * @returns {Object} - 子弹初始化数据
      */
     fireWithSpread(startX, startY, targetPos, playerAttack = 5, spreadAngle = 0) {
@@ -92,7 +92,7 @@ export default class Weapon {
         // 计算带扩散的角度
         let angle = Math.atan2(dy, dx) + spreadAngle;
 
-        // 如果没有距离（目标就在原地），默认向上发射
+        // 如果没有距离（目标与起点重合），默认向上发射
         let vx, vy;
         if (dist > 0) {
             vx = Math.cos(angle) * this.def.speed;
@@ -108,15 +108,17 @@ export default class Weapon {
         // 计算最终伤害 = 武器伤害倍率 * 力量 / 10
         const finalDamage = this.def.damage * (playerAttack / 10);
 
-        // 返回子弹数据 (合并武器定义的所有属性)
+        // 返回子弹数据（合并武器定义的所有属性）
         return {
             x: startX,
             y: startY,
             vx,
             vy,
             ...this.def,
-            damage: finalDamage, // 覆盖伤害为最终计算值
+            damage: finalDamage, // 瑕嗙洊浼ゅ涓烘渶缁堣绠楀€?
             active: true
         };
     }
 }
+
+

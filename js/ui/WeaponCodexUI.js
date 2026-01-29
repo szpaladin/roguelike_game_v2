@@ -52,6 +52,61 @@ const GROUPS = [
     }
 ];
 
+const ATTACK_RULES = [
+    {
+        key: 'ray',
+        label: '射线',
+        icon: '🔦',
+        test: (def) => !!(def && (def.rayRange || def.rayLength))
+    },
+    {
+        key: 'aoe',
+        label: '圆形 AOE',
+        icon: '⭕',
+        test: (def) => !!(def && def.aoeRadius)
+    },
+    {
+        key: 'explosion',
+        label: '爆炸',
+        icon: '💥',
+        test: (def) => !!(def && def.explosionRadius)
+    },
+    {
+        key: 'chain',
+        label: '连锁',
+        icon: '⚡',
+        test: (def) => !!(def && def.chainCount)
+    },
+    {
+        key: 'piercing',
+        label: '穿透',
+        icon: '🗡️',
+        test: (def) => !!(def && def.piercing)
+    },
+    {
+        key: 'split',
+        label: '分裂',
+        icon: '🧬',
+        test: (def) => !!(def && def.canSplit)
+    },
+    {
+        key: 'sky_drop',
+        label: '天降/落点',
+        icon: '🌠',
+        test: (def) => !!(def && def.spawnMode === 'sky_drop')
+    }
+];
+
+const ATTACK_GROUPS = [
+    ...ATTACK_RULES.map(({ key, label, icon }) => ({ key, label, icon })),
+    { key: 'straight', label: '直线弹道', icon: '➡️' }
+];
+
+const ATTACK_GROUP_MAP = ATTACK_GROUPS.reduce((acc, group) => {
+    acc[group.key] = group;
+    return acc;
+}, {});
+
 const STATUS_WEAPON_FIELDS = {
     burning: ['burnDuration'],
     frozen: ['freezeChance', 'freezeDuration'],
@@ -59,6 +114,7 @@ const STATUS_WEAPON_FIELDS = {
     plagued: ['plagueDuration'],
     overgrowth: ['overgrowthDuration'],
     cursed: ['curseDuration'],
+    ridge_control: ['terrainOnHit'],
     blinded: ['blindChance'],
     vulnerable: ['vulnerability'],
     radiation_vulnerable: ['radiationVulnerability']
@@ -124,8 +180,11 @@ const STATUS_CORE_FIELDS = [
     { key: 'defaultDamagePerFrame', label: '每帧伤害', format: (v) => `${fmtNumber(v)}/f` },
     { key: 'defaultDamagePerStack', label: '每层伤害', format: (v) => `${fmtNumber(v)}/f` },
     { key: 'defaultSlowAmount', label: '减速比例', format: fmtPercent },
+    { key: 'defaultSlowDuration', label: '减速持续', format: fmtFrames },
     { key: 'defaultVulnerabilityAmount', label: '易伤增幅', format: fmtPercent },
     { key: 'defaultTriggerStacks', label: '触发层数' },
+    { key: 'defaultLength', label: '长度' },
+    { key: 'defaultWidth', label: '宽度' },
     { key: 'defaultExplosionRadius', label: '爆炸半径' },
     { key: 'defaultExplosionMultiplier', label: '爆炸倍率', format: fmtMultiplier },
     { key: 'defaultConsumeStacks', label: '消耗层数' },
@@ -166,6 +225,13 @@ function deriveEffects(def) {
     return tags.length ? tags.join('、') : '（待补全）';
 }
 
+function deriveAttackTags(def) {
+    if (!def) return ['straight'];
+    const tags = ATTACK_RULES.filter(rule => rule.test(def)).map(rule => rule.key);
+    if (!tags.length) tags.push('straight');
+    return tags;
+}
+
 export default class WeaponCodexUI {
     constructor(opts = {}) {
         this.getPaused = opts.getPaused || (() => false);
@@ -188,6 +254,7 @@ export default class WeaponCodexUI {
         this.tabsEl = null;
 
         this.weaponEntries = this.buildWeaponEntries();
+        this.attackEntries = this.buildAttackEntries();
         this.statusById = buildStatusById();
         this.statusEntries = this.buildStatusEntries();
         this.activeTab = 'weapons';
@@ -218,6 +285,13 @@ export default class WeaponCodexUI {
         return entries;
     }
 
+    buildAttackEntries() {
+        return this.weaponEntries.map(entry => ({
+            ...entry,
+            tags: deriveAttackTags(entry.def)
+        }));
+    }
+
     buildStatusEntries() {
         return Object.values(STATUS_EFFECTS)
             .map(def => ({
@@ -243,6 +317,9 @@ export default class WeaponCodexUI {
             if (!entry.def) return false;
             return fields.some((field) => {
                 const value = entry.def[field];
+                if (field === 'terrainOnHit') {
+                    return value && value.type === 'ridge';
+                }
                 return value !== undefined && value !== null && value !== 0;
             });
         });
@@ -291,6 +368,7 @@ export default class WeaponCodexUI {
             tabs.innerHTML = `
                 <button type="button" class="codex-tab" data-tab="weapons">武器图鉴</button>
                 <button type="button" class="codex-tab" data-tab="status">状态图鉴</button>
+                <button type="button" class="codex-tab" data-tab="attack">攻击方式/范围</button>
             `;
             tabs.addEventListener('click', (e) => {
                 const btn = e.target.closest('.codex-tab');
@@ -418,9 +496,13 @@ export default class WeaponCodexUI {
         }
         if (this.searchInput) {
             this.searchInput.value = '';
-            this.searchInput.placeholder = tab === 'status'
-                ? '搜索状态（名称/ID/类型）'
-                : '搜索武器（名称/ID）';
+            if (tab === 'status') {
+                this.searchInput.placeholder = '搜索状态（名称/ID/类型）';
+            } else if (tab === 'attack') {
+                this.searchInput.placeholder = '搜索武器（名称/ID/类别）';
+            } else {
+                this.searchInput.placeholder = '搜索武器（名称/ID）';
+            }
         }
         this.renderActiveList('');
     }
@@ -428,6 +510,10 @@ export default class WeaponCodexUI {
     renderActiveList(query) {
         if (this.activeTab === 'status') {
             this.renderStatusList(query);
+            return;
+        }
+        if (this.activeTab === 'attack') {
+            this.renderAttackList(query);
             return;
         }
         this.renderWeaponList(query);
@@ -474,6 +560,71 @@ export default class WeaponCodexUI {
                     </div>
                 </div>
             `);
+        }
+
+        this.grid.innerHTML = sections.join('<div class="codex-divider"></div>');
+    }
+
+    renderAttackList(query) {
+        if (!this.grid) return;
+        const q = safeText(query).trim().toLowerCase();
+        const entries = this.attackEntries;
+        const filtered = entries.filter(entry => {
+            if (!q) return true;
+            const tagLabels = entry.tags
+                .map(tag => (ATTACK_GROUP_MAP[tag] && ATTACK_GROUP_MAP[tag].label) || tag)
+                .join(' ');
+            const haystack = `${entry.name} ${entry.id} ${tagLabels}`.toLowerCase();
+            return haystack.includes(q);
+        });
+
+        const uniqueMap = new Map();
+        for (const item of filtered) {
+            if (!uniqueMap.has(item.id)) uniqueMap.set(item.id, item);
+        }
+        const uniqueItems = Array.from(uniqueMap.values());
+
+        if (this.countEl) {
+            this.countEl.textContent = `${uniqueItems.length}/${this.weaponEntries.length}`;
+        }
+
+        const cardHtml = (w) => `
+            <button type="button" class="codex-card" data-weapon-id="${w.id}">
+                <div class="codex-card-icon">${w.icon}</div>
+                <div class="codex-card-name">${w.name}</div>
+            </button>
+        `;
+
+        if (q) {
+            if (!uniqueItems.length) {
+                this.grid.innerHTML = '<div class="codex-muted">暂无匹配的武器</div>';
+                return;
+            }
+            this.grid.innerHTML = `
+                <div class="codex-group-grid">
+                    ${uniqueItems.map(cardHtml).join('')}
+                </div>
+            `;
+            return;
+        }
+
+        const sections = [];
+        for (const group of ATTACK_GROUPS) {
+            const groupItems = filtered.filter(entry => entry.tags.includes(group.key));
+            if (!groupItems.length) continue;
+            sections.push(`
+                <div class="codex-group">
+                    <div class="codex-group-title">${group.icon} ${group.label}</div>
+                    <div class="codex-group-grid">
+                        ${groupItems.map(cardHtml).join('')}
+                    </div>
+                </div>
+            `);
+        }
+
+        if (!sections.length) {
+            this.grid.innerHTML = '<div class="codex-muted">暂无匹配的武器</div>';
+            return;
         }
 
         this.grid.innerHTML = sections.join('<div class="codex-divider"></div>');

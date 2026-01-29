@@ -12,6 +12,8 @@ export default class ChestUI {
 
         this.onSelectWeapon = null;
         this.onSelectFusion = null;
+        this.onSelectReward = null;
+        this.defaultReward = null;
     }
 
     /**
@@ -42,20 +44,50 @@ export default class ChestUI {
      * @param {Function} callback - 选择后的回调
      */
     showFusions(recipes, callback) {
+        this.showChestChoices(recipes, 0, (selection) => {
+            if (!callback) return;
+            if (selection && selection.type === 'fusion') {
+                callback(selection.recipe);
+            } else {
+                callback(null);
+            }
+        });
+    }
+
+    showChestChoices(recipes, goldAmount, callback) {
         if (!this.fusionOverlay || !this.fusionContainer) return;
-        this.onSelectFusion = callback;
+        this.onSelectReward = callback;
+        this.defaultReward = { type: 'gold', amount: goldAmount };
 
         this.fusionContainer.innerHTML = '';
         recipes.forEach(recipe => {
             const card = this.createFusionCard(recipe);
-            card.onclick = () => {
-                if (this.onSelectFusion) this.onSelectFusion(recipe);
-                this.closeFusions();
-            };
+            card.dataset.rewardType = 'fusion';
+            card.onclick = () => this.commitSelection({ type: 'fusion', recipe });
             this.fusionContainer.appendChild(card);
         });
 
+        const goldCard = this.createGoldCard(goldAmount);
+        goldCard.dataset.rewardType = 'gold';
+        goldCard.onclick = () => this.commitSelection({ type: 'gold', amount: goldAmount });
+        this.fusionContainer.appendChild(goldCard);
+
         this.fusionOverlay.style.display = 'flex';
+    }
+
+    commitSelection(selection) {
+        if (this.onSelectReward) {
+            this.onSelectReward(selection);
+        }
+        this.onSelectReward = null;
+        this.defaultReward = null;
+        this.closeFusions();
+    }
+
+    selectDefaultReward() {
+        if (!this.onSelectReward || !this.defaultReward) return false;
+        this.commitSelection(this.defaultReward);
+        return true;
     }
 
     createWeaponCard(weapon) {
@@ -80,6 +112,17 @@ export default class ChestUI {
             <div class="fusion-result-name">${recipe.name}</div>
             <div class="fusion-materials">${materialIcons}</div>
             <div class="fusion-description">${recipe.description || ''}</div>
+        `;
+        return div;
+    }
+
+    createGoldCard(amount) {
+        const div = document.createElement('div');
+        div.className = 'fusion-card fusion-gold-card';
+        div.innerHTML = `
+            <div class="fusion-icon">🪙</div>
+            <div class="fusion-result-name">金币奖励</div>
+            <div class="fusion-description">获得 +${amount} 金币</div>
         `;
         return div;
     }
