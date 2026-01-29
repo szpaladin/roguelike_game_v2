@@ -1,4 +1,4 @@
-﻿/**
+/**
  * 武器 Tier 分级枚举
  * INITIAL: 初始武器 - 普通弹珠，游戏开始自带
  * BASIC: 基础武器 - 通过消耗技能点获取
@@ -300,130 +300,6 @@ export const WEAPONS = {
         vulnerability: 0.25
     },
 
-    DARK_SPORE_SWARM: {
-        id: 'dark_spore_swarm',
-        name: '暗孢群',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 1.4,
-        interval: 45,
-        speed: 6.5,
-        radius: 12,
-        color: '#365996',
-        lifetime: 150,
-        piercing: false,
-        canSplit: true,
-        splitCount: 2,
-        splitRange: 200,
-        vulnerability: 0.25,
-        effects: '分裂子弹 + 易伤',
-        sources: ['cell', 'dark'],
-        status: '建议'
-    },
-
-    FLAME_SPORE_SWARM: {
-        id: 'flame_spore_swarm',
-        name: '炎孢群',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.9,
-        interval: 30,
-        speed: 8,
-        radius: 12,
-        color: '#908c55',
-        lifetime: 120,
-        piercing: false,
-        canSplit: true,
-        splitCount: 2,
-        splitRange: 200,
-        burnDuration: 300,
-        burnDamagePerFrame: 0.083333,
-        effects: '分裂子弹 + 燃烧DOT',
-        sources: ['cell', 'fire'],
-        status: '建议'
-    },
-
-    ICE_SHARD_SWARM: {
-        id: 'ice_shard_swarm',
-        name: '冰屑群',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.9,
-        interval: 30,
-        speed: 8,
-        radius: 12,
-        color: '#10bfd5',
-        lifetime: 120,
-        piercing: false,
-        canSplit: true,
-        splitCount: 2,
-        splitRange: 200,
-        freezeChance: 0.3,
-        freezeDuration: 120,
-        effects: '分裂子弹 + 冻结',
-        sources: ['cell', 'frost'],
-        status: '建议'
-    },
-
-    WRAITH_SWARM: {
-        id: 'wraith_swarm',
-        name: '幽群',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.9,
-        interval: 30,
-        speed: 10,
-        radius: 12,
-        color: '#1f769a',
-        lifetime: 120,
-        piercing: true,
-        canSplit: true,
-        splitCount: 2,
-        splitRange: 200,
-        effects: '分裂子弹 + 穿透',
-        sources: ['cell', 'ghost'],
-        status: '建议'
-    },
-
-    PRISM_SWARM: {
-        id: 'prism_swarm',
-        name: '棱光群',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.9,
-        interval: 30,
-        speed: 8,
-        radius: 12,
-        color: '#90d9aa',
-        lifetime: 120,
-        piercing: false,
-        canSplit: true,
-        splitCount: 2,
-        splitRange: 200,
-        blindChance: 0.5,
-        blindDuration: 180,
-        effects: '致盲 + 分裂子弹',
-        sources: ['cell', 'light'],
-        status: '建议'
-    },
-
-    SPARK_SPORE_SWARM: {
-        id: 'spark_spore_swarm',
-        name: '电孢群',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.9,
-        interval: 30,
-        speed: 8,
-        radius: 12,
-        color: '#90d955',
-        lifetime: 120,
-        piercing: false,
-        chainCount: 3,
-        chainRange: 150,
-        chainCooldown: 10,
-        canSplit: true,
-        splitCount: 2,
-        splitRange: 200,
-        effects: '连锁闪电 + 分裂子弹',
-        sources: ['cell', 'lightning'],
-        status: '建议'
-    },
-
     PLAGUE: {
         id: 'plague',
         name: '瘟疫',
@@ -481,65 +357,6 @@ export const WEAPONS = {
         overgrowthExplosionMultiplier: 2.5,
         effects: '蔓延叠层 + 爆发AOE',
         sources: ['cell', 'rock'],
-        status: '建议'
-    },
-
-    SHRAPNEL_CORE: {
-        id: 'shrapnel_core',
-        name: '破片核',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 3,
-        interval: 90,
-        speed: 7,
-        radius: 12,
-        color: '#70b9b5',
-        lifetime: 120,
-        piercing: false,
-        canSplit: true,
-        splitCount: 2,
-        splitRange: 200,
-        effects: '分裂子弹 + 高伤',
-        sources: ['cell', 'steel'],
-        status: '建议'
-    },
-
-    SPLIT_WIND_SWARM: {
-        id: 'split_wind_swarm',
-        name: '裂风群',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.7,
-        interval: 23,
-        speed: 14,
-        radius: 12,
-        color: '#10d955',
-        lifetime: 120,
-        piercing: true,
-        canSplit: true,
-        splitCount: 2,
-        splitRange: 200,
-        effects: '分裂子弹 + 高速',
-        sources: ['cell', 'swift'],
-        status: '建议'
-    },
-
-    BLOOD_SPORE_SWARM: {
-        id: 'blood_spore_swarm',
-        name: '血孢群',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.9,
-        interval: 30,
-        speed: 7,
-        radius: 12,
-        color: '#565955',
-        lifetime: 120,
-        piercing: false,
-        canSplit: true,
-        splitCount: 2,
-        splitRange: 200,
-        lifeStealChance: 0.06,
-        lifeStealAmount: 1,
-        effects: '分裂子弹 + 吸血',
-        sources: ['cell', 'vampire'],
         status: '建议'
     },
 
@@ -621,26 +438,6 @@ export const WEAPONS = {
         status: '建议'
     },
 
-    VOID_THUNDER: {
-        id: 'void_thunder',
-        name: '虚雷',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 1.5,
-        interval: 45,
-        speed: 6.5,
-        radius: 12,
-        color: '#a58041',
-        lifetime: 150,
-        piercing: false,
-        chainCount: 3,
-        chainRange: 150,
-        chainCooldown: 10,
-        vulnerability: 0.25,
-        effects: '连锁闪电 + 易伤',
-        sources: ['dark', 'lightning'],
-        status: '建议'
-    },
-
     VOID_BEAM: {
         id: 'void_beam',
         name: '虚空射线',
@@ -701,23 +498,6 @@ export const WEAPONS = {
         status: '建议'
     },
 
-    NIGHT_BLADE: {
-        id: 'night_blade',
-        name: '夜刃',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 1.3,
-        interval: 40,
-        speed: 8.5,
-        radius: 5,
-        color: '#268041',
-        lifetime: 150,
-        piercing: true,
-        vulnerability: 0.25,
-        effects: '穿透 + 易伤',
-        sources: ['dark', 'swift'],
-        status: '建议'
-    },
-
     SOUL_DRAIN: {
         id: 'soul_drain',
         name: '血咒',
@@ -752,47 +532,6 @@ export const WEAPONS = {
         burnDamagePerFrame: 0.083333,
         effects: '穿透 + 燃烧DOT',
         sources: ['fire', 'ghost'],
-        status: '建议'
-    },
-
-    DAZZLE_FLAME: {
-        id: 'dazzle_flame',
-        name: '眩光焰',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 1,
-        interval: 30,
-        speed: 8,
-        radius: 4,
-        color: '#ffb355',
-        lifetime: 120,
-        piercing: false,
-        burnDuration: 300,
-        burnDamagePerFrame: 0.083333,
-        blindChance: 0.5,
-        blindDuration: 180,
-        effects: '燃烧DOT + 致盲',
-        sources: ['fire', 'light'],
-        status: '建议'
-    },
-
-    PLASMA_CHAIN: {
-        id: 'plasma_chain',
-        name: '等离火链',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 1,
-        interval: 30,
-        speed: 8,
-        radius: 12,
-        color: '#ffb300',
-        lifetime: 120,
-        piercing: false,
-        chainCount: 3,
-        chainRange: 150,
-        chainCooldown: 10,
-        burnDuration: 300,
-        burnDamagePerFrame: 0.083333,
-        effects: '燃烧DOT + 连锁闪电',
-        sources: ['fire', 'lightning'],
         status: '建议'
     },
 
@@ -861,26 +600,6 @@ export const WEAPONS = {
         status: '建议'
     },
 
-    BLOOD_FLAME: {
-        id: 'blood_flame',
-        name: '血焰',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 1,
-        interval: 30,
-        speed: 7,
-        radius: 4,
-        color: '#c53300',
-        lifetime: 120,
-        piercing: false,
-        burnDuration: 300,
-        burnDamagePerFrame: 0.083333,
-        lifeStealChance: 0.06,
-        lifeStealAmount: 1,
-        effects: '燃烧DOT + 吸血',
-        sources: ['fire', 'vampire'],
-        status: '建议'
-    },
-
     FROST_WRAITH: {
         id: 'frost_wraith',
         name: '霜灵',
@@ -896,67 +615,6 @@ export const WEAPONS = {
         freezeDuration: 120,
         effects: '穿透 + 冻结',
         sources: ['frost', 'ghost'],
-        status: '建议'
-    },
-
-    WHITE_HALO: {
-        id: 'white_halo',
-        name: '白晕',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 1,
-        interval: 30,
-        speed: 8,
-        radius: 4,
-        color: '#80e6d5',
-        lifetime: 120,
-        piercing: false,
-        freezeChance: 0.3,
-        freezeDuration: 120,
-        blindChance: 0.5,
-        blindDuration: 180,
-        effects: '冻结 + 致盲',
-        sources: ['frost', 'light'],
-        status: '建议'
-    },
-
-    ICE_CHAIN: {
-        id: 'ice_chain',
-        name: '冰电链',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 1,
-        interval: 30,
-        speed: 8,
-        radius: 12,
-        color: '#80e680',
-        lifetime: 120,
-        piercing: false,
-        chainCount: 3,
-        chainRange: 150,
-        chainCooldown: 10,
-        freezeChance: 0.3,
-        freezeDuration: 120,
-        effects: '冻结 + 连锁闪电',
-        sources: ['frost', 'lightning'],
-        status: '建议'
-    },
-
-    ICE_TOXIN: {
-        id: 'ice_toxin',
-        name: '冰毒',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.75,
-        interval: 30,
-        speed: 8,
-        radius: 4,
-        color: '#00e680',
-        lifetime: 120,
-        piercing: false,
-        freezeChance: 0.3,
-        freezeDuration: 120,
-        poisonDuration: 900,
-        poisonDamagePerStack: 0.05,
-        effects: '冻结 + 中毒DOT',
-        sources: ['frost', 'poison'],
         status: '建议'
     },
 
@@ -1026,26 +684,6 @@ export const WEAPONS = {
         status: '现有'
     },
 
-    FROST_LEECH: {
-        id: 'frost_leech',
-        name: '寒魄吸',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 1,
-        interval: 30,
-        speed: 7,
-        radius: 4,
-        color: '#466680',
-        lifetime: 120,
-        piercing: false,
-        freezeChance: 0.3,
-        freezeDuration: 120,
-        lifeStealChance: 0.06,
-        lifeStealAmount: 1,
-        effects: '冻结 + 吸血',
-        sources: ['frost', 'vampire'],
-        status: '建议'
-    },
-
     HOLY_WISP: {
         id: 'holy_wisp',
         name: '圣灵',
@@ -1113,56 +751,6 @@ export const WEAPONS = {
         status: '建议'
     },
 
-    PHANTOM_BLADE: {
-        id: 'phantom_blade',
-        name: '幽刃',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 3,
-        interval: 90,
-        speed: 9,
-        radius: 6,
-        color: '#6f7da5',
-        lifetime: 120,
-        piercing: true,
-        effects: '穿透 + 高伤',
-        sources: ['ghost', 'steel'],
-        status: '建议'
-    },
-
-    SHADOW_RUSH: {
-        id: 'shadow_rush',
-        name: '影疾',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.8,
-        interval: 23,
-        speed: 14,
-        radius: 4,
-        color: '#0f9d45',
-        lifetime: 120,
-        piercing: true,
-        effects: '穿透 + 高速',
-        sources: ['ghost', 'swift'],
-        status: '建议'
-    },
-
-    BLOOD_WRAITH: {
-        id: 'blood_wraith',
-        name: '血影',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 1,
-        interval: 30,
-        speed: 9,
-        radius: 4,
-        color: '#551d45',
-        lifetime: 120,
-        piercing: true,
-        lifeStealChance: 0.06,
-        lifeStealAmount: 1,
-        effects: '穿透 + 吸血',
-        sources: ['ghost', 'vampire'],
-        status: '建议'
-    },
-
     RADIANT_ARC: {
         id: 'radiant_arc',
         name: '闪耀电弧',
@@ -1181,26 +769,6 @@ export const WEAPONS = {
         blindDuration: 180,
         effects: '连锁闪电 + 致盲',
         sources: ['light', 'lightning'],
-        status: '建议'
-    },
-
-    TOXIC_DAZE: {
-        id: 'toxic_daze',
-        name: '毒眩',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.75,
-        interval: 30,
-        speed: 8,
-        radius: 4,
-        color: '#80ff55',
-        lifetime: 120,
-        piercing: false,
-        poisonDuration: 900,
-        poisonDamagePerStack: 0.05,
-        blindChance: 0.5,
-        blindDuration: 180,
-        effects: '中毒DOT + 致盲',
-        sources: ['light', 'poison'],
         status: '建议'
     },
 
@@ -1310,49 +878,6 @@ export const WEAPONS = {
         blindDuration: 180,
         effects: '致盲 + 吸血',
         sources: ['light', 'vampire'],
-        status: '建议'
-    },
-
-    VENOM_ARC: {
-        id: 'venom_arc',
-        name: '毒电链',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.75,
-        interval: 30,
-        speed: 8,
-        radius: 12,
-        color: '#80ff00',
-        lifetime: 120,
-        piercing: false,
-        chainCount: 3,
-        chainRange: 150,
-        chainCooldown: 10,
-        poisonDuration: 900,
-        poisonDamagePerStack: 0.05,
-        effects: '中毒DOT + 连锁闪电',
-        sources: ['lightning', 'poison'],
-        status: '建议'
-    },
-
-    ION_BEAM: {
-        id: 'ion_beam',
-        name: '离子束',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.9,
-        interval: 30,
-        speed: 8,
-        radius: 12,
-        color: '#ffd200',
-        lifetime: 120,
-        piercing: false,
-        rayRange: 300,
-        rayLength: 600,
-        rayWidth: 10,
-        chainCount: 3,
-        chainRange: 150,
-        chainCooldown: 10,
-        effects: '连锁闪电 + 射线AOE',
-        sources: ['lightning', 'ray'],
         status: '建议'
     },
 
@@ -1515,46 +1040,6 @@ export const WEAPONS = {
         status: '建议'
     },
 
-    RAPID_BEAM: {
-        id: 'rapid_beam',
-        name: '疾光束',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.7,
-        interval: 23,
-        speed: 14,
-        radius: 12,
-        color: '#80d200',
-        lifetime: 120,
-        piercing: true,
-        rayRange: 300,
-        rayLength: 600,
-        rayWidth: 10,
-        effects: '射线AOE + 高速',
-        sources: ['ray', 'swift'],
-        status: '建议'
-    },
-
-    BLOOD_BEAM: {
-        id: 'blood_beam',
-        name: '血束',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.9,
-        interval: 30,
-        speed: 7,
-        radius: 12,
-        color: '#c55300',
-        lifetime: 120,
-        piercing: false,
-        rayRange: 300,
-        rayLength: 600,
-        rayWidth: 10,
-        lifeStealChance: 0.06,
-        lifeStealAmount: 1,
-        effects: '射线AOE + 吸血',
-        sources: ['ray', 'vampire'],
-        status: '建议'
-    },
-
     RIFT_HAMMER: {
         id: 'rift_hammer',
         name: '裂地锤',
@@ -1631,41 +1116,6 @@ export const WEAPONS = {
         status: '建议'
     },
 
-    BLOOD_HAMMER: {
-        id: 'blood_hammer',
-        name: '血槌',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 3,
-        interval: 90,
-        speed: 6,
-        radius: 6,
-        color: '#a66060',
-        lifetime: 120,
-        piercing: false,
-        lifeStealChance: 0.06,
-        lifeStealAmount: 1,
-        effects: '高伤 + 吸血',
-        sources: ['steel', 'vampire'],
-        status: '建议'
-    },
-
-    SWIFT_LEECH: {
-        id: 'swift_leech',
-        name: '迅吸',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.8,
-        interval: 25,
-        speed: 9,
-        radius: 4,
-        color: '#468000',
-        lifetime: 120,
-        piercing: true,
-        lifeStealChance: 0.06,
-        lifeStealAmount: 1,
-        effects: '穿透 + 吸血',
-        sources: ['swift', 'vampire'],
-        status: '建议'
-    }
 };
 
 /**
@@ -1692,58 +1142,34 @@ export const WEAPON_ID_MAP = {
     BOMB: { id: 'bomb', name: '炸弹', tier: WEAPON_TIER.EVOLUTION, order: 17 },
     STORM: { id: 'storm', name: '风暴', tier: WEAPON_TIER.EVOLUTION, order: 18 },
     POISON_MIST: { id: 'poison_mist', name: '毒雾', tier: WEAPON_TIER.EVOLUTION, order: 19 },
-    DARK_SPORE_SWARM: { id: 'dark_spore_swarm', name: '暗孢群', tier: WEAPON_TIER.EVOLUTION, order: 20 },
-    FLAME_SPORE_SWARM: { id: 'flame_spore_swarm', name: '炎孢群', tier: WEAPON_TIER.EVOLUTION, order: 21 },
-    ICE_SHARD_SWARM: { id: 'ice_shard_swarm', name: '冰屑群', tier: WEAPON_TIER.EVOLUTION, order: 22 },
-    WRAITH_SWARM: { id: 'wraith_swarm', name: '幽群', tier: WEAPON_TIER.EVOLUTION, order: 23 },
-    PRISM_SWARM: { id: 'prism_swarm', name: '棱光群', tier: WEAPON_TIER.EVOLUTION, order: 24 },
-    SPARK_SPORE_SWARM: { id: 'spark_spore_swarm', name: '电孢群', tier: WEAPON_TIER.EVOLUTION, order: 25 },
     PLAGUE: { id: 'plague', name: '瘟疫', tier: WEAPON_TIER.EVOLUTION, order: 26 },
     RADIATION_BEAM: { id: 'radiation_beam', name: '辐射射线', tier: WEAPON_TIER.EVOLUTION, order: 27 },
     OVERGROWTH: { id: 'overgrowth', name: '蔓延', tier: WEAPON_TIER.EVOLUTION, order: 28 },
-    SHRAPNEL_CORE: { id: 'shrapnel_core', name: '破片核', tier: WEAPON_TIER.EVOLUTION, order: 29 },
-    SPLIT_WIND_SWARM: { id: 'split_wind_swarm', name: '裂风群', tier: WEAPON_TIER.EVOLUTION, order: 30 },
-    BLOOD_SPORE_SWARM: { id: 'blood_spore_swarm', name: '血孢群', tier: WEAPON_TIER.EVOLUTION, order: 31 },
     DARK_FLAME: { id: 'dark_flame', name: '暗焰', tier: WEAPON_TIER.EVOLUTION, order: 32 },
     FROST_CORROSION: { id: 'frost_corrosion', name: '怨灵', tier: WEAPON_TIER.EVOLUTION, order: 33 },
     SHADOW_WRAITH: { id: 'shadow_wraith', name: '恶灵', tier: WEAPON_TIER.EVOLUTION, order: 34 },
     ECLIPSE: { id: 'eclipse', name: '日蚀', tier: WEAPON_TIER.EVOLUTION, order: 35 },
-    VOID_THUNDER: { id: 'void_thunder', name: '虚雷', tier: WEAPON_TIER.EVOLUTION, order: 36 },
     VOID_BEAM: { id: 'void_beam', name: '虚空射线', tier: WEAPON_TIER.EVOLUTION, order: 38 },
     CURSED_STONE: { id: 'cursed_stone', name: '暗蚀地带', tier: WEAPON_TIER.EVOLUTION, order: 39 },
     DARK_STEEL: { id: 'dark_steel', name: '黑钢', tier: WEAPON_TIER.EVOLUTION, order: 40 },
-    NIGHT_BLADE: { id: 'night_blade', name: '夜刃', tier: WEAPON_TIER.EVOLUTION, order: 41 },
     SOUL_DRAIN: { id: 'soul_drain', name: '血咒', tier: WEAPON_TIER.EVOLUTION, order: 42 },
     GHOST_FIRE: { id: 'ghost_fire', name: '鬼火', tier: WEAPON_TIER.EVOLUTION, order: 43 },
-    DAZZLE_FLAME: { id: 'dazzle_flame', name: '眩光焰', tier: WEAPON_TIER.EVOLUTION, order: 44 },
-    PLASMA_CHAIN: { id: 'plasma_chain', name: '等离火链', tier: WEAPON_TIER.EVOLUTION, order: 45 },
     TOXIC_FLAME: { id: 'toxic_flame', name: '毒焰', tier: WEAPON_TIER.EVOLUTION, order: 46 },
     SOLAR_BEAM: { id: 'solar_beam', name: '太阳束', tier: WEAPON_TIER.EVOLUTION, order: 47 },
     LAVA: { id: 'lava', name: '熔岩', tier: WEAPON_TIER.EVOLUTION, order: 48 },
-    BLOOD_FLAME: { id: 'blood_flame', name: '血焰', tier: WEAPON_TIER.EVOLUTION, order: 49 },
     FROST_WRAITH: { id: 'frost_wraith', name: '霜灵', tier: WEAPON_TIER.EVOLUTION, order: 50 },
-    WHITE_HALO: { id: 'white_halo', name: '白晕', tier: WEAPON_TIER.EVOLUTION, order: 51 },
-    ICE_CHAIN: { id: 'ice_chain', name: '冰电链', tier: WEAPON_TIER.EVOLUTION, order: 52 },
-    ICE_TOXIN: { id: 'ice_toxin', name: '冰毒', tier: WEAPON_TIER.EVOLUTION, order: 53 },
     COLD_BEAM: { id: 'cold_beam', name: '寒束', tier: WEAPON_TIER.EVOLUTION, order: 54 },
     GLACIER: { id: 'glacier', name: '冰川', tier: WEAPON_TIER.EVOLUTION, order: 55 },
     ICE_SPIKE: { id: 'ice_spike', name: '冰锥', tier: WEAPON_TIER.EVOLUTION, order: 56 },
-    FROST_LEECH: { id: 'frost_leech', name: '寒魄吸', tier: WEAPON_TIER.EVOLUTION, order: 57 },
     HOLY_WISP: { id: 'holy_wisp', name: '圣灵', tier: WEAPON_TIER.EVOLUTION, order: 58 },
     PHANTOM_ARC: { id: 'phantom_arc', name: '幽电', tier: WEAPON_TIER.EVOLUTION, order: 59 },
     NETHER_STONE: { id: 'nether_stone', name: '幽冥石', tier: WEAPON_TIER.EVOLUTION, order: 62 },
-    PHANTOM_BLADE: { id: 'phantom_blade', name: '幽刃', tier: WEAPON_TIER.EVOLUTION, order: 63 },
-    SHADOW_RUSH: { id: 'shadow_rush', name: '影疾', tier: WEAPON_TIER.EVOLUTION, order: 64 },
-    BLOOD_WRAITH: { id: 'blood_wraith', name: '血影', tier: WEAPON_TIER.EVOLUTION, order: 65 },
     RADIANT_ARC: { id: 'radiant_arc', name: '闪耀电弧', tier: WEAPON_TIER.EVOLUTION, order: 66 },
-    TOXIC_DAZE: { id: 'toxic_daze', name: '毒眩', tier: WEAPON_TIER.EVOLUTION, order: 67 },
     SUN_LANCE: { id: 'sun_lance', name: '日光矛', tier: WEAPON_TIER.EVOLUTION, order: 68 },
     CRYSTAL_GLOW: { id: 'crystal_glow', name: '晶耀', tier: WEAPON_TIER.EVOLUTION, order: 69 },
     HOLY_HAMMER: { id: 'holy_hammer', name: '圣锤', tier: WEAPON_TIER.EVOLUTION, order: 70 },
     FLASH_STRIKE: { id: 'flash_strike', name: '闪袭', tier: WEAPON_TIER.EVOLUTION, order: 71 },
     BLOOD_GLOW: { id: 'blood_glow', name: '血辉', tier: WEAPON_TIER.EVOLUTION, order: 72 },
-    VENOM_ARC: { id: 'venom_arc', name: '毒电链', tier: WEAPON_TIER.EVOLUTION, order: 73 },
-    ION_BEAM: { id: 'ion_beam', name: '离子束', tier: WEAPON_TIER.EVOLUTION, order: 74 },
     THUNDER_GRIT: { id: 'thunder_grit', name: '雷砾', tier: WEAPON_TIER.EVOLUTION, order: 75 },
     MAG_RAIL: { id: 'mag_rail', name: '磁轨', tier: WEAPON_TIER.EVOLUTION, order: 76 },
     LEECH_ARC: { id: 'leech_arc', name: '吸雷链', tier: WEAPON_TIER.EVOLUTION, order: 77 },
@@ -1751,81 +1177,16 @@ export const WEAPON_ID_MAP = {
     TOXIC_SPIKE: { id: 'toxic_spike', name: '毒钉', tier: WEAPON_TIER.EVOLUTION, order: 80 },
     LEY_BEAM: { id: 'ley_beam', name: '地脉束', tier: WEAPON_TIER.EVOLUTION, order: 82 },
     RAIL_BEAM: { id: 'rail_beam', name: '轨道束', tier: WEAPON_TIER.EVOLUTION, order: 83 },
-    RAPID_BEAM: { id: 'rapid_beam', name: '疾光束', tier: WEAPON_TIER.EVOLUTION, order: 84 },
-    BLOOD_BEAM: { id: 'blood_beam', name: '血束', tier: WEAPON_TIER.EVOLUTION, order: 85 },
     RIFT_HAMMER: { id: 'rift_hammer', name: '裂地锤', tier: WEAPON_TIER.EVOLUTION, order: 86 },
     SANDSTORM: { id: 'sandstorm', name: '砂暴', tier: WEAPON_TIER.EVOLUTION, order: 87 },
     BLOOD_QUAKE: { id: 'blood_quake', name: '血震', tier: WEAPON_TIER.EVOLUTION, order: 88 },
-    RAPID_LANCE: { id: 'rapid_lance', name: '疾枪', tier: WEAPON_TIER.EVOLUTION, order: 89 },
-    BLOOD_HAMMER: { id: 'blood_hammer', name: '血槌', tier: WEAPON_TIER.EVOLUTION, order: 90 },
-    SWIFT_LEECH: { id: 'swift_leech', name: '迅吸', tier: WEAPON_TIER.EVOLUTION, order: 91 }
+    RAPID_LANCE: { id: 'rapid_lance', name: '疾枪', tier: WEAPON_TIER.EVOLUTION, order: 89 }
 };
 
 /**
  * 武器合成表
  */
-export const WEAPON_FUSION_TABLE = [
-    {
-        id: 'fusion_cell_dark',
-        name: '暗孢群',
-        materials: ['cell', 'dark'],
-        result: 'dark_spore_swarm',
-        description: '由细胞与黑暗融合而成，效果：分裂子弹 + 易伤',
-        tier: 1,
-        icon: '🌑',
-        status: '建议'
-    },
-    {
-        id: 'fusion_cell_fire',
-        name: '炎孢群',
-        materials: ['cell', 'fire'],
-        result: 'flame_spore_swarm',
-        description: '由细胞与火焰融合而成，效果：分裂子弹 + 燃烧DOT',
-        tier: 1,
-        icon: '🔥',
-        status: '建议'
-    },
-    {
-        id: 'fusion_cell_frost',
-        name: '冰屑群',
-        materials: ['cell', 'frost'],
-        result: 'ice_shard_swarm',
-        description: '由细胞与冰霜融合而成，效果：分裂子弹 + 冻结',
-        tier: 1,
-        icon: '❄️',
-        status: '建议'
-    },
-    {
-        id: 'fusion_cell_ghost',
-        name: '幽群',
-        materials: ['cell', 'ghost'],
-        result: 'wraith_swarm',
-        description: '由细胞与幽灵融合而成，效果：分裂子弹 + 穿透',
-        tier: 1,
-        icon: '👻',
-        status: '建议'
-    },
-    {
-        id: 'fusion_cell_light',
-        name: '棱光群',
-        materials: ['cell', 'light'],
-        result: 'prism_swarm',
-        description: '由细胞与光芒融合而成，效果：致盲 + 分裂子弹',
-        tier: 1,
-        icon: '✨',
-        status: '建议'
-    },
-    {
-        id: 'fusion_cell_lightning',
-        name: '电孢群',
-        materials: ['cell', 'lightning'],
-        result: 'spark_spore_swarm',
-        description: '由细胞与闪电融合而成，效果：连锁闪电 + 分裂子弹',
-        tier: 1,
-        icon: '⚡',
-        status: '建议'
-    },
-    {
+export const WEAPON_FUSION_TABLE = [{
         id: 'fusion_cell_poison',
         name: '瘟疫',
         materials: ['cell', 'poison'],
@@ -1854,38 +1215,7 @@ export const WEAPON_FUSION_TABLE = [
         tier: 1,
         icon: '🌱',
         status: '建议'
-    },
-    {
-        id: 'fusion_cell_steel',
-        name: '破片核',
-        materials: ['cell', 'steel'],
-        result: 'shrapnel_core',
-        description: '由细胞与钢铁融合而成，效果：分裂子弹 + 高伤',
-        tier: 1,
-        icon: '🧬',
-        status: '建议'
-    },
-    {
-        id: 'fusion_cell_swift',
-        name: '裂风群',
-        materials: ['cell', 'swift'],
-        result: 'split_wind_swarm',
-        description: '由细胞与疾风融合而成，效果：分裂子弹 + 高速',
-        tier: 1,
-        icon: '🧬',
-        status: '建议'
-    },
-    {
-        id: 'fusion_cell_vampire',
-        name: '血孢群',
-        materials: ['cell', 'vampire'],
-        result: 'blood_spore_swarm',
-        description: '由细胞与吸血融合而成，效果：分裂子弹 + 吸血',
-        tier: 1,
-        icon: '🩸',
-        status: '建议'
-    },
-    {
+    },{
         id: 'fusion_dark_fire',
         name: '暗焰',
         materials: ['dark', 'fire'],
@@ -1924,18 +1254,7 @@ export const WEAPON_FUSION_TABLE = [
         tier: 1,
         icon: '✨',
         status: '建议'
-    },
-    {
-        id: 'fusion_dark_lightning',
-        name: '虚雷',
-        materials: ['dark', 'lightning'],
-        result: 'void_thunder',
-        description: '由黑暗与闪电融合而成，效果：连锁闪电 + 易伤',
-        tier: 1,
-        icon: '⚡',
-        status: '建议'
-    },
-    {
+    },{
         id: 'fusion_dark_poison',
         name: '瘟疫',
         materials: ['dark', 'poison'],
@@ -1974,18 +1293,7 @@ export const WEAPON_FUSION_TABLE = [
         tier: 1,
         icon: '✨',
         status: '建议'
-    },
-    {
-        id: 'fusion_dark_swift',
-        name: '夜刃',
-        materials: ['dark', 'swift'],
-        result: 'night_blade',
-        description: '由黑暗与疾风融合而成，效果：穿透 + 易伤',
-        tier: 1,
-        icon: '🗡️',
-        status: '建议'
-    },
-    {
+    },{
         id: 'fusion_dark_vampire',
         name: '血咒',
         materials: ['dark', 'vampire'],
@@ -2014,28 +1322,7 @@ export const WEAPON_FUSION_TABLE = [
         tier: 1,
         icon: '🔥',
         status: '建议'
-    },
-    {
-        id: 'fusion_fire_light',
-        name: '眩光焰',
-        materials: ['fire', 'light'],
-        result: 'dazzle_flame',
-        description: '由火焰与光芒融合而成，效果：燃烧DOT + 致盲',
-        tier: 1,
-        icon: '🔥',
-        status: '建议'
-    },
-    {
-        id: 'fusion_fire_lightning',
-        name: '等离火链',
-        materials: ['fire', 'lightning'],
-        result: 'plasma_chain',
-        description: '由火焰与闪电融合而成，效果：燃烧DOT + 连锁闪电',
-        tier: 1,
-        icon: '🔥',
-        status: '建议'
-    },
-    {
+    },{
         id: 'fusion_fire_poison',
         name: '毒焰',
         materials: ['fire', 'poison'],
@@ -2084,18 +1371,7 @@ export const WEAPON_FUSION_TABLE = [
         tier: 1,
         icon: '🌋',
         status: '现有'
-    },
-    {
-        id: 'fusion_fire_vampire',
-        name: '血焰',
-        materials: ['fire', 'vampire'],
-        result: 'blood_flame',
-        description: '由火焰与吸血融合而成，效果：燃烧DOT + 吸血',
-        tier: 1,
-        icon: '🔥',
-        status: '建议'
-    },
-    {
+    },{
         id: 'fusion_frost_ghost',
         name: '霜灵',
         materials: ['frost', 'ghost'],
@@ -2104,38 +1380,7 @@ export const WEAPON_FUSION_TABLE = [
         tier: 1,
         icon: '❄️',
         status: '建议'
-    },
-    {
-        id: 'fusion_frost_light',
-        name: '白晕',
-        materials: ['frost', 'light'],
-        result: 'white_halo',
-        description: '由冰霜与光芒融合而成，效果：冻结 + 致盲',
-        tier: 1,
-        icon: '❄️',
-        status: '建议'
-    },
-    {
-        id: 'fusion_frost_lightning',
-        name: '冰电链',
-        materials: ['frost', 'lightning'],
-        result: 'ice_chain',
-        description: '由冰霜与闪电融合而成，效果：冻结 + 连锁闪电',
-        tier: 1,
-        icon: '❄️',
-        status: '建议'
-    },
-    {
-        id: 'fusion_frost_poison',
-        name: '冰毒',
-        materials: ['frost', 'poison'],
-        result: 'ice_toxin',
-        description: '由冰霜与剧毒融合而成，效果：冻结 + 中毒DOT',
-        tier: 1,
-        icon: '❄️',
-        status: '建议'
-    },
-    {
+    },{
         id: 'fusion_frost_ray',
         name: '寒束',
         materials: ['frost', 'ray'],
@@ -2174,18 +1419,7 @@ export const WEAPON_FUSION_TABLE = [
         tier: 1,
         icon: '🌨️',
         status: '现有'
-    },
-    {
-        id: 'fusion_frost_vampire',
-        name: '寒魄吸',
-        materials: ['frost', 'vampire'],
-        result: 'frost_leech',
-        description: '由冰霜与吸血融合而成，效果：冻结 + 吸血',
-        tier: 1,
-        icon: '❄️',
-        status: '建议'
-    },
-    {
+    },{
         id: 'fusion_ghost_light',
         name: '圣灵',
         materials: ['ghost', 'light'],
@@ -2234,38 +1468,7 @@ export const WEAPON_FUSION_TABLE = [
         tier: 1,
         icon: '🪨',
         status: '建议'
-    },
-    {
-        id: 'fusion_ghost_steel',
-        name: '幽刃',
-        materials: ['ghost', 'steel'],
-        result: 'phantom_blade',
-        description: '由幽灵与钢铁融合而成，效果：穿透 + 高伤',
-        tier: 1,
-        icon: '👻',
-        status: '建议'
-    },
-    {
-        id: 'fusion_ghost_swift',
-        name: '影疾',
-        materials: ['ghost', 'swift'],
-        result: 'shadow_rush',
-        description: '由幽灵与疾风融合而成，效果：穿透 + 高速',
-        tier: 1,
-        icon: '🌑',
-        status: '建议'
-    },
-    {
-        id: 'fusion_ghost_vampire',
-        name: '血影',
-        materials: ['ghost', 'vampire'],
-        result: 'blood_wraith',
-        description: '由幽灵与吸血融合而成，效果：穿透 + 吸血',
-        tier: 1,
-        icon: '🩸',
-        status: '建议'
-    },
-    {
+    },{
         id: 'fusion_light_lightning',
         name: '闪耀电弧',
         materials: ['light', 'lightning'],
@@ -2274,18 +1477,7 @@ export const WEAPON_FUSION_TABLE = [
         tier: 1,
         icon: '⚡',
         status: '建议'
-    },
-    {
-        id: 'fusion_light_poison',
-        name: '毒眩',
-        materials: ['light', 'poison'],
-        result: 'toxic_daze',
-        description: '由光芒与剧毒融合而成，效果：中毒DOT + 致盲',
-        tier: 1,
-        icon: '☠️',
-        status: '建议'
-    },
-    {
+    },{
         id: 'fusion_light_ray',
         name: '日光矛',
         materials: ['light', 'ray'],
@@ -2334,28 +1526,7 @@ export const WEAPON_FUSION_TABLE = [
         tier: 1,
         icon: '✨',
         status: '建议'
-    },
-    {
-        id: 'fusion_lightning_poison',
-        name: '毒电链',
-        materials: ['lightning', 'poison'],
-        result: 'venom_arc',
-        description: '由闪电与剧毒融合而成，效果：中毒DOT + 连锁闪电',
-        tier: 1,
-        icon: '☠️',
-        status: '建议'
-    },
-    {
-        id: 'fusion_lightning_ray',
-        name: '离子束',
-        materials: ['lightning', 'ray'],
-        result: 'ion_beam',
-        description: '由闪电与射线融合而成，效果：连锁闪电 + 射线AOE',
-        tier: 1,
-        icon: '⚡',
-        status: '建议'
-    },
-    {
+    },{
         id: 'fusion_lightning_rock',
         name: '雷砾',
         materials: ['lightning', 'rock'],
@@ -2464,28 +1635,7 @@ export const WEAPON_FUSION_TABLE = [
         tier: 1,
         icon: '🔦',
         status: '建议'
-    },
-    {
-        id: 'fusion_ray_swift',
-        name: '疾光束',
-        materials: ['ray', 'swift'],
-        result: 'rapid_beam',
-        description: '由射线与疾风融合而成，效果：射线AOE + 高速',
-        tier: 1,
-        icon: '✨',
-        status: '建议'
-    },
-    {
-        id: 'fusion_ray_vampire',
-        name: '血束',
-        materials: ['ray', 'vampire'],
-        result: 'blood_beam',
-        description: '由射线与吸血融合而成，效果：射线AOE + 吸血',
-        tier: 1,
-        icon: '🩸',
-        status: '建议'
-    },
-    {
+    },{
         id: 'fusion_rock_steel',
         name: '裂地锤',
         materials: ['rock', 'steel'],
@@ -2524,56 +1674,27 @@ export const WEAPON_FUSION_TABLE = [
         tier: 1,
         icon: '🗡️',
         status: '建议'
-    },
-    {
-        id: 'fusion_steel_vampire',
-        name: '血槌',
-        materials: ['steel', 'vampire'],
-        result: 'blood_hammer',
-        description: '由钢铁与吸血融合而成，效果：高伤 + 吸血',
-        tier: 1,
-        icon: '🩸',
-        status: '建议'
-    },
-    {
-        id: 'fusion_swift_vampire',
-        name: '迅吸',
-        materials: ['swift', 'vampire'],
-        result: 'swift_leech',
-        description: '由疾风与吸血融合而成，效果：穿透 + 吸血',
-        tier: 1,
-        icon: '🩸',
-        status: '建议'
     }
 ];
 
 export const WEAPON_ICON_MAP = {
     blizzard: '🌨️',
-    blood_beam: '🩸',
-    blood_flame: '🔥',
     blood_glow: '✨',
-    blood_hammer: '🩸',
     blood_quake: '🩸',
-    blood_spore_swarm: '🩸',
-    blood_wraith: '🩸',
     bomb: '💣',
     cell: '🧬',
     cold_beam: '❄️',
     cursed_stone: '🪨',
     dark: '🌑',
     dark_flame: '🔥',
-    dark_spore_swarm: '🌑',
     dark_steel: '✨',
-    dazzle_flame: '🔥',
     rift_hammer: '🔨',
     eclipse: '✨',
     fire: '🔥',
-    flame_spore_swarm: '🔥',
     flash_strike: '⚡',
     crystal_glow: '✨',
     frost: '❄️',
     frost_corrosion: '❄️',
-    frost_leech: '❄️',
     frost_wraith: '❄️',
     frostfire: '💠',
     ghost: '👻',
@@ -2581,27 +1702,18 @@ export const WEAPON_ICON_MAP = {
     glacier: '🧊',
     holy_hammer: '✨',
     holy_wisp: '✨',
-    ice_chain: '❄️',
-    ice_shard_swarm: '❄️',
-    ice_toxin: '❄️',
     ice_spike: '🧊',
     inferno: '🌋',
-    ion_beam: '⚡',
     leech_arc: '⚡',
     light: '✨',
     lightning: '⚡',
     mag_rail: '⚡',
     lava: '🌋',
-    night_blade: '🗡️',
     phantom_arc: '⚡',
-    phantom_blade: '👻',
-    plasma_chain: '🔥',
     poison: '☠️',
     poison_mist: '☁️',
-    prism_swarm: '✨',
     radiant_arc: '⚡',
     rail_beam: '🔦',
-    rapid_beam: '✨',
     rapid_lance: '🗡️',
     ray: '📡',
 
@@ -2609,32 +1721,22 @@ export const WEAPON_ICON_MAP = {
     rock: '🪨',
     overgrowth: '🌱',
     sandstorm: '🗡️',
-    shadow_rush: '🌑',
     shadow_wraith: '🌑',
     ley_beam: '📡',
-    shrapnel_core: '🧬',
     solar_beam: '🔥',
     soul_drain: '🩸',
-    spark_spore_swarm: '⚡',
     nether_stone: '🪨',
-    split_wind_swarm: '🧬',
     steel: '🔩',
     storm: '⛈️',
     sun_lance: '✨',
     swift: '💨',
-    swift_leech: '🩸',
     thunder_grit: '⚡',
     swamp: '☠️',
-    toxic_daze: '☠️',
     toxic_flame: '🔥',
     toxic_spike: '☠️',
     plague: '🦠',
     vampire: '🩸',
-    venom_arc: '☠️',
-    void_beam: '🌑',
-    void_thunder: '⚡',
-    white_halo: '❄️',
-    wraith_swarm: '👻'
+    void_beam: '🌑'
 };
 
 
