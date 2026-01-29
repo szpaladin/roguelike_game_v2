@@ -1,10 +1,10 @@
-// 自动生成：weapon_fusion_suggestions.csv -> Evolution 武器草案
-// 说明：status=建议 的条目是根据材料和效果的草案参数
-// 提示：tier 当前为数值 2，对应 WEAPON_TIER.EVOLUTION
+﻿// 鑷姩鐢熸垚锛歸eapon_fusion_suggestions.csv -> Evolution 姝﹀櫒鑽夋
+// 璇存槑锛歴tatus=寤鸿 鐨勬潯鐩槸鏍规嵁鏉愭枡鍜屾晥鏋滅殑鑽夋鍙傛暟
+// 鎻愮ず锛歵ier 褰撳墠涓烘暟鍊?2锛屽搴?WEAPON_TIER.EVOLUTION
 export const WEAPON_EVOLUTION_DRAFT = [
     {
         id: 'dark_spore_swarm',
-        name: '暗孢群',
+        name: '鏆楀缇?,
         tier: 2,
         damage: 1.4,
         interval: 45,
@@ -17,13 +17,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         canSplit: true,
         splitCount: 2,
         splitRange: 200,
-        effects: '分裂子弹 + 易伤',
+        effects: '鍒嗚瀛愬脊 + 鏄撲激',
         sources: ['cell', 'dark'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'flame_spore_swarm',
-        name: '炎孢群',
+        name: '鐐庡缇?,
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -37,13 +37,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         canSplit: true,
         splitCount: 2,
         splitRange: 200,
-        effects: '分裂子弹 + 燃烧DOT',
+        effects: '鍒嗚瀛愬脊 + 鐕冪儳DOT',
         sources: ['cell', 'fire'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'ice_shard_swarm',
-        name: '冰屑群',
+        name: '鍐板睉缇?,
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -57,13 +57,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         canSplit: true,
         splitCount: 2,
         splitRange: 200,
-        effects: '分裂子弹 + 冻结',
+        effects: '鍒嗚瀛愬脊 + 鍐荤粨',
         sources: ['cell', 'frost'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'wraith_swarm',
-        name: '幽群',
+        name: '骞界兢',
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -75,13 +75,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         canSplit: true,
         splitCount: 2,
         splitRange: 200,
-        effects: '分裂子弹 + 穿透',
+        effects: '鍒嗚瀛愬脊 + 绌块€?,
         sources: ['cell', 'ghost'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'prism_swarm',
-        name: '棱光群',
+        name: '妫卞厜缇?,
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -95,13 +95,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         canSplit: true,
         splitCount: 2,
         splitRange: 200,
-        effects: '致盲 + 分裂子弹',
+        effects: '鑷寸洸 + 鍒嗚瀛愬脊',
         sources: ['cell', 'light'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'spark_spore_swarm',
-        name: '电孢群',
+        name: '鐢靛缇?,
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -116,13 +116,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         canSplit: true,
         splitCount: 2,
         splitRange: 200,
-        effects: '连锁闪电 + 分裂子弹',
+        effects: '杩為攣闂數 + 鍒嗚瀛愬脊',
         sources: ['cell', 'lightning'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'plague',
-        name: '瘟疫',
+        name: '鐦熺柅',
         tier: 2,
         damage: 0.6,
         interval: 30,
@@ -131,13 +131,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         color: '#6f7a66',
         lifetime: 120,
         piercing: false,
-        effects: '中毒DOT + 分裂子弹',
+        effects: '涓瘨DOT + 鍒嗚瀛愬脊',
         sources: ['cell', 'poison'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'radiation_beam',
-        name: '辐射射线',
+        name: '杈愬皠灏勭嚎',
         tier: 2,
         damage: 0.8,
         interval: 30,
@@ -149,13 +149,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayRange: 300,
         rayLength: 600,
         rayWidth: 10,
-        effects: '射线AOE + 分裂子弹',
+        effects: '灏勭嚎AOE + 鍒嗚瀛愬脊',
         sources: ['cell', 'ray'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'overgrowth',
-        name: '蔓延',
+        name: '钄撳欢',
         tier: 2,
         damage: 0.8,
         interval: 30,
@@ -168,13 +168,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         overgrowthTriggerStacks: 3,
         overgrowthExplosionRadius: 60,
         overgrowthExplosionMultiplier: 2.5,
-        effects: '蔓延叠层 + 爆发AOE',
+        effects: '钄撳欢鍙犲眰 + 鐖嗗彂AOE',
         sources: ['cell', 'rock'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'shrapnel_core',
-        name: '破片核',
+        name: '鐮寸墖鏍?,
         tier: 2,
         damage: 3,
         interval: 90,
@@ -186,13 +186,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         canSplit: true,
         splitCount: 2,
         splitRange: 200,
-        effects: '分裂子弹 + 高伤',
+        effects: '鍒嗚瀛愬脊 + 楂樹激',
         sources: ['cell', 'steel'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'split_wind_swarm',
-        name: '裂风群',
+        name: '瑁傞缇?,
         tier: 2,
         damage: 0.7,
         interval: 23,
@@ -204,13 +204,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         canSplit: true,
         splitCount: 2,
         splitRange: 200,
-        effects: '分裂子弹 + 高速',
+        effects: '鍒嗚瀛愬脊 + 楂橀€?,
         sources: ['cell', 'swift'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'blood_spore_swarm',
-        name: '血孢群',
+        name: '琛€瀛㈢兢',
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -224,13 +224,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         canSplit: true,
         splitCount: 2,
         splitRange: 200,
-        effects: '分裂子弹 + 吸血',
+        effects: '鍒嗚瀛愬脊 + 鍚歌',
         sources: ['cell', 'vampire'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'dark_flame',
-        name: '暗焰',
+        name: '鏆楃劙',
         tier: 2,
         damage: 1.5,
         interval: 45,
@@ -242,13 +242,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         burnDuration: 300,
         burnDamagePerFrame: 0.083333,
         vulnerability: 0.25,
-        effects: '燃烧DOT + 易伤',
+        effects: '鐕冪儳DOT + 鏄撲激',
         sources: ['dark', 'fire'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'frost_corrosion',
-        name: '怨灵',
+        name: '鎬ㄧ伒',
         tier: 2,
         damage: 1.5,
         interval: 45,
@@ -259,13 +259,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: false,
         freezeChance: 0.3,
         freezeDuration: 120,
-        effects: '冻结 + 诅咒',
+        effects: '鍐荤粨 + 璇呭拻',
         sources: ['dark', 'frost'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'shadow_wraith',
-        name: '恶灵',
+        name: '鎭剁伒',
         tier: 2,
         damage: 1.5,
         interval: 45,
@@ -274,13 +274,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         color: '#351d86',
         lifetime: 150,
         piercing: true,
-        effects: '穿透 + 诅咒',
+        effects: '绌块€?+ 璇呭拻',
         sources: ['dark', 'ghost'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'eclipse',
-        name: '日蚀',
+        name: '鏃ヨ殌',
         tier: 2,
         damage: 1.5,
         interval: 45,
@@ -292,13 +292,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         vulnerability: 0.25,
         blindChance: 0.5,
         blindDuration: 180,
-        effects: '致盲 + 易伤',
+        effects: '鑷寸洸 + 鏄撲激',
         sources: ['dark', 'light'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'void_thunder',
-        name: '虚雷',
+        name: '铏氶浄',
         tier: 2,
         damage: 1.5,
         interval: 45,
@@ -311,13 +311,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCount: 3,
         chainRange: 150,
         chainCooldown: 10,
-        effects: '连锁闪电 + 易伤',
+        effects: '杩為攣闂數 + 鏄撲激',
         sources: ['dark', 'lightning'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'void_beam',
-        name: '虚空射线',
+        name: '铏氱┖灏勭嚎',
         tier: 2,
         damage: 1.4,
         interval: 45,
@@ -329,13 +329,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayRange: 300,
         rayLength: 600,
         rayWidth: 10,
-        effects: '射线AOE + 诅咒',
+        effects: '灏勭嚎AOE + 璇呭拻',
         sources: ['dark', 'ray'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'cursed_stone',
-        name: '暗蚀地带',
+        name: '鏆楄殌鍦板甫',
         tier: 2,
         damage: 1.4,
         interval: 45,
@@ -346,13 +346,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: false,
         aoeRadius: 80,
         aoeDamage: 0.8,
-        effects: '圆形AOE + 诅咒',
+        effects: '鍦嗗舰AOE + 璇呭拻',
         sources: ['dark', 'rock'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'dark_steel',
-        name: '黑钢',
+        name: '榛戦挗',
         tier: 2,
         damage: 3,
         interval: 90,
@@ -362,13 +362,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         lifetime: 150,
         piercing: false,
         vulnerability: 0.25,
-        effects: '高伤 + 易伤',
+        effects: '楂樹激 + 鏄撲激',
         sources: ['dark', 'steel'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'night_blade',
-        name: '夜刃',
+        name: '澶滃垉',
         tier: 2,
         damage: 1.3,
         interval: 40,
@@ -378,13 +378,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         lifetime: 150,
         piercing: true,
         vulnerability: 0.25,
-        effects: '穿透 + 易伤',
+        effects: '绌块€?+ 鏄撲激',
         sources: ['dark', 'swift'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'soul_drain',
-        name: '血咒',
+        name: '琛€鍜?,
         tier: 2,
         damage: 1.5,
         interval: 45,
@@ -393,13 +393,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         color: '#6b0041',
         lifetime: 150,
         piercing: false,
-        effects: '诅咒',
+        effects: '璇呭拻',
         sources: ['dark', 'vampire'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'frostfire',
-        name: '燃霜',
+        name: '鐕冮湝',
         tier: 2,
         damage: 1,
         interval: 30,
@@ -412,13 +412,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         burnDamagePerFrame: 0.16666666666666666,
         burnColor: '#00ccff',
         vulnerability: 0.25,
-        effects: '燃烧DOT + 易伤',
+        effects: '鐕冪儳DOT + 鏄撲激',
         sources: ['frost', 'fire'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'ghost_fire',
-        name: '鬼火',
+        name: '楝肩伀',
         tier: 2,
         damage: 1,
         interval: 30,
@@ -429,13 +429,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: true,
         burnDuration: 300,
         burnDamagePerFrame: 0.083333,
-        effects: '穿透 + 燃烧DOT',
+        effects: '绌块€?+ 鐕冪儳DOT',
         sources: ['fire', 'ghost'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'dazzle_flame',
-        name: '眩光焰',
+        name: '鐪╁厜鐒?,
         tier: 2,
         damage: 1,
         interval: 30,
@@ -448,13 +448,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         burnDamagePerFrame: 0.083333,
         blindChance: 0.5,
         blindDuration: 180,
-        effects: '燃烧DOT + 致盲',
+        effects: '鐕冪儳DOT + 鑷寸洸',
         sources: ['fire', 'light'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'plasma_chain',
-        name: '等离火链',
+        name: '绛夌鐏摼',
         tier: 2,
         damage: 1,
         interval: 30,
@@ -468,13 +468,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCount: 3,
         chainRange: 150,
         chainCooldown: 10,
-        effects: '燃烧DOT + 连锁闪电',
+        effects: '鐕冪儳DOT + 杩為攣闂數',
         sources: ['fire', 'lightning'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'toxic_flame',
-        name: '毒焰',
+        name: '姣掔劙',
         tier: 2,
         damage: 0.75,
         interval: 30,
@@ -487,13 +487,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         burnDamagePerFrame: 0.083333,
         poisonDuration: 900,
         poisonDamagePerStack: 0.05,
-        effects: '燃烧DOT + 中毒DOT',
+        effects: '鐕冪儳DOT + 涓瘨DOT',
         sources: ['fire', 'poison'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'solar_beam',
-        name: '太阳束',
+        name: '澶槼鏉?,
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -507,13 +507,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayRange: 300,
         rayLength: 600,
         rayWidth: 10,
-        effects: '射线AOE + 燃烧DOT',
+        effects: '灏勭嚎AOE + 鐕冪儳DOT',
         sources: ['fire', 'ray'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
-        id: 'magma_burst',
-        name: '熔岩爆',
+        id: 'lava',
+        name: '鐔斿博鐖?,
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -526,13 +526,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         burnDamagePerFrame: 0.083333,
         aoeRadius: 80,
         aoeDamage: 0.8,
-        effects: '圆形AOE + 燃烧DOT',
+        effects: '鍦嗗舰AOE + 鐕冪儳DOT',
         sources: ['fire', 'rock'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'bomb',
-        name: '炸弹',
+        name: '鐐稿脊',
         tier: 2,
         damage: 3,
         interval: 90,
@@ -543,13 +543,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: false,
         explosionRadius: 100,
         explosionDamage: 2,
-        effects: '爆炸AOE',
+        effects: '鐖嗙偢AOE',
         sources: ['steel', 'fire'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'inferno',
-        name: '炼狱',
+        name: '鐐肩嫳',
         tier: 2,
         damage: 1,
         interval: 30,
@@ -560,13 +560,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: true,
         burnDuration: 300,
         burnDamagePerFrame: 0.08333333333333333,
-        effects: '穿透 + 燃烧DOT',
+        effects: '绌块€?+ 鐕冪儳DOT',
         sources: ['swift', 'fire'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'blood_flame',
-        name: '血焰',
+        name: '琛€鐒?,
         tier: 2,
         damage: 1,
         interval: 30,
@@ -579,13 +579,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         burnDamagePerFrame: 0.083333,
         lifeStealChance: 0.06,
         lifeStealAmount: 1,
-        effects: '燃烧DOT + 吸血',
+        effects: '鐕冪儳DOT + 鍚歌',
         sources: ['fire', 'vampire'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'frost_wraith',
-        name: '霜灵',
+        name: '闇滅伒',
         tier: 2,
         damage: 1,
         interval: 30,
@@ -596,13 +596,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: true,
         freezeChance: 0.3,
         freezeDuration: 120,
-        effects: '穿透 + 冻结',
+        effects: '绌块€?+ 鍐荤粨',
         sources: ['frost', 'ghost'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'white_halo',
-        name: '白晕',
+        name: '鐧芥檿',
         tier: 2,
         damage: 1,
         interval: 30,
@@ -615,13 +615,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         freezeDuration: 120,
         blindChance: 0.5,
         blindDuration: 180,
-        effects: '冻结 + 致盲',
+        effects: '鍐荤粨 + 鑷寸洸',
         sources: ['frost', 'light'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'ice_chain',
-        name: '冰电链',
+        name: '鍐扮數閾?,
         tier: 2,
         damage: 1,
         interval: 30,
@@ -635,13 +635,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCount: 3,
         chainRange: 150,
         chainCooldown: 10,
-        effects: '冻结 + 连锁闪电',
+        effects: '鍐荤粨 + 杩為攣闂數',
         sources: ['frost', 'lightning'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'ice_toxin',
-        name: '冰毒',
+        name: '鍐版瘨',
         tier: 2,
         damage: 0.75,
         interval: 30,
@@ -654,13 +654,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         freezeDuration: 120,
         poisonDuration: 900,
         poisonDamagePerStack: 0.05,
-        effects: '冻结 + 中毒DOT',
+        effects: '鍐荤粨 + 涓瘨DOT',
         sources: ['frost', 'poison'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'cold_beam',
-        name: '寒束',
+        name: '瀵掓潫',
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -674,13 +674,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayRange: 300,
         rayLength: 600,
         rayWidth: 10,
-        effects: '射线AOE + 冻结',
+        effects: '灏勭嚎AOE + 鍐荤粨',
         sources: ['frost', 'ray'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
-        id: 'glacier_quake',
-        name: '冰川震',
+        id: 'glacier',
+        name: '鍐板窛闇?,
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -693,13 +693,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         freezeDuration: 120,
         aoeRadius: 80,
         aoeDamage: 0.8,
-        effects: '圆形AOE + 冻结',
+        effects: '鍦嗗舰AOE + 鍐荤粨',
         sources: ['frost', 'rock'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'ice_spike',
-        name: '冰锥',
+        name: '鍐伴敟',
         tier: 2,
         damage: 2.4,
         interval: 80,
@@ -710,13 +710,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: false,
         freezeChance: 0.3,
         freezeDuration: 120,
-        effects: '冻结 + 高伤',
+        effects: '鍐荤粨 + 楂樹激',
         sources: ['frost', 'steel'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'blizzard',
-        name: '暴风雪',
+        name: '鏆撮闆?,
         tier: 2,
         damage: 0.75,
         interval: 20,
@@ -728,13 +728,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         freezeChance: 0.5,
         freezeDuration: 180,
         vulnerability: 0.25,
-        effects: '穿透 + 冻结 + 易伤',
+        effects: '绌块€?+ 鍐荤粨 + 鏄撲激',
         sources: ['swift', 'frost'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'frost_leech',
-        name: '寒魄吸',
+        name: '瀵掗瓌鍚?,
         tier: 2,
         damage: 1,
         interval: 30,
@@ -747,13 +747,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         freezeDuration: 120,
         lifeStealChance: 0.06,
         lifeStealAmount: 1,
-        effects: '冻结 + 吸血',
+        effects: '鍐荤粨 + 鍚歌',
         sources: ['frost', 'vampire'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'holy_wisp',
-        name: '圣灵',
+        name: '鍦ｇ伒',
         tier: 2,
         damage: 1,
         interval: 30,
@@ -764,13 +764,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: true,
         blindChance: 0.5,
         blindDuration: 180,
-        effects: '致盲 + 穿透',
+        effects: '鑷寸洸 + 绌块€?,
         sources: ['ghost', 'light'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'phantom_arc',
-        name: '幽电',
+        name: '骞界數',
         tier: 2,
         damage: 1,
         interval: 30,
@@ -782,13 +782,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCount: 3,
         chainRange: 150,
         chainCooldown: 10,
-        effects: '连锁闪电 + 穿透',
+        effects: '杩為攣闂數 + 绌块€?,
         sources: ['ghost', 'lightning'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
-        id: 'spectral_rock',
-        name: '灵岩',
+        id: 'nether_stone',
+        name: '鐏靛博',
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -799,13 +799,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: true,
         aoeRadius: 80,
         aoeDamage: 0.8,
-        effects: '圆形AOE + 穿透',
+        effects: '鍦嗗舰AOE + 绌块€?,
         sources: ['ghost', 'rock'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'phantom_blade',
-        name: '幽刃',
+        name: '骞藉垉',
         tier: 2,
         damage: 3,
         interval: 90,
@@ -814,13 +814,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         color: '#6f7da5',
         lifetime: 120,
         piercing: true,
-        effects: '穿透 + 高伤',
+        effects: '绌块€?+ 楂樹激',
         sources: ['ghost', 'steel'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'shadow_rush',
-        name: '影疾',
+        name: '褰辩柧',
         tier: 2,
         damage: 0.8,
         interval: 23,
@@ -829,13 +829,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         color: '#0f9d45',
         lifetime: 120,
         piercing: true,
-        effects: '穿透 + 高速',
+        effects: '绌块€?+ 楂橀€?,
         sources: ['ghost', 'swift'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'blood_wraith',
-        name: '血影',
+        name: '琛€褰?,
         tier: 2,
         damage: 1,
         interval: 30,
@@ -846,13 +846,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: true,
         lifeStealChance: 0.06,
         lifeStealAmount: 1,
-        effects: '穿透 + 吸血',
+        effects: '绌块€?+ 鍚歌',
         sources: ['ghost', 'vampire'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'radiant_arc',
-        name: '闪耀电弧',
+        name: '闂€€鐢靛姬',
         tier: 2,
         damage: 1,
         interval: 30,
@@ -866,13 +866,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCooldown: 10,
         blindChance: 0.5,
         blindDuration: 180,
-        effects: '连锁闪电 + 致盲',
+        effects: '杩為攣闂數 + 鑷寸洸',
         sources: ['light', 'lightning'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'toxic_daze',
-        name: '毒眩',
+        name: '姣掔湬',
         tier: 2,
         damage: 0.75,
         interval: 30,
@@ -885,13 +885,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         poisonDamagePerStack: 0.05,
         blindChance: 0.5,
         blindDuration: 180,
-        effects: '中毒DOT + 致盲',
+        effects: '涓瘨DOT + 鑷寸洸',
         sources: ['light', 'poison'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'sun_lance',
-        name: '日光矛',
+        name: '鏃ュ厜鐭?,
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -905,13 +905,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayRange: 300,
         rayLength: 600,
         rayWidth: 10,
-        effects: '致盲 + 射线AOE',
+        effects: '鑷寸洸 + 灏勭嚎AOE',
         sources: ['light', 'ray'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
-        id: 'flashbang',
-        name: '闪光弹',
+        id: 'crystal_glow',
+        name: '闂厜寮?,
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -924,13 +924,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         blindDuration: 180,
         aoeRadius: 80,
         aoeDamage: 0.8,
-        effects: '致盲 + 圆形AOE',
+        effects: '鑷寸洸 + 鍦嗗舰AOE',
         sources: ['light', 'rock'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'holy_hammer',
-        name: '圣锤',
+        name: '鍦ｉ敜',
         tier: 2,
         damage: 3,
         interval: 90,
@@ -941,13 +941,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: false,
         blindChance: 0.5,
         blindDuration: 180,
-        effects: '高伤 + 致盲',
+        effects: '楂樹激 + 鑷寸洸',
         sources: ['light', 'steel'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'flash_strike',
-        name: '闪袭',
+        name: '闂',
         tier: 2,
         damage: 0.8,
         interval: 25,
@@ -958,13 +958,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: true,
         blindChance: 0.5,
         blindDuration: 180,
-        effects: '穿透 + 致盲',
+        effects: '绌块€?+ 鑷寸洸',
         sources: ['light', 'swift'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'blood_glow',
-        name: '血辉',
+        name: '琛€杈?,
         tier: 2,
         damage: 1,
         interval: 30,
@@ -977,13 +977,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         lifeStealAmount: 1,
         blindChance: 0.5,
         blindDuration: 180,
-        effects: '致盲 + 吸血',
+        effects: '鑷寸洸 + 鍚歌',
         sources: ['light', 'vampire'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'venom_arc',
-        name: '毒电链',
+        name: '姣掔數閾?,
         tier: 2,
         damage: 0.75,
         interval: 30,
@@ -997,13 +997,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCount: 3,
         chainRange: 150,
         chainCooldown: 10,
-        effects: '中毒DOT + 连锁闪电',
+        effects: '涓瘨DOT + 杩為攣闂數',
         sources: ['lightning', 'poison'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'ion_beam',
-        name: '离子束',
+        name: '绂诲瓙鏉?,
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -1018,13 +1018,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayRange: 300,
         rayLength: 600,
         rayWidth: 10,
-        effects: '连锁闪电 + 射线AOE',
+        effects: '杩為攣闂數 + 灏勭嚎AOE',
         sources: ['lightning', 'ray'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
-        id: 'thunder_quake',
-        name: '雷震',
+        id: 'thunder_grit',
+        name: '闆烽渿',
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -1038,13 +1038,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCooldown: 10,
         aoeRadius: 80,
         aoeDamage: 0.8,
-        effects: '连锁闪电 + 圆形AOE',
+        effects: '杩為攣闂數 + 鍦嗗舰AOE',
         sources: ['lightning', 'rock'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'mag_rail',
-        name: '磁轨',
+        name: '纾佽建',
         tier: 2,
         damage: 3,
         interval: 90,
@@ -1056,13 +1056,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCount: 3,
         chainRange: 150,
         chainCooldown: 10,
-        effects: '高伤 + 连锁闪电',
+        effects: '楂樹激 + 杩為攣闂數',
         sources: ['lightning', 'steel'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'storm',
-        name: '风暴',
+        name: '椋庢毚',
         tier: 2,
         damage: 0.75,
         interval: 20,
@@ -1074,13 +1074,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCount: 3,
         chainRange: 150,
         chainCooldown: 10,
-        effects: '穿透 + 连锁闪电',
+        effects: '绌块€?+ 杩為攣闂數',
         sources: ['swift', 'lightning'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'leech_arc',
-        name: '吸雷链',
+        name: '鍚搁浄閾?,
         tier: 2,
         damage: 1,
         interval: 30,
@@ -1094,13 +1094,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         chainCount: 3,
         chainRange: 150,
         chainCooldown: 10,
-        effects: '连锁闪电 + 吸血',
+        effects: '杩為攣闂數 + 鍚歌',
         sources: ['lightning', 'vampire'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
-        id: 'toxic_burst',
-        name: '毒爆',
+        id: 'swamp',
+        name: '姣掔垎',
         tier: 2,
         damage: 0.65,
         interval: 30,
@@ -1113,13 +1113,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         poisonDamagePerStack: 0.05,
         aoeRadius: 80,
         aoeDamage: 0.8,
-        effects: '中毒DOT + 圆形AOE',
+        effects: '涓瘨DOT + 鍦嗗舰AOE',
         sources: ['poison', 'rock'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'toxic_spike',
-        name: '毒钉',
+        name: '姣掗拤',
         tier: 2,
         damage: 3,
         interval: 90,
@@ -1130,13 +1130,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: false,
         poisonDuration: 900,
         poisonDamagePerStack: 0.05,
-        effects: '高伤 + 中毒DOT',
+        effects: '楂樹激 + 涓瘨DOT',
         sources: ['poison', 'steel'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'poison_mist',
-        name: '毒雾',
+        name: '姣掗浘',
         tier: 2,
         damage: 0.75,
         interval: 30,
@@ -1147,13 +1147,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: true,
         poisonDuration: 900,
         poisonDamagePerStack: 0.05,
-        effects: '穿透 + 中毒DOT',
+        effects: '绌块€?+ 涓瘨DOT',
         sources: ['swift', 'poison'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
-        id: 'shockwave_beam',
-        name: '震荡束',
+        id: 'ley_beam',
+        name: '闇囪崱鏉?,
         tier: 2,
         damage: 0.8,
         interval: 30,
@@ -1167,13 +1167,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayRange: 300,
         rayLength: 600,
         rayWidth: 10,
-        effects: '射线AOE + 圆形AOE',
+        effects: '灏勭嚎AOE + 鍦嗗舰AOE',
         sources: ['ray', 'rock'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'rail_beam',
-        name: '轨道束',
+        name: '杞ㄩ亾鏉?,
         tier: 2,
         damage: 3,
         interval: 90,
@@ -1185,13 +1185,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayRange: 300,
         rayLength: 600,
         rayWidth: 10,
-        effects: '射线AOE + 高伤',
+        effects: '灏勭嚎AOE + 楂樹激',
         sources: ['ray', 'steel'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'rapid_beam',
-        name: '疾光束',
+        name: '鐤惧厜鏉?,
         tier: 2,
         damage: 0.7,
         interval: 23,
@@ -1203,13 +1203,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayRange: 300,
         rayLength: 600,
         rayWidth: 10,
-        effects: '射线AOE + 高速',
+        effects: '灏勭嚎AOE + 楂橀€?,
         sources: ['ray', 'swift'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'blood_beam',
-        name: '血束',
+        name: '琛€鏉?,
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -1223,13 +1223,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         rayRange: 300,
         rayLength: 600,
         rayWidth: 10,
-        effects: '射线AOE + 吸血',
+        effects: '灏勭嚎AOE + 鍚歌',
         sources: ['ray', 'vampire'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
-        id: 'earthsplitter_hammer',
-        name: '裂地锤',
+        id: 'rift_hammer',
+        name: '瑁傚湴閿?,
         tier: 2,
         damage: 3,
         interval: 90,
@@ -1240,13 +1240,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: false,
         aoeRadius: 80,
         aoeDamage: 0.8,
-        effects: '高伤 + 圆形AOE',
+        effects: '楂樹激 + 鍦嗗舰AOE',
         sources: ['rock', 'steel'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'sandstorm',
-        name: '砂暴',
+        name: '鐮傛毚',
         tier: 2,
         damage: 0.7,
         interval: 25,
@@ -1257,13 +1257,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: true,
         aoeRadius: 80,
         aoeDamage: 0.8,
-        effects: '穿透 + 圆形AOE',
+        effects: '绌块€?+ 鍦嗗舰AOE',
         sources: ['rock', 'swift'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'blood_quake',
-        name: '血震',
+        name: '琛€闇?,
         tier: 2,
         damage: 0.9,
         interval: 30,
@@ -1276,13 +1276,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         lifeStealAmount: 1,
         aoeRadius: 80,
         aoeDamage: 0.8,
-        effects: '圆形AOE + 吸血',
+        effects: '鍦嗗舰AOE + 鍚歌',
         sources: ['rock', 'vampire'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'rapid_lance',
-        name: '疾枪',
+        name: '鐤炬灙',
         tier: 2,
         damage: 3,
         interval: 90,
@@ -1291,13 +1291,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         color: '#60e060',
         lifetime: 120,
         piercing: true,
-        effects: '穿透 + 高伤',
+        effects: '绌块€?+ 楂樹激',
         sources: ['steel', 'swift'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'blood_hammer',
-        name: '血槌',
+        name: '琛€妲?,
         tier: 2,
         damage: 3,
         interval: 90,
@@ -1308,13 +1308,13 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: false,
         lifeStealChance: 0.06,
         lifeStealAmount: 1,
-        effects: '高伤 + 吸血',
+        effects: '楂樹激 + 鍚歌',
         sources: ['steel', 'vampire'],
-        status: '现有'
+        status: '鐜版湁'
     },
     {
         id: 'swift_leech',
-        name: '迅吸',
+        name: '杩呭惛',
         tier: 2,
         damage: 0.8,
         interval: 25,
@@ -1325,8 +1325,8 @@ export const WEAPON_EVOLUTION_DRAFT = [
         piercing: true,
         lifeStealChance: 0.06,
         lifeStealAmount: 1,
-        effects: '穿透 + 吸血',
+        effects: '绌块€?+ 鍚歌',
         sources: ['swift', 'vampire'],
-        status: '现有'
+        status: '鐜版湁'
     },
 ];

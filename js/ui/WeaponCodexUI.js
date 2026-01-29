@@ -5,6 +5,7 @@ import {
     WEAPON_FUSION_TABLE,
     WEAPON_TIER
 } from '../weapons/WeaponsData.js';
+import { STATUS_EFFECTS } from '../enemies/StatusEffects.js';
 
 const FPS = 60;
 
@@ -13,6 +14,24 @@ const TIER_LABEL = {
     [WEAPON_TIER.BASIC]: '基础',
     [WEAPON_TIER.EVOLUTION]: '进化',
     [WEAPON_TIER.FUSION]: '融合'
+};
+
+const STATUS_TYPE_LABEL = {
+    dot: 'DOT',
+    debuff: 'DEBUFF',
+    cc: 'CC'
+};
+
+const STATUS_TYPE_NAME = {
+    dot: '持续伤害',
+    debuff: '减益',
+    cc: '控制'
+};
+
+const STATUS_TYPE_ORDER = {
+    dot: 1,
+    debuff: 2,
+    cc: 3
 };
 
 const GROUPS = [
@@ -32,6 +51,18 @@ const GROUPS = [
         predicate: (tier) => tier === WEAPON_TIER.FUSION
     }
 ];
+
+const STATUS_WEAPON_FIELDS = {
+    burning: ['burnDuration'],
+    frozen: ['freezeChance', 'freezeDuration'],
+    poisoned: ['poisonDuration'],
+    plagued: ['plagueDuration'],
+    overgrowth: ['overgrowthDuration'],
+    cursed: ['curseDuration'],
+    blinded: ['blindChance'],
+    vulnerable: ['vulnerability'],
+    radiation_vulnerable: ['radiationVulnerability']
+};
 
 function fmtFrames(frames) {
     if (frames === undefined || frames === null) return '';
@@ -55,6 +86,63 @@ function buildWeaponsById() {
     return map;
 }
 
+function buildStatusById() {
+    const map = {};
+    for (const def of Object.values(STATUS_EFFECTS)) {
+        if (def && def.id) map[def.id] = def;
+    }
+    return map;
+}
+
+function fmtStackBehavior(value) {
+    if (!value) return '刷新时长';
+    if (value === 'independent') return '独立计时';
+    return value;
+}
+
+function fmtPercent(value) {
+    if (value === undefined || value === null || value === '') return '';
+    if (typeof value === 'number') return `${Math.round(value * 100)}%`;
+    return String(value);
+}
+
+function fmtNumber(value, digits = 4) {
+    if (value === undefined || value === null || value === '') return '';
+    if (typeof value !== 'number') return String(value);
+    if (Number.isInteger(value)) return `${value}`;
+    const fixed = value.toFixed(digits);
+    return fixed.replace(/\.?0+$/, '');
+}
+
+function fmtMultiplier(value, digits = 2) {
+    const num = fmtNumber(value, digits);
+    if (!num) return '';
+    return `x${num}`;
+}
+
+const STATUS_CORE_FIELDS = [
+    { key: 'defaultDamagePerFrame', label: '每帧伤害', format: (v) => `${fmtNumber(v)}/f` },
+    { key: 'defaultDamagePerStack', label: '每层伤害', format: (v) => `${fmtNumber(v)}/f` },
+    { key: 'defaultSlowAmount', label: '减速比例', format: fmtPercent },
+    { key: 'defaultVulnerabilityAmount', label: '易伤增幅', format: fmtPercent },
+    { key: 'defaultTriggerStacks', label: '触发层数' },
+    { key: 'defaultExplosionRadius', label: '爆炸半径' },
+    { key: 'defaultExplosionMultiplier', label: '爆炸倍率', format: fmtMultiplier },
+    { key: 'defaultConsumeStacks', label: '消耗层数' },
+    { key: 'defaultDamageMultiplier', label: '触发倍率', format: fmtMultiplier }
+];
+
+const STATUS_ADVANCED_FIELDS = [
+    { key: 'cloudRadius', label: '云雾半径' },
+    { key: 'spreadInterval', label: '扩散间隔', format: fmtFrames },
+    { key: 'spreadRadius', label: '扩散半径' },
+    { key: 'spreadStacks', label: '扩散层数' },
+    { key: 'deathCloudDuration', label: '死亡云持续', format: fmtFrames },
+    { key: 'deathCloudInterval', label: '死亡云间隔', format: fmtFrames },
+    { key: 'deathCloudRadius', label: '死亡云半径' },
+    { key: 'deathCloudStacks', label: '死亡云层数' }
+];
+
 function deriveEffects(def) {
     if (!def) return '（待补全）';
     if (def.effects) return def.effects;
@@ -67,6 +155,8 @@ function deriveEffects(def) {
     if (def.chainCount) tags.push('连锁');
     if (def.burnDuration) tags.push('燃烧');
     if (def.poisonDuration) tags.push('中毒');
+    if (def.plagueDuration) tags.push('瘟疫');
+    if (def.overgrowthDuration) tags.push('蔓延');
     if (def.curseDuration) tags.push('诅咒');
     if (def.freezeChance || def.freezeDuration) tags.push('冻结');
     if (def.blindChance || def.blindDuration) tags.push('致盲');
@@ -95,13 +185,18 @@ export default class WeaponCodexUI {
         this.detailOverlay = null;
         this.detailDialog = null;
 
+        this.tabsEl = null;
+
         this.weaponEntries = this.buildWeaponEntries();
+        this.statusById = buildStatusById();
+        this.statusEntries = this.buildStatusEntries();
+        this.activeTab = 'weapons';
     }
 
     init() {
         this.injectButton();
         this.ensureDom();
-        this.renderList('');
+        this.setTab(this.activeTab);
     }
 
     buildWeaponEntries() {
@@ -121,6 +216,36 @@ export default class WeaponCodexUI {
             });
 
         return entries;
+    }
+
+    buildStatusEntries() {
+        return Object.values(STATUS_EFFECTS)
+            .map(def => ({
+                id: def.id,
+                name: def.name || def.id,
+                icon: def.icon || '❔',
+                type: def.type,
+                color: def.color || '#999999',
+                def
+            }))
+            .sort((a, b) => {
+                const typeA = STATUS_TYPE_ORDER[a.type] || 99;
+                const typeB = STATUS_TYPE_ORDER[b.type] || 99;
+                if (typeA !== typeB) return typeA - typeB;
+                return a.name.localeCompare(b.name, 'zh-Hans-CN');
+            });
+    }
+
+    getStatusSources(statusId) {
+        const fields = STATUS_WEAPON_FIELDS[statusId];
+        if (!fields || !fields.length) return [];
+        return this.weaponEntries.filter(entry => {
+            if (!entry.def) return false;
+            return fields.some((field) => {
+                const value = entry.def[field];
+                return value !== undefined && value !== null && value !== 0;
+            });
+        });
     }
 
     injectButton() {
@@ -161,6 +286,19 @@ export default class WeaponCodexUI {
             `;
             header.querySelector('.codex-close-btn').onclick = () => this.closeAll();
 
+            const tabs = document.createElement('div');
+            tabs.className = 'codex-tabs';
+            tabs.innerHTML = `
+                <button type="button" class="codex-tab" data-tab="weapons">武器图鉴</button>
+                <button type="button" class="codex-tab" data-tab="status">状态图鉴</button>
+            `;
+            tabs.addEventListener('click', (e) => {
+                const btn = e.target.closest('.codex-tab');
+                if (!btn) return;
+                this.setTab(btn.getAttribute('data-tab'));
+            });
+            this.tabsEl = tabs;
+
             const toolbar = document.createElement('div');
             toolbar.className = 'codex-toolbar';
             toolbar.innerHTML = `
@@ -170,20 +308,27 @@ export default class WeaponCodexUI {
 
             this.searchInput = toolbar.querySelector('.codex-search');
             this.countEl = toolbar.querySelector('.codex-count');
-            this.searchInput.addEventListener('input', () => this.renderList(this.searchInput.value));
+            this.searchInput.addEventListener('input', () => this.renderActiveList(this.searchInput.value));
             this.searchInput.addEventListener('keydown', (e) => e.stopPropagation());
             this.searchInput.addEventListener('keyup', (e) => e.stopPropagation());
 
             this.grid = document.createElement('div');
             this.grid.className = 'codex-grid';
             this.grid.addEventListener('click', (e) => {
-                const card = e.target.closest('[data-weapon-id]');
-                if (!card) return;
-                const weaponId = card.getAttribute('data-weapon-id');
-                this.openDetail(weaponId);
+                const weaponCard = e.target.closest('[data-weapon-id]');
+                if (weaponCard) {
+                    const weaponId = weaponCard.getAttribute('data-weapon-id');
+                    this.openDetail(weaponId);
+                    return;
+                }
+                const statusCard = e.target.closest('[data-status-id]');
+                if (!statusCard) return;
+                const statusId = statusCard.getAttribute('data-status-id');
+                this.openStatusDetail(statusId);
             });
 
             this.dialog.appendChild(header);
+            this.dialog.appendChild(tabs);
             this.dialog.appendChild(toolbar);
             this.dialog.appendChild(this.grid);
             // Prevent game controls while interacting with the codex UI.
@@ -223,9 +368,11 @@ export default class WeaponCodexUI {
         this.setPaused(true);
 
         this.overlay.style.display = 'flex';
-        this.renderList('');
         if (this.searchInput) {
             this.searchInput.value = '';
+        }
+        this.setTab(this.activeTab);
+        if (this.searchInput) {
             this.searchInput.focus();
         }
     }
@@ -260,7 +407,33 @@ export default class WeaponCodexUI {
         return !!(this.detailOverlay && this.detailOverlay.style.display === 'flex');
     }
 
-    renderList(query) {
+    setTab(tab) {
+        if (!tab) return;
+        this.activeTab = tab;
+        if (this.tabsEl) {
+            this.tabsEl.querySelectorAll('.codex-tab').forEach(btn => {
+                const isActive = btn.getAttribute('data-tab') === tab;
+                btn.classList.toggle('is-active', isActive);
+            });
+        }
+        if (this.searchInput) {
+            this.searchInput.value = '';
+            this.searchInput.placeholder = tab === 'status'
+                ? '搜索状态（名称/ID/类型）'
+                : '搜索武器（名称/ID）';
+        }
+        this.renderActiveList('');
+    }
+
+    renderActiveList(query) {
+        if (this.activeTab === 'status') {
+            this.renderStatusList(query);
+            return;
+        }
+        this.renderWeaponList(query);
+    }
+
+    renderWeaponList(query) {
         if (!this.grid) return;
         const q = safeText(query).trim().toLowerCase();
         const filtered = !q ? this.weaponEntries : this.weaponEntries.filter(w => {
@@ -304,6 +477,44 @@ export default class WeaponCodexUI {
         }
 
         this.grid.innerHTML = sections.join('<div class="codex-divider"></div>');
+    }
+
+    renderStatusList(query) {
+        if (!this.grid) return;
+        const q = safeText(query).trim().toLowerCase();
+        const filtered = !q ? this.statusEntries : this.statusEntries.filter((s) => {
+            const haystack = [
+                s.name,
+                s.id,
+                STATUS_TYPE_NAME[s.type] || s.type,
+                STATUS_TYPE_LABEL[s.type] || s.type,
+                s.def && s.def.description ? s.def.description : ''
+            ].join(' ').toLowerCase();
+            return haystack.includes(q);
+        });
+
+        if (this.countEl) {
+            this.countEl.textContent = `${filtered.length}/${this.statusEntries.length}`;
+        }
+
+        if (!filtered.length) {
+            this.grid.innerHTML = '<div class="codex-muted">暂无匹配的状态效果</div>';
+            return;
+        }
+
+        const cardHtml = (s) => `
+            <button type="button" class="codex-card codex-status-card" data-status-id="${s.id}" style="--status-color:${s.color}">
+                <div class="codex-card-icon">${s.icon}</div>
+                <div class="codex-card-name">${s.name}</div>
+                <div class="codex-status-type">${STATUS_TYPE_NAME[s.type] || s.type}</div>
+            </button>
+        `;
+
+        this.grid.innerHTML = `
+            <div class="codex-group-grid">
+                ${filtered.map(cardHtml).join('')}
+            </div>
+        `;
     }
 
     openDetail(weaponId) {
@@ -379,7 +590,6 @@ export default class WeaponCodexUI {
                         <span class="codex-plus">+</span>
                         <span class="codex-mat">${m1Icon} ${m1Name}</span>
                     </div>
-                    <div class="codex-recipe-desc">${safeText(r.description) || '（待补全）'}</div>
                 </div>
             `;
         }).join('') : `<div class="codex-muted">不可通过合成获得</div>`;
@@ -433,6 +643,124 @@ export default class WeaponCodexUI {
         `;
 
         this.detailDialog.querySelector('.codex-back-btn').onclick = () => this.closeDetail();
+
+        this.detailOverlay.style.display = 'flex';
+    }
+
+    openStatusDetail(statusId) {
+        const def = this.statusById[statusId];
+        if (!def) return;
+
+        const icon = def.icon || '❔';
+        const name = def.name || def.id;
+        const typeName = STATUS_TYPE_NAME[def.type] || def.type || '未知';
+        const typeLabel = STATUS_TYPE_LABEL[def.type] || def.type || '';
+        const typeText = typeLabel ? `${typeName} (${typeLabel})` : typeName;
+
+        const baseRows = [];
+        const coreRows = [];
+        const advancedRows = [];
+        const addRow = (rows, label, value) => {
+            if (value === undefined || value === null || value === '') return;
+            rows.push(`<div class="codex-stat"><div class="codex-stat-k">${label}</div><div class="codex-stat-v">${value}</div></div>`);
+        };
+
+        addRow(baseRows, '类型', safeText(typeText));
+        addRow(baseRows, '最大层数', safeText(def.maxStacks));
+        addRow(baseRows, '叠层计时', fmtStackBehavior(def.stackBehavior));
+        addRow(baseRows, '默认持续', fmtFrames(def.defaultDuration));
+        if (def.color) {
+            addRow(baseRows, '颜色', `<span class="codex-color-swatch" style="background:${def.color};"></span>${def.color}`);
+        }
+
+        STATUS_CORE_FIELDS.forEach((field) => {
+            const raw = def[field.key];
+            if (raw === undefined || raw === null || raw === '') return;
+            const val = field.format ? field.format(raw) : safeText(raw);
+            if (!val) return;
+            addRow(coreRows, field.label, val);
+        });
+
+        STATUS_ADVANCED_FIELDS.forEach((field) => {
+            const raw = def[field.key];
+            if (raw === undefined || raw === null || raw === '') return;
+            const val = field.format ? field.format(raw) : safeText(raw);
+            if (!val) return;
+            addRow(advancedRows, field.label, val);
+        });
+
+        const descHtml = def.description
+            ? `<div class="codex-desc-item">${def.description}</div>`
+            : `<div class="codex-muted">（待补全）</div>`;
+
+        const sources = this.getStatusSources(statusId);
+        const sourcesHtml = sources.length ? `
+            <div class="codex-source-grid">
+                ${sources.map((w) => `
+                    <button type="button" class="codex-source-card" data-weapon-id="${w.id}">
+                        <div class="codex-source-icon">${w.icon}</div>
+                        <div class="codex-source-name">${w.name}</div>
+                        <div class="codex-source-id">${w.id}</div>
+                    </button>
+                `).join('')}
+            </div>
+        ` : `<div class="codex-muted">暂无来源武器</div>`;
+
+        const advancedHtml = advancedRows.length ? `
+            <details class="codex-advanced" open>
+                <summary>高级参数</summary>
+                <div class="codex-stats">
+                    ${advancedRows.join('')}
+                </div>
+            </details>
+        ` : '<div class="codex-muted">无高级参数</div>';
+
+        this.detailDialog.innerHTML = `
+            <div class="codex-detail-header">
+                <div class="codex-detail-title">
+                    <div class="codex-detail-icon">${icon}</div>
+                    <div class="codex-detail-meta">
+                        <div class="codex-detail-name">${name}</div>
+                        <div class="codex-detail-tier">${typeText}</div>
+                    </div>
+                </div>
+                <button type="button" class="codex-back-btn">返回</button>
+            </div>
+
+            <div class="codex-section">
+                <div class="codex-section-title">基础信息</div>
+                <div class="codex-stats">
+                    ${baseRows.length ? baseRows.join('') : '<div class="codex-muted">无可显示信息</div>'}
+                </div>
+            </div>
+
+            <div class="codex-section">
+                <div class="codex-section-title">核心参数</div>
+                <div class="codex-stats">
+                    ${coreRows.length ? coreRows.join('') : '<div class="codex-muted">无可显示数值</div>'}
+                </div>
+                ${advancedHtml}
+            </div>
+
+            <div class="codex-section">
+                <div class="codex-section-title">说明</div>
+                ${descHtml}
+            </div>
+
+            <div class="codex-section">
+                <div class="codex-section-title">来源武器</div>
+                ${sourcesHtml}
+            </div>
+        `;
+
+        this.detailDialog.querySelector('.codex-back-btn').onclick = () => this.closeDetail();
+        this.detailDialog.querySelectorAll('.codex-source-card').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const weaponId = btn.getAttribute('data-weapon-id');
+                if (!weaponId) return;
+                this.openDetail(weaponId);
+            });
+        });
 
         this.detailOverlay.style.display = 'flex';
     }

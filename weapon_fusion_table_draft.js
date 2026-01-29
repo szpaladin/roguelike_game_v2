@@ -1,784 +1,783 @@
-// 自动生成：weapon_fusion_suggestions.csv -> WEAPON_FUSION_TABLE 草案
-// 说明：result 为新武器 ID 时，请在 WEAPONS 中补充定义
-export const WEAPON_FUSION_TABLE_DRAFT = [
+﻿// 鑷姩鐢熸垚锛歸eapon_fusion_suggestions.csv -> WEAPON_FUSION_TABLE 鑽夋
+// 璇存槑锛歳esult 涓烘柊姝﹀櫒 ID 鏃讹紝璇峰湪 WEAPONS 涓ˉ鍏呭畾涔?export const WEAPON_FUSION_TABLE_DRAFT = [
     {
         id: 'fusion_cell_dark',
-        name: '暗孢群',
+        name: '鏆楀缇?,
         materials: ['cell', 'dark'],
         result: 'dark_spore_swarm',
-        description: '由细胞与黑暗融合而成，效果：分裂子弹 + 易伤',
+        description: '鐢辩粏鑳炰笌榛戞殫铻嶅悎鑰屾垚锛屾晥鏋滐細鍒嗚瀛愬脊 + 鏄撲激',
         tier: 1,
-        icon: '🌑',
-        status: '现有'
+        icon: '馃寫',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_cell_fire',
-        name: '炎孢群',
+        name: '鐐庡缇?,
         materials: ['cell', 'fire'],
         result: 'flame_spore_swarm',
-        description: '由细胞与火焰融合而成，效果：分裂子弹 + 燃烧DOT',
+        description: '鐢辩粏鑳炰笌鐏劙铻嶅悎鑰屾垚锛屾晥鏋滐細鍒嗚瀛愬脊 + 鐕冪儳DOT',
         tier: 1,
-        icon: '🔥',
-        status: '现有'
+        icon: '馃敟',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_cell_frost',
-        name: '冰屑群',
+        name: '鍐板睉缇?,
         materials: ['cell', 'frost'],
         result: 'ice_shard_swarm',
-        description: '由细胞与冰霜融合而成，效果：分裂子弹 + 冻结',
+        description: '鐢辩粏鑳炰笌鍐伴湝铻嶅悎鑰屾垚锛屾晥鏋滐細鍒嗚瀛愬脊 + 鍐荤粨',
         tier: 1,
-        icon: '❄️',
-        status: '现有'
+        icon: '鉂勶笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_cell_ghost',
-        name: '幽群',
+        name: '骞界兢',
         materials: ['cell', 'ghost'],
         result: 'wraith_swarm',
-        description: '由细胞与幽灵融合而成，效果：分裂子弹 + 穿透',
+        description: '鐢辩粏鑳炰笌骞界伒铻嶅悎鑰屾垚锛屾晥鏋滐細鍒嗚瀛愬脊 + 绌块€?,
         tier: 1,
-        icon: '👻',
-        status: '现有'
+        icon: '馃懟',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_cell_light',
-        name: '棱光群',
+        name: '妫卞厜缇?,
         materials: ['cell', 'light'],
         result: 'prism_swarm',
-        description: '由细胞与光芒融合而成，效果：致盲 + 分裂子弹',
+        description: '鐢辩粏鑳炰笌鍏夎姃铻嶅悎鑰屾垚锛屾晥鏋滐細鑷寸洸 + 鍒嗚瀛愬脊',
         tier: 1,
-        icon: '✨',
-        status: '现有'
+        icon: '鉁?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_cell_lightning',
-        name: '电孢群',
+        name: '鐢靛缇?,
         materials: ['cell', 'lightning'],
         result: 'spark_spore_swarm',
-        description: '由细胞与闪电融合而成，效果：连锁闪电 + 分裂子弹',
+        description: '鐢辩粏鑳炰笌闂數铻嶅悎鑰屾垚锛屾晥鏋滐細杩為攣闂數 + 鍒嗚瀛愬脊',
         tier: 1,
-        icon: '⚡',
-        status: '现有'
+        icon: '鈿?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_cell_poison',
-        name: '瘟疫',
+        name: '鐦熺柅',
         materials: ['cell', 'poison'],
         result: 'plague',
-        description: '由细胞与剧毒融合而成，效果：瘟疫扩散 + 持续DOT',
+        description: '鐢辩粏鑳炰笌鍓ф瘨铻嶅悎鑰屾垚锛屾晥鏋滐細鐦熺柅鎵╂暎 + 鎸佺画DOT',
         tier: 1,
-        icon: '🦠',
-        status: '现有'
+        icon: '馃',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_cell_ray',
-        name: '辐射射线',
+        name: '杈愬皠灏勭嚎',
         materials: ['cell', 'ray'],
         result: 'radiation_beam',
-        description: '由细胞与射线融合而成，效果：射线AOE + 辐射易伤',
+        description: '鐢辩粏鑳炰笌灏勭嚎铻嶅悎鑰屾垚锛屾晥鏋滐細灏勭嚎AOE + 杈愬皠鏄撲激',
         tier: 1,
-        icon: '☢️',
-        status: '现有'
+        icon: '鈽笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_cell_rock',
-        name: '蔓延',
+        name: '钄撳欢',
         materials: ['cell', 'rock'],
         result: 'overgrowth',
-        description: '由细胞与岩石融合而成，效果：蔓延叠层 + 爆发AOE',
+        description: '鐢辩粏鑳炰笌宀╃煶铻嶅悎鑰屾垚锛屾晥鏋滐細钄撳欢鍙犲眰 + 鐖嗗彂AOE',
         tier: 1,
-        icon: '🌱',
-        status: '现有'
+        icon: '馃尡',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_cell_steel',
-        name: '破片核',
+        name: '鐮寸墖鏍?,
         materials: ['cell', 'steel'],
         result: 'shrapnel_core',
-        description: '由细胞与钢铁融合而成，效果：分裂子弹 + 高伤',
+        description: '鐢辩粏鑳炰笌閽㈤搧铻嶅悎鑰屾垚锛屾晥鏋滐細鍒嗚瀛愬脊 + 楂樹激',
         tier: 1,
-        icon: '🧬',
-        status: '现有'
+        icon: '馃К',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_cell_swift',
-        name: '裂风群',
+        name: '瑁傞缇?,
         materials: ['cell', 'swift'],
         result: 'split_wind_swarm',
-        description: '由细胞与疾风融合而成，效果：分裂子弹 + 高速',
+        description: '鐢辩粏鑳炰笌鐤鹃铻嶅悎鑰屾垚锛屾晥鏋滐細鍒嗚瀛愬脊 + 楂橀€?,
         tier: 1,
-        icon: '🧬',
-        status: '现有'
+        icon: '馃К',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_cell_vampire',
-        name: '血孢群',
+        name: '琛€瀛㈢兢',
         materials: ['cell', 'vampire'],
         result: 'blood_spore_swarm',
-        description: '由细胞与吸血融合而成，效果：分裂子弹 + 吸血',
+        description: '鐢辩粏鑳炰笌鍚歌铻嶅悎鑰屾垚锛屾晥鏋滐細鍒嗚瀛愬脊 + 鍚歌',
         tier: 1,
-        icon: '🩸',
-        status: '现有'
+        icon: '馃└',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_dark_fire',
-        name: '暗焰',
+        name: '鏆楃劙',
         materials: ['dark', 'fire'],
         result: 'dark_flame',
-        description: '由黑暗与火焰融合而成，效果：燃烧DOT + 易伤',
+        description: '鐢遍粦鏆椾笌鐏劙铻嶅悎鑰屾垚锛屾晥鏋滐細鐕冪儳DOT + 鏄撲激',
         tier: 1,
-        icon: '🔥',
-        status: '现有'
+        icon: '馃敟',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_dark_frost',
-        name: '怨灵',
+        name: '鎬ㄧ伒',
         materials: ['dark', 'frost'],
         result: 'frost_corrosion',
-        description: '由黑暗与冰霜融合而成，效果：冻结 + 诅咒',
+        description: '鐢遍粦鏆椾笌鍐伴湝铻嶅悎鑰屾垚锛屾晥鏋滐細鍐荤粨 + 璇呭拻',
         tier: 1,
-        icon: '❄️',
-        status: '现有'
+        icon: '鉂勶笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_dark_ghost',
-        name: '恶灵',
+        name: '鎭剁伒',
         materials: ['dark', 'ghost'],
         result: 'shadow_wraith',
-        description: '由黑暗与幽灵融合而成，效果：穿透 + 诅咒',
+        description: '鐢遍粦鏆椾笌骞界伒铻嶅悎鑰屾垚锛屾晥鏋滐細绌块€?+ 璇呭拻',
         tier: 1,
-        icon: '🌑',
-        status: '现有'
+        icon: '馃寫',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_dark_light',
-        name: '日蚀',
+        name: '鏃ヨ殌',
         materials: ['dark', 'light'],
         result: 'eclipse',
-        description: '由黑暗与光芒融合而成，效果：致盲 + 易伤',
+        description: '鐢遍粦鏆椾笌鍏夎姃铻嶅悎鑰屾垚锛屾晥鏋滐細鑷寸洸 + 鏄撲激',
         tier: 1,
-        icon: '✨',
-        status: '现有'
+        icon: '鉁?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_dark_lightning',
-        name: '虚雷',
+        name: '铏氶浄',
         materials: ['dark', 'lightning'],
         result: 'void_thunder',
-        description: '由黑暗与闪电融合而成，效果：连锁闪电 + 易伤',
+        description: '鐢遍粦鏆椾笌闂數铻嶅悎鑰屾垚锛屾晥鏋滐細杩為攣闂數 + 鏄撲激',
         tier: 1,
-        icon: '⚡',
-        status: '现有'
+        icon: '鈿?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_dark_poison',
-        name: '瘟疫',
+        name: '鐦熺柅',
         materials: ['dark', 'poison'],
         result: 'plague',
-        description: '由黑暗与剧毒融合而成，效果：瘟疫扩散 + 持续DOT',
+        description: '鐢遍粦鏆椾笌鍓ф瘨铻嶅悎鑰屾垚锛屾晥鏋滐細鐦熺柅鎵╂暎 + 鎸佺画DOT',
         tier: 1,
-        icon: '🦠',
-        status: '现有'
+        icon: '馃',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_dark_ray',
-        name: '虚空射线',
+        name: '铏氱┖灏勭嚎',
         materials: ['dark', 'ray'],
         result: 'void_beam',
-        description: '由黑暗与射线融合而成，效果：射线AOE + 诅咒',
+        description: '鐢遍粦鏆椾笌灏勭嚎铻嶅悎鑰屾垚锛屾晥鏋滐細灏勭嚎AOE + 璇呭拻',
         tier: 1,
-        icon: '🌑',
-        status: '现有'
+        icon: '馃寫',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_dark_rock',
-        name: '暗蚀地带',
+        name: '鏆楄殌鍦板甫',
         materials: ['dark', 'rock'],
         result: 'cursed_stone',
-        description: '由黑暗与岩石融合而成，效果：圆形AOE + 诅咒',
+        description: '鐢遍粦鏆椾笌宀╃煶铻嶅悎鑰屾垚锛屾晥鏋滐細鍦嗗舰AOE + 璇呭拻',
         tier: 1,
-        icon: '🪨',
-        status: '现有'
+        icon: '馃',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_dark_steel',
-        name: '黑钢',
+        name: '榛戦挗',
         materials: ['dark', 'steel'],
         result: 'dark_steel',
-        description: '由黑暗与钢铁融合而成，效果：高伤 + 易伤',
+        description: '鐢遍粦鏆椾笌閽㈤搧铻嶅悎鑰屾垚锛屾晥鏋滐細楂樹激 + 鏄撲激',
         tier: 1,
-        icon: '✨',
-        status: '现有'
+        icon: '鉁?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_dark_swift',
-        name: '夜刃',
+        name: '澶滃垉',
         materials: ['dark', 'swift'],
         result: 'night_blade',
-        description: '由黑暗与疾风融合而成，效果：穿透 + 易伤',
+        description: '鐢遍粦鏆椾笌鐤鹃铻嶅悎鑰屾垚锛屾晥鏋滐細绌块€?+ 鏄撲激',
         tier: 1,
-        icon: '🗡️',
-        status: '现有'
+        icon: '馃棥锔?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_dark_vampire',
-        name: '血咒',
+        name: '琛€鍜?,
         materials: ['dark', 'vampire'],
         result: 'soul_drain',
-        description: '由黑暗与吸血融合而成，效果：诅咒',
+        description: '鐢遍粦鏆椾笌鍚歌铻嶅悎鑰屾垚锛屾晥鏋滐細璇呭拻',
         tier: 1,
-        icon: '🩸',
-        status: '现有'
+        icon: '馃└',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_frostfire',
-        name: '燃霜',
+        name: '鐕冮湝',
         materials: ['frost', 'fire'],
         result: 'frostfire',
-        description: '冰霜与火焰的矛盾融合为燃霜',
+        description: '鍐伴湝涓庣伀鐒扮殑鐭涚浘铻嶅悎涓虹噧闇?,
         tier: 1,
-        icon: '💠',
-        status: '现有'
+        icon: '馃挔',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_fire_ghost',
-        name: '鬼火',
+        name: '楝肩伀',
         materials: ['fire', 'ghost'],
         result: 'ghost_fire',
-        description: '由火焰与幽灵融合而成，效果：穿透 + 燃烧DOT',
+        description: '鐢辩伀鐒颁笌骞界伒铻嶅悎鑰屾垚锛屾晥鏋滐細绌块€?+ 鐕冪儳DOT',
         tier: 1,
-        icon: '🔥',
-        status: '现有'
+        icon: '馃敟',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_fire_light',
-        name: '眩光焰',
+        name: '鐪╁厜鐒?,
         materials: ['fire', 'light'],
         result: 'dazzle_flame',
-        description: '由火焰与光芒融合而成，效果：燃烧DOT + 致盲',
+        description: '鐢辩伀鐒颁笌鍏夎姃铻嶅悎鑰屾垚锛屾晥鏋滐細鐕冪儳DOT + 鑷寸洸',
         tier: 1,
-        icon: '🔥',
-        status: '现有'
+        icon: '馃敟',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_fire_lightning',
-        name: '等离火链',
+        name: '绛夌鐏摼',
         materials: ['fire', 'lightning'],
         result: 'plasma_chain',
-        description: '由火焰与闪电融合而成，效果：燃烧DOT + 连锁闪电',
+        description: '鐢辩伀鐒颁笌闂數铻嶅悎鑰屾垚锛屾晥鏋滐細鐕冪儳DOT + 杩為攣闂數',
         tier: 1,
-        icon: '🔥',
-        status: '现有'
+        icon: '馃敟',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_fire_poison',
-        name: '毒焰',
+        name: '姣掔劙',
         materials: ['fire', 'poison'],
         result: 'toxic_flame',
-        description: '由火焰与剧毒融合而成，效果：燃烧DOT + 中毒DOT',
+        description: '鐢辩伀鐒颁笌鍓ф瘨铻嶅悎鑰屾垚锛屾晥鏋滐細鐕冪儳DOT + 涓瘨DOT',
         tier: 1,
-        icon: '🔥',
-        status: '现有'
+        icon: '馃敟',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_fire_ray',
-        name: '太阳束',
+        name: '澶槼鏉?,
         materials: ['fire', 'ray'],
         result: 'solar_beam',
-        description: '由火焰与射线融合而成，效果：射线AOE + 燃烧DOT',
+        description: '鐢辩伀鐒颁笌灏勭嚎铻嶅悎鑰屾垚锛屾晥鏋滐細灏勭嚎AOE + 鐕冪儳DOT',
         tier: 1,
-        icon: '🔥',
-        status: '现有'
+        icon: '馃敟',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_fire_rock',
-        name: '熔岩爆',
+        name: '鐔斿博鐖?,
         materials: ['fire', 'rock'],
-        result: 'magma_burst',
-        description: '由火焰与岩石融合而成，效果：圆形AOE + 燃烧DOT',
+        result: 'lava',
+        description: '鐢辩伀鐒颁笌宀╃煶铻嶅悎鑰屾垚锛屾晥鏋滐細鍦嗗舰AOE + 鐕冪儳DOT',
         tier: 1,
-        icon: '🔥',
-        status: '现有'
+        icon: '馃敟',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_bomb',
-        name: '炸弹',
+        name: '鐐稿脊',
         materials: ['steel', 'fire'],
         result: 'bomb',
-        description: '钢铁的威力与火焰的爆炸融合为炸弹',
+        description: '閽㈤搧鐨勫▉鍔涗笌鐏劙鐨勭垎鐐歌瀺鍚堜负鐐稿脊',
         tier: 1,
-        icon: '💣',
-        status: '现有'
+        icon: '馃挘',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_inferno',
-        name: '炼狱',
+        name: '鐐肩嫳',
         materials: ['swift', 'fire'],
         result: 'inferno',
-        description: '疾风的穿透与火焰的灼烧融合为炼狱',
+        description: '鐤鹃鐨勭┛閫忎笌鐏劙鐨勭伡鐑ц瀺鍚堜负鐐肩嫳',
         tier: 1,
-        icon: '🌋',
-        status: '现有'
+        icon: '馃寢',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_fire_vampire',
-        name: '血焰',
+        name: '琛€鐒?,
         materials: ['fire', 'vampire'],
         result: 'blood_flame',
-        description: '由火焰与吸血融合而成，效果：燃烧DOT + 吸血',
+        description: '鐢辩伀鐒颁笌鍚歌铻嶅悎鑰屾垚锛屾晥鏋滐細鐕冪儳DOT + 鍚歌',
         tier: 1,
-        icon: '🔥',
-        status: '现有'
+        icon: '馃敟',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_frost_ghost',
-        name: '霜灵',
+        name: '闇滅伒',
         materials: ['frost', 'ghost'],
         result: 'frost_wraith',
-        description: '由冰霜与幽灵融合而成，效果：穿透 + 冻结',
+        description: '鐢卞啺闇滀笌骞界伒铻嶅悎鑰屾垚锛屾晥鏋滐細绌块€?+ 鍐荤粨',
         tier: 1,
-        icon: '❄️',
-        status: '现有'
+        icon: '鉂勶笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_frost_light',
-        name: '白晕',
+        name: '鐧芥檿',
         materials: ['frost', 'light'],
         result: 'white_halo',
-        description: '由冰霜与光芒融合而成，效果：冻结 + 致盲',
+        description: '鐢卞啺闇滀笌鍏夎姃铻嶅悎鑰屾垚锛屾晥鏋滐細鍐荤粨 + 鑷寸洸',
         tier: 1,
-        icon: '❄️',
-        status: '现有'
+        icon: '鉂勶笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_frost_lightning',
-        name: '冰电链',
+        name: '鍐扮數閾?,
         materials: ['frost', 'lightning'],
         result: 'ice_chain',
-        description: '由冰霜与闪电融合而成，效果：冻结 + 连锁闪电',
+        description: '鐢卞啺闇滀笌闂數铻嶅悎鑰屾垚锛屾晥鏋滐細鍐荤粨 + 杩為攣闂數',
         tier: 1,
-        icon: '❄️',
-        status: '现有'
+        icon: '鉂勶笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_frost_poison',
-        name: '冰毒',
+        name: '鍐版瘨',
         materials: ['frost', 'poison'],
         result: 'ice_toxin',
-        description: '由冰霜与剧毒融合而成，效果：冻结 + 中毒DOT',
+        description: '鐢卞啺闇滀笌鍓ф瘨铻嶅悎鑰屾垚锛屾晥鏋滐細鍐荤粨 + 涓瘨DOT',
         tier: 1,
-        icon: '❄️',
-        status: '现有'
+        icon: '鉂勶笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_frost_ray',
-        name: '寒束',
+        name: '瀵掓潫',
         materials: ['frost', 'ray'],
         result: 'cold_beam',
-        description: '由冰霜与射线融合而成，效果：射线AOE + 冻结',
+        description: '鐢卞啺闇滀笌灏勭嚎铻嶅悎鑰屾垚锛屾晥鏋滐細灏勭嚎AOE + 鍐荤粨',
         tier: 1,
-        icon: '❄️',
-        status: '现有'
+        icon: '鉂勶笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_frost_rock',
-        name: '冰川震',
+        name: '鍐板窛闇?,
         materials: ['frost', 'rock'],
-        result: 'glacier_quake',
-        description: '由冰霜与岩石融合而成，效果：圆形AOE + 冻结',
+        result: 'glacier',
+        description: '鐢卞啺闇滀笌宀╃煶铻嶅悎鑰屾垚锛屾晥鏋滐細鍦嗗舰AOE + 鍐荤粨',
         tier: 1,
-        icon: '❄️',
-        status: '现有'
+        icon: '鉂勶笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_frost_steel',
-        name: '冰锥',
+        name: '鍐伴敟',
         materials: ['frost', 'steel'],
         result: 'ice_spike',
-        description: '由冰霜与钢铁融合而成，效果：冻结 + 碎冰倍伤',
+        description: '鐢卞啺闇滀笌閽㈤搧铻嶅悎鑰屾垚锛屾晥鏋滐細鍐荤粨 + 纰庡啺鍊嶄激',
         tier: 1,
-        icon: '🧊',
-        status: '现有'
+        icon: '馃',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_blizzard',
-        name: '暴风雪',
+        name: '鏆撮闆?,
         materials: ['swift', 'frost'],
         result: 'blizzard',
-        description: '疾风的速度与冰霜的寒冷融合为暴风雪',
+        description: '鐤鹃鐨勯€熷害涓庡啺闇滅殑瀵掑喎铻嶅悎涓烘毚椋庨洩',
         tier: 1,
-        icon: '🌨️',
-        status: '现有'
+        icon: '馃尐锔?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_frost_vampire',
-        name: '寒魄吸',
+        name: '瀵掗瓌鍚?,
         materials: ['frost', 'vampire'],
         result: 'frost_leech',
-        description: '由冰霜与吸血融合而成，效果：冻结 + 吸血',
+        description: '鐢卞啺闇滀笌鍚歌铻嶅悎鑰屾垚锛屾晥鏋滐細鍐荤粨 + 鍚歌',
         tier: 1,
-        icon: '❄️',
-        status: '现有'
+        icon: '鉂勶笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_ghost_light',
-        name: '圣灵',
+        name: '鍦ｇ伒',
         materials: ['ghost', 'light'],
         result: 'holy_wisp',
-        description: '由幽灵与光芒融合而成，效果：致盲 + 穿透',
+        description: '鐢卞菇鐏典笌鍏夎姃铻嶅悎鑰屾垚锛屾晥鏋滐細鑷寸洸 + 绌块€?,
         tier: 1,
-        icon: '✨',
-        status: '现有'
+        icon: '鉁?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_ghost_lightning',
-        name: '幽电',
+        name: '骞界數',
         materials: ['ghost', 'lightning'],
         result: 'phantom_arc',
-        description: '由幽灵与闪电融合而成，效果：连锁闪电 + 穿透',
+        description: '鐢卞菇鐏典笌闂數铻嶅悎鑰屾垚锛屾晥鏋滐細杩為攣闂數 + 绌块€?,
         tier: 1,
-        icon: '⚡',
-        status: '现有'
+        icon: '鈿?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_ghost_poison',
-        name: '瘟疫',
+        name: '鐦熺柅',
         materials: ['ghost', 'poison'],
         result: 'plague',
-        description: '由幽灵与剧毒融合而成，效果：瘟疫扩散 + 持续DOT',
+        description: '鐢卞菇鐏典笌鍓ф瘨铻嶅悎鑰屾垚锛屾晥鏋滐細鐦熺柅鎵╂暎 + 鎸佺画DOT',
         tier: 1,
-        icon: '🦠',
-        status: '现有'
+        icon: '馃',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_ghost_ray',
-        name: '辐射射线',
+        name: '杈愬皠灏勭嚎',
         materials: ['ghost', 'ray'],
         result: 'radiation_beam',
-        description: '由幽灵与射线融合而成，效果：射线AOE + 辐射易伤',
+        description: '鐢卞菇鐏典笌灏勭嚎铻嶅悎鑰屾垚锛屾晥鏋滐細灏勭嚎AOE + 杈愬皠鏄撲激',
         tier: 1,
-        icon: '☢️',
-        status: '现有'
+        icon: '鈽笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_ghost_rock',
-        name: '灵岩',
+        name: '鐏靛博',
         materials: ['ghost', 'rock'],
-        result: 'spectral_rock',
-        description: '由幽灵与岩石融合而成，效果：圆形AOE + 穿透',
+        result: 'nether_stone',
+        description: '鐢卞菇鐏典笌宀╃煶铻嶅悎鑰屾垚锛屾晥鏋滐細鍦嗗舰AOE + 绌块€?,
         tier: 1,
-        icon: '🪨',
-        status: '现有'
+        icon: '馃',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_ghost_steel',
-        name: '幽刃',
+        name: '骞藉垉',
         materials: ['ghost', 'steel'],
         result: 'phantom_blade',
-        description: '由幽灵与钢铁融合而成，效果：穿透 + 高伤',
+        description: '鐢卞菇鐏典笌閽㈤搧铻嶅悎鑰屾垚锛屾晥鏋滐細绌块€?+ 楂樹激',
         tier: 1,
-        icon: '👻',
-        status: '现有'
+        icon: '馃懟',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_ghost_swift',
-        name: '影疾',
+        name: '褰辩柧',
         materials: ['ghost', 'swift'],
         result: 'shadow_rush',
-        description: '由幽灵与疾风融合而成，效果：穿透 + 高速',
+        description: '鐢卞菇鐏典笌鐤鹃铻嶅悎鑰屾垚锛屾晥鏋滐細绌块€?+ 楂橀€?,
         tier: 1,
-        icon: '🌑',
-        status: '现有'
+        icon: '馃寫',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_ghost_vampire',
-        name: '血影',
+        name: '琛€褰?,
         materials: ['ghost', 'vampire'],
         result: 'blood_wraith',
-        description: '由幽灵与吸血融合而成，效果：穿透 + 吸血',
+        description: '鐢卞菇鐏典笌鍚歌铻嶅悎鑰屾垚锛屾晥鏋滐細绌块€?+ 鍚歌',
         tier: 1,
-        icon: '🩸',
-        status: '现有'
+        icon: '馃└',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_light_lightning',
-        name: '闪耀电弧',
+        name: '闂€€鐢靛姬',
         materials: ['light', 'lightning'],
         result: 'radiant_arc',
-        description: '由光芒与闪电融合而成，效果：连锁闪电 + 致盲',
+        description: '鐢卞厜鑺掍笌闂數铻嶅悎鑰屾垚锛屾晥鏋滐細杩為攣闂數 + 鑷寸洸',
         tier: 1,
-        icon: '⚡',
-        status: '现有'
+        icon: '鈿?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_light_poison',
-        name: '毒眩',
+        name: '姣掔湬',
         materials: ['light', 'poison'],
         result: 'toxic_daze',
-        description: '由光芒与剧毒融合而成，效果：中毒DOT + 致盲',
+        description: '鐢卞厜鑺掍笌鍓ф瘨铻嶅悎鑰屾垚锛屾晥鏋滐細涓瘨DOT + 鑷寸洸',
         tier: 1,
-        icon: '☠️',
-        status: '现有'
+        icon: '鈽狅笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_light_ray',
-        name: '日光矛',
+        name: '鏃ュ厜鐭?,
         materials: ['light', 'ray'],
         result: 'sun_lance',
-        description: '由光芒与射线融合而成，效果：致盲 + 射线AOE',
+        description: '鐢卞厜鑺掍笌灏勭嚎铻嶅悎鑰屾垚锛屾晥鏋滐細鑷寸洸 + 灏勭嚎AOE',
         tier: 1,
-        icon: '✨',
-        status: '现有'
+        icon: '鉁?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_light_rock',
-        name: '闪光弹',
+        name: '闂厜寮?,
         materials: ['light', 'rock'],
-        result: 'flashbang',
-        description: '由光芒与岩石融合而成，效果：致盲 + 圆形AOE',
+        result: 'crystal_glow',
+        description: '鐢卞厜鑺掍笌宀╃煶铻嶅悎鑰屾垚锛屾晥鏋滐細鑷寸洸 + 鍦嗗舰AOE',
         tier: 1,
-        icon: '⚡',
-        status: '现有'
+        icon: '鈿?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_light_steel',
-        name: '圣锤',
+        name: '鍦ｉ敜',
         materials: ['light', 'steel'],
         result: 'holy_hammer',
-        description: '由光芒与钢铁融合而成，效果：高伤 + 致盲',
+        description: '鐢卞厜鑺掍笌閽㈤搧铻嶅悎鑰屾垚锛屾晥鏋滐細楂樹激 + 鑷寸洸',
         tier: 1,
-        icon: '✨',
-        status: '现有'
+        icon: '鉁?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_light_swift',
-        name: '闪袭',
+        name: '闂',
         materials: ['light', 'swift'],
         result: 'flash_strike',
-        description: '由光芒与疾风融合而成，效果：穿透 + 致盲',
+        description: '鐢卞厜鑺掍笌鐤鹃铻嶅悎鑰屾垚锛屾晥鏋滐細绌块€?+ 鑷寸洸',
         tier: 1,
-        icon: '⚡',
-        status: '现有'
+        icon: '鈿?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_light_vampire',
-        name: '血辉',
+        name: '琛€杈?,
         materials: ['light', 'vampire'],
         result: 'blood_glow',
-        description: '由光芒与吸血融合而成，效果：致盲 + 吸血',
+        description: '鐢卞厜鑺掍笌鍚歌铻嶅悎鑰屾垚锛屾晥鏋滐細鑷寸洸 + 鍚歌',
         tier: 1,
-        icon: '✨',
-        status: '现有'
+        icon: '鉁?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_lightning_poison',
-        name: '毒电链',
+        name: '姣掔數閾?,
         materials: ['lightning', 'poison'],
         result: 'venom_arc',
-        description: '由闪电与剧毒融合而成，效果：中毒DOT + 连锁闪电',
+        description: '鐢遍棯鐢典笌鍓ф瘨铻嶅悎鑰屾垚锛屾晥鏋滐細涓瘨DOT + 杩為攣闂數',
         tier: 1,
-        icon: '☠️',
-        status: '现有'
+        icon: '鈽狅笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_lightning_ray',
-        name: '离子束',
+        name: '绂诲瓙鏉?,
         materials: ['lightning', 'ray'],
         result: 'ion_beam',
-        description: '由闪电与射线融合而成，效果：连锁闪电 + 射线AOE',
+        description: '鐢遍棯鐢典笌灏勭嚎铻嶅悎鑰屾垚锛屾晥鏋滐細杩為攣闂數 + 灏勭嚎AOE',
         tier: 1,
-        icon: '⚡',
-        status: '现有'
+        icon: '鈿?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_lightning_rock',
-        name: '雷震',
+        name: '闆烽渿',
         materials: ['lightning', 'rock'],
-        result: 'thunder_quake',
-        description: '由闪电与岩石融合而成，效果：连锁闪电 + 圆形AOE',
+        result: 'thunder_grit',
+        description: '鐢遍棯鐢典笌宀╃煶铻嶅悎鑰屾垚锛屾晥鏋滐細杩為攣闂數 + 鍦嗗舰AOE',
         tier: 1,
-        icon: '⚡',
-        status: '现有'
+        icon: '鈿?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_lightning_steel',
-        name: '磁轨',
+        name: '纾佽建',
         materials: ['lightning', 'steel'],
         result: 'mag_rail',
-        description: '由闪电与钢铁融合而成，效果：高伤 + 连锁闪电',
+        description: '鐢遍棯鐢典笌閽㈤搧铻嶅悎鑰屾垚锛屾晥鏋滐細楂樹激 + 杩為攣闂數',
         tier: 1,
-        icon: '⚡',
-        status: '现有'
+        icon: '鈿?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_storm',
-        name: '风暴',
+        name: '椋庢毚',
         materials: ['swift', 'lightning'],
         result: 'storm',
-        description: '疾风的穿透与闪电的连锁融合为风暴',
+        description: '鐤鹃鐨勭┛閫忎笌闂數鐨勮繛閿佽瀺鍚堜负椋庢毚',
         tier: 1,
-        icon: '⛈️',
-        status: '现有'
+        icon: '鉀堬笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_lightning_vampire',
-        name: '吸雷链',
+        name: '鍚搁浄閾?,
         materials: ['lightning', 'vampire'],
         result: 'leech_arc',
-        description: '由闪电与吸血融合而成，效果：连锁闪电 + 吸血',
+        description: '鐢遍棯鐢典笌鍚歌铻嶅悎鑰屾垚锛屾晥鏋滐細杩為攣闂數 + 鍚歌',
         tier: 1,
-        icon: '⚡',
-        status: '现有'
+        icon: '鈿?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_poison_ray',
-        name: '辐射射线',
+        name: '杈愬皠灏勭嚎',
         materials: ['poison', 'ray'],
         result: 'radiation_beam',
-        description: '由剧毒与射线融合而成，效果：射线AOE + 辐射易伤',
+        description: '鐢卞墽姣掍笌灏勭嚎铻嶅悎鑰屾垚锛屾晥鏋滐細灏勭嚎AOE + 杈愬皠鏄撲激',
         tier: 1,
-        icon: '☢️',
-        status: '现有'
+        icon: '鈽笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_poison_rock',
-        name: '毒爆',
+        name: '姣掔垎',
         materials: ['poison', 'rock'],
-        result: 'toxic_burst',
-        description: '由剧毒与岩石融合而成，效果：中毒DOT + 圆形AOE',
+        result: 'swamp',
+        description: '鐢卞墽姣掍笌宀╃煶铻嶅悎鑰屾垚锛屾晥鏋滐細涓瘨DOT + 鍦嗗舰AOE',
         tier: 1,
-        icon: '☠️',
-        status: '现有'
+        icon: '鈽狅笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_poison_steel',
-        name: '毒钉',
+        name: '姣掗拤',
         materials: ['poison', 'steel'],
         result: 'toxic_spike',
-        description: '由剧毒与钢铁融合而成，效果：高伤 + 中毒DOT',
+        description: '鐢卞墽姣掍笌閽㈤搧铻嶅悎鑰屾垚锛屾晥鏋滐細楂樹激 + 涓瘨DOT',
         tier: 1,
-        icon: '☠️',
-        status: '现有'
+        icon: '鈽狅笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_poison_mist',
-        name: '毒雾',
+        name: '姣掗浘',
         materials: ['swift', 'poison'],
         result: 'poison_mist',
-        description: '疾风的穿透与剧毒的毒素融合为毒雾',
+        description: '鐤鹃鐨勭┛閫忎笌鍓ф瘨鐨勬瘨绱犺瀺鍚堜负姣掗浘',
         tier: 1,
-        icon: '☁️',
-        status: '现有'
+        icon: '鈽侊笍',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_poison_vampire',
-        name: '瘟疫',
+        name: '鐦熺柅',
         materials: ['poison', 'vampire'],
         result: 'plague',
-        description: '由剧毒与吸血融合而成，效果：瘟疫扩散 + 持续DOT',
+        description: '鐢卞墽姣掍笌鍚歌铻嶅悎鑰屾垚锛屾晥鏋滐細鐦熺柅鎵╂暎 + 鎸佺画DOT',
         tier: 1,
-        icon: '🦠',
-        status: '现有'
+        icon: '馃',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_ray_rock',
-        name: '震荡束',
+        name: '闇囪崱鏉?,
         materials: ['ray', 'rock'],
-        result: 'shockwave_beam',
-        description: '由射线与岩石融合而成，效果：射线AOE + 圆形AOE',
+        result: 'ley_beam',
+        description: '鐢卞皠绾夸笌宀╃煶铻嶅悎鑰屾垚锛屾晥鏋滐細灏勭嚎AOE + 鍦嗗舰AOE',
         tier: 1,
-        icon: '🪨',
-        status: '现有'
+        icon: '馃',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_ray_steel',
-        name: '轨道束',
+        name: '杞ㄩ亾鏉?,
         materials: ['ray', 'steel'],
         result: 'rail_beam',
-        description: '由射线与钢铁融合而成，效果：射线AOE + 高伤',
+        description: '鐢卞皠绾夸笌閽㈤搧铻嶅悎鑰屾垚锛屾晥鏋滐細灏勭嚎AOE + 楂樹激',
         tier: 1,
-        icon: '🔦',
-        status: '现有'
+        icon: '馃敠',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_ray_swift',
-        name: '疾光束',
+        name: '鐤惧厜鏉?,
         materials: ['ray', 'swift'],
         result: 'rapid_beam',
-        description: '由射线与疾风融合而成，效果：射线AOE + 高速',
+        description: '鐢卞皠绾夸笌鐤鹃铻嶅悎鑰屾垚锛屾晥鏋滐細灏勭嚎AOE + 楂橀€?,
         tier: 1,
-        icon: '✨',
-        status: '现有'
+        icon: '鉁?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_ray_vampire',
-        name: '血束',
+        name: '琛€鏉?,
         materials: ['ray', 'vampire'],
         result: 'blood_beam',
-        description: '由射线与吸血融合而成，效果：射线AOE + 吸血',
+        description: '鐢卞皠绾夸笌鍚歌铻嶅悎鑰屾垚锛屾晥鏋滐細灏勭嚎AOE + 鍚歌',
         tier: 1,
-        icon: '🩸',
-        status: '现有'
+        icon: '馃└',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_rock_steel',
-        name: '裂地锤',
+        name: '瑁傚湴閿?,
         materials: ['rock', 'steel'],
-        result: 'earthsplitter_hammer',
-        description: '由岩石与钢铁融合而成，效果：高伤 + 圆形AOE',
+        result: 'rift_hammer',
+        description: '鐢卞博鐭充笌閽㈤搧铻嶅悎鑰屾垚锛屾晥鏋滐細楂樹激 + 鍦嗗舰AOE',
         tier: 1,
-        icon: '🧬',
-        status: '现有'
+        icon: '馃К',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_rock_swift',
-        name: '砂暴',
+        name: '鐮傛毚',
         materials: ['rock', 'swift'],
         result: 'sandstorm',
-        description: '由岩石与疾风融合而成，效果：穿透 + 圆形AOE',
+        description: '鐢卞博鐭充笌鐤鹃铻嶅悎鑰屾垚锛屾晥鏋滐細绌块€?+ 鍦嗗舰AOE',
         tier: 1,
-        icon: '🗡️',
-        status: '现有'
+        icon: '馃棥锔?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_rock_vampire',
-        name: '血震',
+        name: '琛€闇?,
         materials: ['rock', 'vampire'],
         result: 'blood_quake',
-        description: '由岩石与吸血融合而成，效果：圆形AOE + 吸血',
+        description: '鐢卞博鐭充笌鍚歌铻嶅悎鑰屾垚锛屾晥鏋滐細鍦嗗舰AOE + 鍚歌',
         tier: 1,
-        icon: '🩸',
-        status: '现有'
+        icon: '馃└',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_steel_swift',
-        name: '疾枪',
+        name: '鐤炬灙',
         materials: ['steel', 'swift'],
         result: 'rapid_lance',
-        description: '由钢铁与疾风融合而成，效果：穿透 + 高伤',
+        description: '鐢遍挗閾佷笌鐤鹃铻嶅悎鑰屾垚锛屾晥鏋滐細绌块€?+ 楂樹激',
         tier: 1,
-        icon: '🗡️',
-        status: '现有'
+        icon: '馃棥锔?,
+        status: '鐜版湁'
     },
     {
         id: 'fusion_steel_vampire',
-        name: '血槌',
+        name: '琛€妲?,
         materials: ['steel', 'vampire'],
         result: 'blood_hammer',
-        description: '由钢铁与吸血融合而成，效果：高伤 + 吸血',
+        description: '鐢遍挗閾佷笌鍚歌铻嶅悎鑰屾垚锛屾晥鏋滐細楂樹激 + 鍚歌',
         tier: 1,
-        icon: '🩸',
-        status: '现有'
+        icon: '馃└',
+        status: '鐜版湁'
     },
     {
         id: 'fusion_swift_vampire',
-        name: '迅吸',
+        name: '杩呭惛',
         materials: ['swift', 'vampire'],
         result: 'swift_leech',
-        description: '由疾风与吸血融合而成，效果：穿透 + 吸血',
+        description: '鐢辩柧椋庝笌鍚歌铻嶅悎鑰屾垚锛屾晥鏋滐細绌块€?+ 鍚歌',
         tier: 1,
-        icon: '🩸',
-        status: '现有'
+        icon: '馃└',
+        status: '鐜版湁'
     },
 ];

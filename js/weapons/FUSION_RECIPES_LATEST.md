@@ -33,7 +33,7 @@
 | 火焰 (fire) | 闪电 (lightning) | 等离火链 (plasma_chain) | 建议 | 由火焰与闪电融合而成，效果：燃烧DOT + 连锁闪电 |
 | 火焰 (fire) | 剧毒 (poison) | 毒焰 (toxic_flame) | 建议 | 由火焰与剧毒融合而成，效果：燃烧DOT + 中毒DOT |
 | 火焰 (fire) | 射线 (ray) | 太阳束 (solar_beam) | 建议 | 由火焰与射线融合而成，效果：射线AOE + 燃烧DOT |
-| 火焰 (fire) | 岩石 (rock) | 熔岩爆 (magma_burst) | 建议 | 由火焰与岩石融合而成，效果：圆形AOE + 燃烧DOT |
+| 火焰 (fire) | 岩石 (rock) | 熔岩 (lava) | 建议 | 由火焰与岩石融合而成，效果：顶落岩石 + 燃烧 |
 | 火焰 (fire) | 吸血 (vampire) | 血焰 (blood_flame) | 建议 | 由火焰与吸血融合而成，效果：燃烧DOT + 吸血 |
 | 冰霜 (frost) | 火焰 (fire) | 燃霜 (frostfire) | 现有 | 冰霜与火焰的矛盾融合为燃霜 |
 | 冰霜 (frost) | 幽灵 (ghost) | 霜灵 (frost_wraith) | 建议 | 由冰霜与幽灵融合而成，效果：穿透 + 冻结 |
@@ -41,38 +41,38 @@
 | 冰霜 (frost) | 闪电 (lightning) | 冰电链 (ice_chain) | 建议 | 由冰霜与闪电融合而成，效果：冻结 + 连锁闪电 |
 | 冰霜 (frost) | 剧毒 (poison) | 冰毒 (ice_toxin) | 建议 | 由冰霜与剧毒融合而成，效果：冻结 + 中毒DOT |
 | 冰霜 (frost) | 射线 (ray) | 寒束 (cold_beam) | 建议 | 由冰霜与射线融合而成，效果：射线AOE + 冻结 |
-| 冰霜 (frost) | 岩石 (rock) | 冰川震 (glacier_quake) | 建议 | 由冰霜与岩石融合而成，效果：圆形AOE + 冻结 |
+| 冰霜 (frost) | 岩石 (rock) | 冰川 (glacier) | 建议 | 由冰霜与岩石融合而成，效果：顶落岩石 + 冻结 |
 | 冰霜 (frost) | 钢铁 (steel) | 冰锥 (ice_spike) | 现有 | 由冰霜与钢铁融合而成，效果：冻结 + 碎冰倍伤 |
 | 冰霜 (frost) | 吸血 (vampire) | 寒魄吸 (frost_leech) | 建议 | 由冰霜与吸血融合而成，效果：冻结 + 吸血 |
 | 幽灵 (ghost) | 光芒 (light) | 圣灵 (holy_wisp) | 建议 | 由幽灵与光芒融合而成，效果：致盲 + 穿透 |
 | 幽灵 (ghost) | 闪电 (lightning) | 幽电 (phantom_arc) | 建议 | 由幽灵与闪电融合而成，效果：连锁闪电 + 穿透 |
 | 幽灵 (ghost) | 剧毒 (poison) | 瘟疫 (plague) | 现有 | 由幽灵与剧毒融合而成，效果：瘟疫扩散 + 持续DOT |
 | 幽灵 (ghost) | 射线 (ray) | 辐射射线 (radiation_beam) | 现有 | 由幽灵与射线融合而成，效果：射线AOE + 辐射易伤 |
-| 幽灵 (ghost) | 岩石 (rock) | 灵岩 (spectral_rock) | 建议 | 由幽灵与岩石融合而成，效果：圆形AOE + 穿透 |
+| 幽灵 (ghost) | 岩石 (rock) | 幽冥石 (nether_stone) | 建议 | 由幽灵与岩石融合而成，效果：顶落岩石 + 岩脊带控场 + 穿透 |
 | 幽灵 (ghost) | 钢铁 (steel) | 幽刃 (phantom_blade) | 建议 | 由幽灵与钢铁融合而成，效果：穿透 + 高伤 |
 | 幽灵 (ghost) | 疾风 (swift) | 影疾 (shadow_rush) | 建议 | 由幽灵与疾风融合而成，效果：穿透 + 高速 |
 | 幽灵 (ghost) | 吸血 (vampire) | 血影 (blood_wraith) | 建议 | 由幽灵与吸血融合而成，效果：穿透 + 吸血 |
 | 光芒 (light) | 闪电 (lightning) | 闪耀电弧 (radiant_arc) | 建议 | 由光芒与闪电融合而成，效果：连锁闪电 + 致盲 |
 | 光芒 (light) | 剧毒 (poison) | 毒眩 (toxic_daze) | 建议 | 由光芒与剧毒融合而成，效果：中毒DOT + 致盲 |
 | 光芒 (light) | 射线 (ray) | 日光矛 (sun_lance) | 建议 | 由光芒与射线融合而成，效果：致盲 + 射线AOE |
-| 光芒 (light) | 岩石 (rock) | 闪光弹 (flashbang) | 建议 | 由光芒与岩石融合而成，效果：致盲 + 圆形AOE |
+| 光芒 (light) | 岩石 (rock) | 晶耀 (crystal_glow) | 建议 | 由光芒与岩石融合而成，效果：顶落岩石 + 岩脊带控场 + 致盲 |
 | 光芒 (light) | 钢铁 (steel) | 圣锤 (holy_hammer) | 建议 | 由光芒与钢铁融合而成，效果：高伤 + 致盲 |
 | 光芒 (light) | 疾风 (swift) | 闪袭 (flash_strike) | 建议 | 由光芒与疾风融合而成，效果：穿透 + 致盲 |
 | 光芒 (light) | 吸血 (vampire) | 血辉 (blood_glow) | 建议 | 由光芒与吸血融合而成，效果：致盲 + 吸血 |
 | 闪电 (lightning) | 剧毒 (poison) | 毒电链 (venom_arc) | 建议 | 由闪电与剧毒融合而成，效果：中毒DOT + 连锁闪电 |
 | 闪电 (lightning) | 射线 (ray) | 离子束 (ion_beam) | 建议 | 由闪电与射线融合而成，效果：连锁闪电 + 射线AOE |
-| 闪电 (lightning) | 岩石 (rock) | 雷震 (thunder_quake) | 建议 | 由闪电与岩石融合而成，效果：连锁闪电 + 圆形AOE |
+| 闪电 (lightning) | 岩石 (rock) | 雷砾 (thunder_grit) | 建议 | 由闪电与岩石融合而成，效果：顶落岩石 + 岩脊带控场 |
 | 闪电 (lightning) | 钢铁 (steel) | 磁轨 (mag_rail) | 建议 | 由闪电与钢铁融合而成，效果：高伤 + 连锁闪电 |
 | 闪电 (lightning) | 吸血 (vampire) | 吸雷链 (leech_arc) | 建议 | 由闪电与吸血融合而成，效果：连锁闪电 + 吸血 |
 | 剧毒 (poison) | 射线 (ray) | 辐射射线 (radiation_beam) | 现有 | 由剧毒与射线融合而成，效果：射线AOE + 辐射易伤 |
-| 剧毒 (poison) | 岩石 (rock) | 毒爆 (toxic_burst) | 建议 | 由剧毒与岩石融合而成，效果：中毒DOT + 圆形AOE |
+| 剧毒 (poison) | 岩石 (rock) | 沼泽 (swamp) | 建议 | 由剧毒与岩石融合而成，效果：顶落岩石 + 中毒 |
 | 剧毒 (poison) | 钢铁 (steel) | 毒钉 (toxic_spike) | 建议 | 由剧毒与钢铁融合而成，效果：高伤 + 中毒DOT |
 | 剧毒 (poison) | 吸血 (vampire) | 瘟疫 (plague) | 现有 | 由剧毒与吸血融合而成，效果：瘟疫扩散 + 持续DOT |
-| 射线 (ray) | 岩石 (rock) | 震荡束 (shockwave_beam) | 建议 | 由射线与岩石融合而成，效果：射线AOE + 圆形AOE |
+| 射线 (ray) | 岩石 (rock) | 地脉束 (ley_beam) | 建议 | 由射线与岩石融合而成，效果：射线AOE + 岩脊带控场 |
 | 射线 (ray) | 钢铁 (steel) | 轨道束 (rail_beam) | 建议 | 由射线与钢铁融合而成，效果：射线AOE + 高伤 |
 | 射线 (ray) | 疾风 (swift) | 疾光束 (rapid_beam) | 建议 | 由射线与疾风融合而成，效果：射线AOE + 高速 |
 | 射线 (ray) | 吸血 (vampire) | 血束 (blood_beam) | 建议 | 由射线与吸血融合而成，效果：射线AOE + 吸血 |
-| 岩石 (rock) | 钢铁 (steel) | 裂地锤 (earthsplitter_hammer) | 建议 | 由岩石与钢铁融合而成，效果：高伤 + 圆形AOE |
+| 岩石 (rock) | 钢铁 (steel) | 裂地锤 (rift_hammer) | 建议 | 由岩石与钢铁融合而成，效果：顶落岩石 |
 | 岩石 (rock) | 疾风 (swift) | 砂暴 (sandstorm) | 建议 | 由岩石与疾风融合而成，效果：穿透 + 圆形AOE |
 | 岩石 (rock) | 吸血 (vampire) | 血震 (blood_quake) | 建议 | 由岩石与吸血融合而成，效果：圆形AOE + 吸血 |
 | 钢铁 (steel) | 火焰 (fire) | 炸弹 (bomb) | 现有 | 钢铁的威力与火焰的爆炸融合为炸弹 |

@@ -15,6 +15,7 @@ import CollisionManager from '../combat/CollisionManager.js';
 import EffectsManager from '../effects/EffectsManager.js';
 import StatusVFXManager from '../effects/StatusVFXManager.js';
 import PlagueSystem from '../effects/PlagueSystem.js';
+import TerrainEffectManager from '../effects/TerrainEffectManager.js';
 import ChestManager from '../chest/ChestManager.js';
 import HUD from '../ui/HUD.js';
 import DebugOverlay from '../ui/DebugOverlay.js';
@@ -70,6 +71,7 @@ export default class Game {
         this.effectsManager = new EffectsManager();
         this.statusVFXManager = new StatusVFXManager();
         this.plagueSystem = new PlagueSystem();
+        this.terrainEffects = new TerrainEffectManager();
 
         // UI 系统
         this.hud = new HUD();
@@ -116,7 +118,7 @@ export default class Game {
         });
 
         // 设置碰撞管理器的依赖项（用于攻击范围等效果）
-        this.collisionManager.setDependencies(this.effectsManager, this.bulletPool, this.player);
+        this.collisionManager.setDependencies(this.effectsManager, this.bulletPool, this.player, this.terrainEffects);
 
         // 设置撤离完成回调
         this.evacuationManager.setEvacuationCallback(() => this.handleEvacuation());
@@ -198,6 +200,9 @@ export default class Game {
         this.evacuationManager.setSiegeConfig(siegeConfig);
         this.evacuationManager.update(this.player, this.scrollY, dt);
 
+        // 6.8 地形效果更新（影响敌人移动）
+        this.terrainEffects.update(this.enemies);
+
         // 7. 更新敌人位置和状态
         const playerPos = { x: this.player.x, y: this.player.y };
         for (let i = this.enemies.length - 1; i >= 0; i--) {
@@ -263,6 +268,9 @@ export default class Game {
 
         // 绘制地图
         this.mapManager.draw(this.ctx, this.scrollY, this.width, this.height);
+
+        // 绘制地形效果（敌人下方）
+        this.terrainEffects.draw(this.ctx, this.scrollY);
 
         // 绘制敌人
         this.enemies.forEach(enemy => {

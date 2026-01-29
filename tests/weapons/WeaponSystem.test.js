@@ -1,3 +1,4 @@
+import { jest as jestGlobals } from '@jest/globals';
 import WeaponSystem from '../../js/weapons/WeaponSystem.js';
 import { WEAPONS } from '../../js/weapons/WeaponsData.js';
 import Weapon from '../../js/weapons/Weapon.js';
@@ -17,6 +18,16 @@ describe('WeaponSystem', () => {
         system.addWeapon(WEAPONS.FIRE);
         expect(system.weapons.length).toBe(1);
         expect(system.weapons[0]).toBeInstanceOf(Weapon);
+        expect(system.weapons[0].def.id).toBe('fire');
+    });
+
+    test('addWeapon replaces basic weapon when acquiring a new weapon', () => {
+        system.addWeapon(WEAPONS.BASIC);
+        expect(system.weapons.length).toBe(1);
+        expect(system.weapons[0].def.id).toBe('basic');
+
+        system.addWeapon(WEAPONS.FIRE);
+        expect(system.weapons.length).toBe(1);
         expect(system.weapons[0].def.id).toBe('fire');
     });
 
@@ -107,5 +118,44 @@ describe('WeaponSystem', () => {
             // (target at (100, 0) means angle is 0)
             expect(spawnedBullets[0].vy).toBeCloseTo(0, 5);
         });
+    });
+
+    test('autoShoot supports sky_drop spawn mode', () => {
+        system.addWeapon({
+            id: 'sky_drop_test',
+            name: 'Sky Drop',
+            damage: 2,
+            interval: 30,
+            speed: 4,
+            radius: 6,
+            lifetime: 90,
+            spawnMode: 'sky_drop',
+            dropOffsetX: 10,
+            dropOffsetY: 60,
+            dropSpeed: 6,
+            dropLifetime: 240,
+            dropRadius: 14
+        });
+
+        const enemies = [{ x: 100, y: 200, radius: 10, hp: 100 }];
+        const playerPos = { x: 0, y: 0 };
+        const bulletPool = {
+            spawnBullet: jestGlobals.fn()
+        };
+
+        const randomSpy = jestGlobals.spyOn(Math, 'random').mockReturnValue(0.5);
+        system.autoShoot(playerPos, 50, enemies, bulletPool, 300);
+        randomSpy.mockRestore();
+
+        expect(bulletPool.spawnBullet).toHaveBeenCalledTimes(1);
+        const bulletData = bulletPool.spawnBullet.mock.calls[0][0];
+        expect(bulletData.x).toBe(100);
+        expect(bulletData.y).toBe(240);
+        expect(bulletData.vx).toBe(0);
+        expect(bulletData.vy).toBe(6);
+        expect(bulletData.radius).toBe(14);
+        expect(bulletData.lifetime).toBe(240);
+        expect(bulletData.damage).toBe(2 * 5);
+        expect(system.weapons[0].cooldown).toBe(30);
     });
 });

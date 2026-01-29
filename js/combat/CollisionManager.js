@@ -14,6 +14,7 @@ export default class CollisionManager {
         this.aoeHandler = new AOEHandler();
         // 玩家引用（用于吸血等效果）
         this.player = null;
+        this.terrainEffects = null;
     }
 
     /**
@@ -22,9 +23,10 @@ export default class CollisionManager {
      * @param {BulletPool} bulletPool - 子弹池
      * @param {Player} player - 玩家对象
      */
-    setDependencies(effectsManager, bulletPool, player) {
+    setDependencies(effectsManager, bulletPool, player, terrainEffects = null) {
         this.aoeHandler.setDependencies(effectsManager, bulletPool);
         this.player = player;
+        this.terrainEffects = terrainEffects;
     }
 
     /**
@@ -102,6 +104,10 @@ export default class CollisionManager {
                     this.aoeHandler.handleRangeEffects(bullet, enemy, enemies, playerAttack, applyStatuses);
 
                     hits.push({ bullet, enemy, damage: actualDamage });
+
+                    if (bullet.terrainOnHit && bullet.terrainOnHit.type === 'ridge' && this.terrainEffects) {
+                        this.terrainEffects.addRidge(enemy.x, enemy.y, bullet.terrainOnHit);
+                    }
 
                     // 穿透处理
                     if (bullet.piercing) {

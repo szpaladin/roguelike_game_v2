@@ -70,5 +70,27 @@ describe('WeaponCodexUI', () => {
         expect(filteredCards).toBeGreaterThan(0);
         expect(filteredCards).toBeLessThanOrEqual(allCards);
     });
-});
 
+    test('status tab renders status list and opens detail', () => {
+        const ui = new WeaponCodexUI({
+            isBlocked: () => false
+        });
+        ui.init();
+        ui.open();
+
+        const statusTab = document.querySelector('.codex-tab[data-tab="status"]');
+        expect(statusTab).not.toBeNull();
+        statusTab.click();
+
+        const statusCards = document.querySelectorAll('#codex-overlay [data-status-id]');
+        expect(statusCards.length).toBeGreaterThan(0);
+        const weaponCards = document.querySelectorAll('#codex-overlay [data-weapon-id]');
+        expect(weaponCards.length).toBe(0);
+
+        statusCards[0].click();
+        expect(ui.isDetailOpen()).toBe(true);
+        const detailName = document.querySelector('#codex-detail-overlay .codex-detail-name');
+        expect(detailName).not.toBeNull();
+        expect(detailName.textContent.length).toBeGreaterThan(0);
+    });
+});

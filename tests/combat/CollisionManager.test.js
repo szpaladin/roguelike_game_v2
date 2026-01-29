@@ -1,6 +1,7 @@
 import CollisionManager from '../../js/combat/CollisionManager.js';
 import Enemy from '../../js/enemies/Enemy.js';
 import Bullet from '../../js/combat/Bullet.js';
+import { jest } from '@jest/globals';
 
 describe('CollisionManager', () => {
     let manager;
@@ -108,5 +109,36 @@ describe('CollisionManager', () => {
 
         manager.checkBulletEnemyCollisions([makeBullet()], [overgrowthTarget, nearbyEnemy], 50);
         expect(nearbyEnemy.hp).toBe(50);
+    });
+
+    test('terrainOnHit creates ridge on direct hit', () => {
+        const terrainManager = { addRidge: jest.fn() };
+        manager.setDependencies(null, null, { stats: { intelligence: 50 } }, terrainManager);
+
+        const target = new Enemy(15, 0, {
+            name: 'E5', hp: 100, maxHp: 100, attack: 10, defense: 0, speed: 1, radius: 10, color: 'gray', exp: 10, gold: 10
+        });
+
+        const bullet = new Bullet({
+            x: 10,
+            y: 0,
+            vx: 1,
+            vy: 0,
+            damage: 10,
+            radius: 2,
+            lifetime: 60,
+            active: true,
+            terrainOnHit: {
+                type: 'ridge',
+                length: 120,
+                width: 24,
+                duration: 240,
+                slowAmount: 0.3,
+                slowDuration: 240
+            }
+        });
+
+        manager.checkBulletEnemyCollisions([bullet], [target], 10);
+        expect(terrainManager.addRidge).toHaveBeenCalledWith(target.x, target.y, bullet.terrainOnHit);
     });
 });

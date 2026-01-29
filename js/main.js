@@ -17,8 +17,8 @@ function init() {
 
     const game = new Game(ctx, canvas.width, canvas.height);
 
-    // 注入初始武器 (例如第一个武器)
-    game.player.weaponSystem.addWeapon(WEAPONS.FIRE);
+    // 注入初始武器（普通弹珠）
+    game.player.weaponSystem.addWeapon(WEAPONS.BASIC);
 
     // 初始化游戏循环
     const loop = new GameLoop(

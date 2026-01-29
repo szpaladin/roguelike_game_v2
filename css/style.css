@@ -277,6 +277,28 @@ body {
   gap: 12px;
 }
 
+.codex-tabs {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.codex-tab {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.18);
+  color: #e0e0e0;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.codex-tab.is-active {
+  border-color: rgba(255, 215, 0, 0.6);
+  background: rgba(255, 215, 0, 0.12);
+  color: #ffd700;
+}
+
 .codex-title {
   margin: 0;
 }
@@ -382,6 +404,19 @@ body {
   margin-bottom: 2px;
 }
 
+.codex-status-card .codex-card-icon,
+.codex-status-card .codex-card-name,
+.codex-status-type {
+  color: var(--status-color, #ffd700);
+}
+
+.codex-status-type {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
 .codex-detail-dialog {
   max-width: 980px;
   width: min(980px, 92vw);
@@ -461,6 +496,16 @@ body {
   opacity: 0.95;
 }
 
+.codex-color-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  margin-right: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  vertical-align: -1px;
+}
+
 .codex-recipe {
   border: 1px solid rgba(255, 255, 255, 0.10);
   background: rgba(0, 0, 0, 0.18);
@@ -503,6 +548,61 @@ body {
   font-size: 12px;
   line-height: 1.5;
   opacity: 0.95;
+}
+
+.codex-advanced {
+  margin-top: 10px;
+}
+
+.codex-advanced summary {
+  cursor: pointer;
+  font-size: 12px;
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+
+.codex-advanced[open] summary {
+  color: #ffd700;
+}
+
+.codex-source-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px;
+}
+
+.codex-source-card {
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  padding: 10px 12px;
+  text-align: left;
+  cursor: pointer;
+  color: #e0e0e0;
+  transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+
+.codex-source-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 215, 0, 0.35);
+  background: rgba(255, 215, 0, 0.05);
+}
+
+.codex-source-icon {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.codex-source-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffd700;
+  margin-bottom: 2px;
+}
+
+.codex-source-id {
+  font-size: 11px;
+  opacity: 0.7;
 }
 
 .codex-muted {
