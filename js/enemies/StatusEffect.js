@@ -147,6 +147,33 @@ export default class StatusEffect {
     }
 
     /**
+     * 消耗效果层数
+     * @param {number} count - 要消耗的层数
+     * @returns {number} - 实际消耗的层数
+     */
+    consumeStacks(count = 1) {
+        const toRemove = Math.max(0, count);
+
+        if (this.stackBehavior === 'independent' && this.stackDurations) {
+            const removeCount = Math.min(toRemove, this.stackDurations.length);
+            for (let i = 0; i < removeCount; i++) {
+                this.stackDurations.shift();
+                this.stackMaxDurations.shift();
+            }
+            this.syncStackSummary();
+            return removeCount;
+        }
+
+        const before = this.stacks;
+        this.stacks = Math.max(0, this.stacks - toRemove);
+        if (this.stacks === 0) {
+            this.duration = 0;
+            this.maxDuration = 0;
+        }
+        return before - this.stacks;
+    }
+
+    /**
      * 获取当前层数
      */
     getStackCount() {

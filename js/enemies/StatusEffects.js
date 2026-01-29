@@ -94,6 +94,21 @@ export const STATUS_EFFECTS = {
         defaultExplosionMultiplier: 2.5
     },
 
+    // 诅咒 - 受伤触发额外伤害
+    CURSED: {
+        id: 'cursed',
+        name: '诅咒',
+        type: STATUS_TYPE.DEBUFF,
+        color: '#7b3f8c',
+        icon: '🧿',
+        maxStacks: 100,
+        stackBehavior: 'independent',
+        description: '受到非诅咒伤害时消耗层数并触发额外伤害',
+        defaultDuration: 1800,
+        defaultConsumeStacks: 1,
+        defaultDamageMultiplier: 1.5
+    },
+
     // 易伤 - 增加受到的伤害
     VULNERABLE: {
         id: 'vulnerable',
@@ -275,6 +290,19 @@ export function extractStatusEffectsFromBullet(bulletData) {
         });
     }
 
+    // 诅咒效果
+    if (bulletData.curseDuration > 0) {
+        effects.push({
+            effectId: 'cursed',
+            duration: bulletData.curseDuration || STATUS_EFFECTS.CURSED.defaultDuration,
+            params: {
+                stacks: 1,
+                consumeStacks: bulletData.curseConsumeStacks || STATUS_EFFECTS.CURSED.defaultConsumeStacks,
+                damageMultiplier: bulletData.curseDamageMultiplier || STATUS_EFFECTS.CURSED.defaultDamageMultiplier
+            }
+        });
+    }
+
     // 致盲效果
     if (bulletData.blindChance > 0 && Math.random() < bulletData.blindChance) {
         effects.push({
@@ -391,6 +419,19 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null, opti
                 color: bullet.overgrowthExplosionColor || STATUS_EFFECTS.OVERGROWTH.color
             };
         }
+    }
+
+    // 诅咒效果（叠层，受伤时触发）
+    if (bullet.curseDuration > 0) {
+        const duration = bullet.curseDuration || STATUS_EFFECTS.CURSED.defaultDuration;
+        const consumeStacks = bullet.curseConsumeStacks || STATUS_EFFECTS.CURSED.defaultConsumeStacks;
+        const damageMultiplier = bullet.curseDamageMultiplier || STATUS_EFFECTS.CURSED.defaultDamageMultiplier;
+        enemy.applyStatusEffect('cursed', duration, {
+            stacks: 1,
+            consumeStacks,
+            damageMultiplier,
+            intMultiplier
+        });
     }
 
     // 吸血效果

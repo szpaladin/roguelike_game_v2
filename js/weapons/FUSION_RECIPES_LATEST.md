@@ -18,16 +18,16 @@
 | 细胞 (cell) | 疾风 (swift) | 裂风群 (split_wind_swarm) | 建议 | 由细胞与疾风融合而成，效果：分裂子弹 + 高速 |
 | 细胞 (cell) | 吸血 (vampire) | 血孢群 (blood_spore_swarm) | 建议 | 由细胞与吸血融合而成，效果：分裂子弹 + 吸血 |
 | 黑暗 (dark) | 火焰 (fire) | 暗焰 (dark_flame) | 建议 | 由黑暗与火焰融合而成，效果：燃烧DOT + 易伤 |
-| 黑暗 (dark) | 冰霜 (frost) | 霜蚀 (frost_corrosion) | 建议 | 由黑暗与冰霜融合而成，效果：冻结 + 易伤 |
-| 黑暗 (dark) | 幽灵 (ghost) | 影灵 (shadow_wraith) | 建议 | 由黑暗与幽灵融合而成，效果：穿透 + 易伤 |
+| 黑暗 (dark) | 冰霜 (frost) | 怨灵 (frost_corrosion) | 建议 | 由黑暗与冰霜融合而成，效果：冻结 + 诅咒 |
+| 黑暗 (dark) | 幽灵 (ghost) | 恶灵 (shadow_wraith) | 建议 | 由黑暗与幽灵融合而成，效果：穿透 + 诅咒 |
 | 黑暗 (dark) | 光芒 (light) | 日蚀 (eclipse) | 建议 | 由黑暗与光芒融合而成，效果：致盲 + 易伤 |
 | 黑暗 (dark) | 闪电 (lightning) | 虚雷 (void_thunder) | 建议 | 由黑暗与闪电融合而成，效果：连锁闪电 + 易伤 |
 | 黑暗 (dark) | 剧毒 (poison) | 瘟疫 (plague) | 现有 | 由黑暗与剧毒融合而成，效果：瘟疫扩散 + 持续DOT |
-| 黑暗 (dark) | 射线 (ray) | 虚空束 (void_beam) | 建议 | 由黑暗与射线融合而成，效果：射线AOE + 易伤 |
-| 黑暗 (dark) | 岩石 (rock) | 诅岩 (cursed_stone) | 建议 | 由黑暗与岩石融合而成，效果：圆形AOE + 易伤 |
+| 黑暗 (dark) | 射线 (ray) | 虚空射线 (void_beam) | 建议 | 由黑暗与射线融合而成，效果：射线AOE + 诅咒 |
+| 黑暗 (dark) | 岩石 (rock) | 暗蚀地带 (cursed_stone) | 建议 | 由黑暗与岩石融合而成，效果：圆形AOE + 诅咒 |
 | 黑暗 (dark) | 钢铁 (steel) | 黑钢 (dark_steel) | 建议 | 由黑暗与钢铁融合而成，效果：高伤 + 易伤 |
 | 黑暗 (dark) | 疾风 (swift) | 夜刃 (night_blade) | 建议 | 由黑暗与疾风融合而成，效果：穿透 + 易伤 |
-| 黑暗 (dark) | 吸血 (vampire) | 灵噬 (soul_drain) | 建议 | 由黑暗与吸血融合而成，效果：易伤 + 吸血 |
+| 黑暗 (dark) | 吸血 (vampire) | 血咒 (soul_drain) | 建议 | 由黑暗与吸血融合而成，效果：诅咒 |
 | 火焰 (fire) | 幽灵 (ghost) | 鬼火 (ghost_fire) | 建议 | 由火焰与幽灵融合而成，效果：穿透 + 燃烧DOT |
 | 火焰 (fire) | 光芒 (light) | 眩光焰 (dazzle_flame) | 建议 | 由火焰与光芒融合而成，效果：燃烧DOT + 致盲 |
 | 火焰 (fire) | 闪电 (lightning) | 等离火链 (plasma_chain) | 建议 | 由火焰与闪电融合而成，效果：燃烧DOT + 连锁闪电 |

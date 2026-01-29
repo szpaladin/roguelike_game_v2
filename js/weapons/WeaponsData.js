@@ -564,7 +564,7 @@ export const WEAPONS = {
 
     FROST_CORROSION: {
         id: 'frost_corrosion',
-        name: '霜蚀',
+        name: '怨灵',
         tier: WEAPON_TIER.EVOLUTION,
         damage: 1.5,
         interval: 45,
@@ -575,15 +575,17 @@ export const WEAPONS = {
         piercing: false,
         freezeChance: 0.3,
         freezeDuration: 120,
-        vulnerability: 0.25,
-        effects: '冻结 + 易伤',
+        curseDuration: 1800,
+        curseConsumeStacks: 1,
+        curseDamageMultiplier: 1.5,
+        effects: '冻结 + 诅咒',
         sources: ['dark', 'frost'],
-        status: '建议'
+        status: '现有'
     },
 
     SHADOW_WRAITH: {
         id: 'shadow_wraith',
-        name: '影灵',
+        name: '恶灵',
         tier: WEAPON_TIER.EVOLUTION,
         damage: 1.5,
         interval: 45,
@@ -592,10 +594,12 @@ export const WEAPONS = {
         color: '#351d86',
         lifetime: 150,
         piercing: true,
-        vulnerability: 0.25,
-        effects: '穿透 + 易伤',
+        curseDuration: 1800,
+        curseConsumeStacks: 1,
+        curseDamageMultiplier: 1.5,
+        effects: '穿透 + 诅咒',
         sources: ['dark', 'ghost'],
-        status: '建议'
+        status: '现有'
     },
 
     ECLIPSE: {
@@ -639,7 +643,7 @@ export const WEAPONS = {
 
     VOID_BEAM: {
         id: 'void_beam',
-        name: '虚空束',
+        name: '虚空射线',
         tier: WEAPON_TIER.EVOLUTION,
         damage: 1.4,
         interval: 45,
@@ -651,15 +655,17 @@ export const WEAPONS = {
         rayRange: 300,
         rayLength: 600,
         rayWidth: 10,
-        vulnerability: 0.25,
-        effects: '射线AOE + 易伤',
+        curseDuration: 1800,
+        curseConsumeStacks: 1,
+        curseDamageMultiplier: 1.5,
+        effects: '射线AOE + 诅咒',
         sources: ['dark', 'ray'],
-        status: '建议'
+        status: '现有'
     },
 
     CURSED_STONE: {
         id: 'cursed_stone',
-        name: '诅岩',
+        name: '暗蚀地带',
         tier: WEAPON_TIER.EVOLUTION,
         damage: 1.4,
         interval: 45,
@@ -670,10 +676,12 @@ export const WEAPONS = {
         piercing: false,
         aoeRadius: 80,
         aoeDamage: 0.8,
-        vulnerability: 0.25,
-        effects: '圆形AOE + 易伤',
+        curseDuration: 1800,
+        curseConsumeStacks: 1,
+        curseDamageMultiplier: 1.5,
+        effects: '圆形AOE + 诅咒',
         sources: ['dark', 'rock'],
-        status: '建议'
+        status: '现有'
     },
 
     DARK_STEEL: {
@@ -712,7 +720,7 @@ export const WEAPONS = {
 
     SOUL_DRAIN: {
         id: 'soul_drain',
-        name: '灵噬',
+        name: '血咒',
         tier: WEAPON_TIER.EVOLUTION,
         damage: 1.5,
         interval: 45,
@@ -721,12 +729,12 @@ export const WEAPONS = {
         color: '#6b0041',
         lifetime: 150,
         piercing: false,
-        vulnerability: 0.25,
-        lifeStealChance: 0.06,
-        lifeStealAmount: 1,
-        effects: '易伤 + 吸血',
+        curseDuration: 1800,
+        curseConsumeStacks: 1,
+        curseDamageMultiplier: 1.5,
+        effects: '诅咒',
         sources: ['dark', 'vampire'],
-        status: '建议'
+        status: '现有'
     },
 
     GHOST_FIRE: {
@@ -1642,15 +1650,15 @@ export const WEAPON_ID_MAP = {
     SPLIT_WIND_SWARM: { id: 'split_wind_swarm', name: '裂风群', tier: WEAPON_TIER.EVOLUTION, order: 30 },
     BLOOD_SPORE_SWARM: { id: 'blood_spore_swarm', name: '血孢群', tier: WEAPON_TIER.EVOLUTION, order: 31 },
     DARK_FLAME: { id: 'dark_flame', name: '暗焰', tier: WEAPON_TIER.EVOLUTION, order: 32 },
-    FROST_CORROSION: { id: 'frost_corrosion', name: '霜蚀', tier: WEAPON_TIER.EVOLUTION, order: 33 },
-    SHADOW_WRAITH: { id: 'shadow_wraith', name: '影灵', tier: WEAPON_TIER.EVOLUTION, order: 34 },
+    FROST_CORROSION: { id: 'frost_corrosion', name: '怨灵', tier: WEAPON_TIER.EVOLUTION, order: 33 },
+    SHADOW_WRAITH: { id: 'shadow_wraith', name: '恶灵', tier: WEAPON_TIER.EVOLUTION, order: 34 },
     ECLIPSE: { id: 'eclipse', name: '日蚀', tier: WEAPON_TIER.EVOLUTION, order: 35 },
     VOID_THUNDER: { id: 'void_thunder', name: '虚雷', tier: WEAPON_TIER.EVOLUTION, order: 36 },
-    VOID_BEAM: { id: 'void_beam', name: '虚空束', tier: WEAPON_TIER.EVOLUTION, order: 38 },
-    CURSED_STONE: { id: 'cursed_stone', name: '诅岩', tier: WEAPON_TIER.EVOLUTION, order: 39 },
+    VOID_BEAM: { id: 'void_beam', name: '虚空射线', tier: WEAPON_TIER.EVOLUTION, order: 38 },
+    CURSED_STONE: { id: 'cursed_stone', name: '暗蚀地带', tier: WEAPON_TIER.EVOLUTION, order: 39 },
     DARK_STEEL: { id: 'dark_steel', name: '黑钢', tier: WEAPON_TIER.EVOLUTION, order: 40 },
     NIGHT_BLADE: { id: 'night_blade', name: '夜刃', tier: WEAPON_TIER.EVOLUTION, order: 41 },
-    SOUL_DRAIN: { id: 'soul_drain', name: '灵噬', tier: WEAPON_TIER.EVOLUTION, order: 42 },
+    SOUL_DRAIN: { id: 'soul_drain', name: '血咒', tier: WEAPON_TIER.EVOLUTION, order: 42 },
     GHOST_FIRE: { id: 'ghost_fire', name: '鬼火', tier: WEAPON_TIER.EVOLUTION, order: 43 },
     DAZZLE_FLAME: { id: 'dazzle_flame', name: '眩光焰', tier: WEAPON_TIER.EVOLUTION, order: 44 },
     PLASMA_CHAIN: { id: 'plasma_chain', name: '等离火链', tier: WEAPON_TIER.EVOLUTION, order: 45 },
@@ -1834,20 +1842,20 @@ export const WEAPON_FUSION_TABLE = [
     },
     {
         id: 'fusion_dark_frost',
-        name: '霜蚀',
+        name: '怨灵',
         materials: ['dark', 'frost'],
         result: 'frost_corrosion',
-        description: '由黑暗与冰霜融合而成，效果：冻结 + 易伤',
+        description: '由黑暗与冰霜融合而成，效果：冻结 + 诅咒',
         tier: 1,
         icon: '❄️',
         status: '建议'
     },
     {
         id: 'fusion_dark_ghost',
-        name: '影灵',
+        name: '恶灵',
         materials: ['dark', 'ghost'],
         result: 'shadow_wraith',
-        description: '由黑暗与幽灵融合而成，效果：穿透 + 易伤',
+        description: '由黑暗与幽灵融合而成，效果：穿透 + 诅咒',
         tier: 1,
         icon: '🌑',
         status: '建议'
@@ -1884,20 +1892,20 @@ export const WEAPON_FUSION_TABLE = [
     },
     {
         id: 'fusion_dark_ray',
-        name: '虚空束',
+        name: '虚空射线',
         materials: ['dark', 'ray'],
         result: 'void_beam',
-        description: '由黑暗与射线融合而成，效果：射线AOE + 易伤',
+        description: '由黑暗与射线融合而成，效果：射线AOE + 诅咒',
         tier: 1,
         icon: '🌑',
         status: '建议'
     },
     {
         id: 'fusion_dark_rock',
-        name: '诅岩',
+        name: '暗蚀地带',
         materials: ['dark', 'rock'],
         result: 'cursed_stone',
-        description: '由黑暗与岩石融合而成，效果：圆形AOE + 易伤',
+        description: '由黑暗与岩石融合而成，效果：圆形AOE + 诅咒',
         tier: 1,
         icon: '🪨',
         status: '建议'
@@ -1924,10 +1932,10 @@ export const WEAPON_FUSION_TABLE = [
     },
     {
         id: 'fusion_dark_vampire',
-        name: '灵噬',
+        name: '血咒',
         materials: ['dark', 'vampire'],
         result: 'soul_drain',
-        description: '由黑暗与吸血融合而成，效果：易伤 + 吸血',
+        description: '由黑暗与吸血融合而成，效果：诅咒',
         tier: 1,
         icon: '🩸',
         status: '建议'

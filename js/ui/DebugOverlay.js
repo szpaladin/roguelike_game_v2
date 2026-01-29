@@ -1,3 +1,5 @@
+﻿import { getStatusEffect } from '../enemies/StatusEffects.js';
+
 export default class DebugOverlay {
     constructor() {
         this.enabled = false;
@@ -27,9 +29,14 @@ export default class DebugOverlay {
         const lightningCount = effectsManager ? effectsManager.lightningEffects.length : 0;
         const rayCount = effectsManager ? effectsManager.rayEffects.length : 0;
 
-        const statusSummary = this.buildStatusSummary(aliveEnemies);
+        const statusEntries = this.collectStatusEntries(aliveEnemies);
+        const statusSummary = this.buildStatusSummary(statusEntries);
         const statusText = statusSummary.length > 0 ? statusSummary.join('、') : '无';
-        const dotSummary = this.buildDotSummary(aliveEnemies);
+        const debuffSummary = this.buildTypeDetail(statusEntries, 'debuff');
+        const debuffText = debuffSummary.length > 0 ? debuffSummary.join('、') : '无';
+        const controlSummary = this.buildTypeDetail(statusEntries, 'cc');
+        const controlText = controlSummary.length > 0 ? controlSummary.join('、') : '无';
+        const dotSummary = this.buildDotSummary(statusEntries);
         const dotText = dotSummary.length > 0 ? dotSummary.join('、') : '无';
 
         const lines = [
@@ -39,7 +46,9 @@ export default class DebugOverlay {
             `子弹: ${bulletCount}`,
             `特效: 爆炸${explosionCount} 闪电${lightningCount} 射线${rayCount}`,
             `状态: ${statusText}`,
-            `DOT: ${dotText}`
+            `减益: ${debuffText}`,
+            `控制: ${controlText}`,
+            `DOT详情: ${dotText}`
         ];
 
         ctx.save();
@@ -67,28 +76,45 @@ export default class DebugOverlay {
         ctx.restore();
     }
 
-    buildStatusSummary(enemies) {
-        const counts = new Map();
-
-        for (const enemy of enemies) {
-            if (!enemy || !enemy.statusEffects || typeof enemy.statusEffects.getAllEffects !== 'function') {
-                continue;
-            }
-            const effects = enemy.statusEffects.getAllEffects();
-            for (const effect of effects) {
-                const label = effect.name || effect.id || 'unknown';
-                const stackCount = typeof effect.getStackCount === 'function' ? effect.getStackCount() : (effect.stacks || 1);
-                counts.set(label, (counts.get(label) || 0) + stackCount);
-            }
-        }
-
-        return Array.from(counts.entries())
-            .sort((a, b) => a[0].localeCompare(b[0], 'zh-Hans'))
-            .map(([label, count]) => `${label}x${count}`);
+    buildStatusSummary(source) {
+        const entries = source instanceof Map ? source : this.collectStatusEntries(source);
+        return Array.from(entries.values())
+            .sort((a, b) => a.label.localeCompare(b.label, 'zh-Hans'))
+            .map(entry => `${entry.label}x${entry.stacks}`);
     }
 
-    buildDotSummary(enemies) {
-        const summary = new Map();
+    buildTypeSummary(source, type) {
+        const entries = source instanceof Map ? source : this.collectStatusEntries(source);
+        return Array.from(entries.values())
+            .filter(entry => entry.type === type)
+            .sort((a, b) => a.label.localeCompare(b.label, 'zh-Hans'))
+            .map(entry => `${entry.label}x${entry.stacks}`);
+    }
+
+    buildTypeDetail(source, type) {
+        const entries = source instanceof Map ? source : this.collectStatusEntries(source);
+        return Array.from(entries.values())
+            .filter(entry => entry.type === type)
+            .sort((a, b) => a.label.localeCompare(b.label, 'zh-Hans'))
+            .map(entry => {
+                const durationText = this.formatDurationRange(entry.durations, entry.stackBehavior);
+                return `${entry.label}x${entry.stacks}(${durationText})`;
+            });
+    }
+
+    buildDotSummary(source) {
+        const entries = source instanceof Map ? source : this.collectStatusEntries(source);
+        return Array.from(entries.values())
+            .filter(entry => entry.type === 'dot')
+            .sort((a, b) => a.label.localeCompare(b.label, 'zh-Hans'))
+            .map(entry => {
+                const durationText = this.formatDurationRange(entry.durations, entry.stackBehavior);
+                return `${entry.label}x${entry.stacks}(${durationText})`;
+            });
+    }
+
+    collectStatusEntries(enemies) {
+        const entries = new Map();
 
         for (const enemy of enemies) {
             if (!enemy || !enemy.statusEffects || typeof enemy.statusEffects.getAllEffects !== 'function') {
@@ -96,23 +122,51 @@ export default class DebugOverlay {
             }
             const effects = enemy.statusEffects.getAllEffects();
             for (const effect of effects) {
-                if (!effect || effect.type !== 'dot') continue;
-
-                const label = effect.name || effect.id || 'unknown';
+                if (!effect) continue;
+                const id = effect.id || effect.name || 'unknown';
+                const definition = getStatusEffect(id);
+                const name = (definition && definition.name) || effect.name || id;
+                const icon = definition && definition.icon ? definition.icon : '';
+                const label = icon ? `${icon}${name}` : name;
                 const stackCount = typeof effect.getStackCount === 'function' ? effect.getStackCount() : (effect.stacks || 1);
-                const duration = Math.max(0, effect.duration || 0);
-                const entry = summary.get(label) || { stacks: 0, maxDuration: 0 };
+                const durations = this.extractDurations(effect);
+
+                const entry = entries.get(id) || {
+                    id,
+                    label,
+                    type: effect.type || (definition && definition.type) || 'unknown',
+                    stackBehavior: effect.stackBehavior || (definition && definition.stackBehavior) || 'refresh',
+                    stacks: 0,
+                    durations: []
+                };
                 entry.stacks += stackCount;
-                entry.maxDuration = Math.max(entry.maxDuration, duration);
-                summary.set(label, entry);
+                entry.durations.push(...durations);
+                entries.set(id, entry);
             }
         }
 
-        return Array.from(summary.entries())
-            .sort((a, b) => a[0].localeCompare(b[0], 'zh-Hans'))
-            .map(([label, entry]) => {
-                const seconds = entry.maxDuration / 60;
-                return `${label}x${entry.stacks}(${seconds.toFixed(1)}s)`;
-            });
+        return entries;
+    }
+
+    extractDurations(effect) {
+        if (!effect) return [];
+        if (effect.stackBehavior === 'independent' && Array.isArray(effect.stackDurations)) {
+            return effect.stackDurations.map(value => Math.max(0, value));
+        }
+        if (Number.isFinite(effect.duration)) {
+            return [Math.max(0, effect.duration)];
+        }
+        return [];
+    }
+
+    formatDurationRange(durations, stackBehavior) {
+        if (!durations || durations.length === 0) return '0.0s';
+        const seconds = durations.map(value => value / 60);
+        const min = Math.min(...seconds);
+        const max = Math.max(...seconds);
+        if (stackBehavior === 'independent' && Math.abs(max - min) > 0.05) {
+            return `${min.toFixed(1)}~${max.toFixed(1)}s`;
+        }
+        return `${max.toFixed(1)}s`;
     }
 }

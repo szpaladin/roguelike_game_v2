@@ -25,16 +25,39 @@ export default class Enemy {
     /**
      * 受到伤害
      * @param {number} rawDamage - 原始伤害值
+     * @param {Object} options - 伤害选项
      * @returns {number} - 实际受到的伤害
      */
-    takeDamage(rawDamage) {
-        const defense = this.defense || 0;
-        let actualDamage = Math.max(1, rawDamage - defense);
+    takeDamage(rawDamage, options = {}) {
+        return this.applyDamage(rawDamage, {
+            source: options.source || 'hit',
+            applyVulnerability: options.applyVulnerability !== false,
+            ignoreDefense: options.ignoreDefense === true
+        });
+    }
+
+    /**
+     * 应用伤害（支持诅咒触发）
+     * @param {number} rawDamage - 原始伤害值
+     * @param {Object} options - 伤害选项
+     * @returns {number} - 实际受到的伤害
+     */
+    applyDamage(rawDamage, options = {}) {
+        const source = options.source || 'hit';
+        const applyVulnerability = options.applyVulnerability !== false;
+        const ignoreDefense = options.ignoreDefense === true;
+        const minDamage = Number.isFinite(options.minDamage) ? options.minDamage : 1;
+
+        const defense = ignoreDefense ? 0 : (this.defense || 0);
+        let actualDamage = Math.max(minDamage, rawDamage - defense);
 
         // 应用易伤倍率
-        actualDamage *= this.statusEffects.getVulnerabilityMultiplier();
+        if (applyVulnerability && this.statusEffects) {
+            actualDamage *= this.statusEffects.getVulnerabilityMultiplier();
+        }
 
         this.hp -= actualDamage;
+        this.triggerCurseOnDamage(actualDamage, source);
         return actualDamage;
     }
 
@@ -100,7 +123,7 @@ export default class Enemy {
         // 更新状态效果并应用持续伤害
         const dotDamage = this.statusEffects.update(this);
         if (dotDamage > 0) {
-            this.hp -= dotDamage;
+            this.applyDamage(dotDamage, { source: 'dot', applyVulnerability: false, ignoreDefense: true, minDamage: 0 });
         }
 
         // 移动逻辑 (如果不冰冻)
@@ -188,5 +211,34 @@ export default class Enemy {
      */
     get burning() {
         return this.statusEffects.hasEffect('burning');
+    }
+
+    /**
+     * 诅咒触发处理：非诅咒伤害消耗层数并追加伤害
+     */
+    triggerCurseOnDamage(actualDamage, source = 'hit') {
+        if (!this.statusEffects || actualDamage <= 0) return;
+        if (source === 'curse') return;
+
+        const curse = this.statusEffects.getEffect('cursed');
+        if (!curse) return;
+
+        const consumeStacks = Number.isFinite(curse.params.consumeStacks) ? curse.params.consumeStacks : 1;
+        const damageMultiplier = Number.isFinite(curse.params.damageMultiplier) ? curse.params.damageMultiplier : 1.5;
+        const intMultiplier = Number.isFinite(curse.params.intMultiplier) ? curse.params.intMultiplier : 1;
+
+        const consumed = typeof curse.consumeStacks === 'function'
+            ? curse.consumeStacks(consumeStacks)
+            : 0;
+
+        if (consumed > 0) {
+            const bonusDamage = actualDamage * damageMultiplier * intMultiplier;
+            this.hp -= bonusDamage;
+        }
+
+        const remaining = typeof curse.getStackCount === 'function' ? curse.getStackCount() : (curse.stacks || 0);
+        if (remaining <= 0) {
+            this.statusEffects.removeEffect('cursed');
+        }
     }
 }

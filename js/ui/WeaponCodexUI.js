@@ -67,6 +67,7 @@ function deriveEffects(def) {
     if (def.chainCount) tags.push('连锁');
     if (def.burnDuration) tags.push('燃烧');
     if (def.poisonDuration) tags.push('中毒');
+    if (def.curseDuration) tags.push('诅咒');
     if (def.freezeChance || def.freezeDuration) tags.push('冻结');
     if (def.blindChance || def.blindDuration) tags.push('致盲');
     if (def.lifeStealChance) tags.push('吸血');

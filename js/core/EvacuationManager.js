@@ -259,6 +259,7 @@ export default class EvacuationManager {
      * @param {number} scrollY
      */
     draw(ctx, scrollY) {
+        ctx.save();
         for (const point of this.evacuationPoints) {
             const screenY = point.y - scrollY;
 
@@ -308,6 +309,7 @@ export default class EvacuationManager {
                 this.drawEvacuationProgress(ctx, point.x, screenY, currentRadius);
             }
         }
+        ctx.restore();
     }
 
     /**

@@ -92,4 +92,38 @@ describe('Enemy', () => {
         const multiplier = enemy.statusEffects.getVulnerabilityMultiplier();
         expect(multiplier).toBeCloseTo(1 + 0.1 * 5);
     });
+
+    test('curse consumes stacks and triggers bonus damage on hit', () => {
+        enemy.applyStatusEffect('cursed', 1800, {
+            stacks: 2,
+            consumeStacks: 1,
+            damageMultiplier: 1.5,
+            intMultiplier: 2
+        });
+
+        enemy.takeDamage(10);
+
+        expect(enemy.hp).toBe(68); // (10-2)=8; bonus 8*1.5*2=24; total 32
+        const curse = enemy.statusEffects.getEffect('cursed');
+        expect(curse.getStackCount()).toBe(1);
+    });
+
+    test('curse does not trigger on curse damage and triggers on dot', () => {
+        enemy.applyStatusEffect('cursed', 1800, {
+            stacks: 1,
+            consumeStacks: 1,
+            damageMultiplier: 1.5,
+            intMultiplier: 2
+        });
+
+        enemy.takeDamage(10, { source: 'curse' });
+        const remainingAfterCurseHit = enemy.statusEffects.getEffect('cursed');
+        expect(remainingAfterCurseHit.getStackCount()).toBe(1);
+
+        enemy.applyBurn(10, 1);
+        const hpBeforeDot = enemy.hp;
+        enemy.update({ x: 50, y: 50 }, 0, false);
+        expect(enemy.hp).toBeLessThan(hpBeforeDot);
+        expect(enemy.statusEffects.hasEffect('cursed')).toBe(false);
+    });
 });

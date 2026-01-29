@@ -133,20 +133,20 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
     },
     {
         id: 'fusion_dark_frost',
-        name: '霜蚀',
+        name: '怨灵',
         materials: ['dark', 'frost'],
         result: 'frost_corrosion',
-        description: '由黑暗与冰霜融合而成，效果：冻结 + 易伤',
+        description: '由黑暗与冰霜融合而成，效果：冻结 + 诅咒',
         tier: 1,
         icon: '❄️',
         status: '现有'
     },
     {
         id: 'fusion_dark_ghost',
-        name: '影灵',
+        name: '恶灵',
         materials: ['dark', 'ghost'],
         result: 'shadow_wraith',
-        description: '由黑暗与幽灵融合而成，效果：穿透 + 易伤',
+        description: '由黑暗与幽灵融合而成，效果：穿透 + 诅咒',
         tier: 1,
         icon: '🌑',
         status: '现有'
@@ -183,20 +183,20 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
     },
     {
         id: 'fusion_dark_ray',
-        name: '虚空束',
+        name: '虚空射线',
         materials: ['dark', 'ray'],
         result: 'void_beam',
-        description: '由黑暗与射线融合而成，效果：射线AOE + 易伤',
+        description: '由黑暗与射线融合而成，效果：射线AOE + 诅咒',
         tier: 1,
         icon: '🌑',
         status: '现有'
     },
     {
         id: 'fusion_dark_rock',
-        name: '诅岩',
+        name: '暗蚀地带',
         materials: ['dark', 'rock'],
         result: 'cursed_stone',
-        description: '由黑暗与岩石融合而成，效果：圆形AOE + 易伤',
+        description: '由黑暗与岩石融合而成，效果：圆形AOE + 诅咒',
         tier: 1,
         icon: '🪨',
         status: '现有'
@@ -223,10 +223,10 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
     },
     {
         id: 'fusion_dark_vampire',
-        name: '灵噬',
+        name: '血咒',
         materials: ['dark', 'vampire'],
         result: 'soul_drain',
-        description: '由黑暗与吸血融合而成，效果：易伤 + 吸血',
+        description: '由黑暗与吸血融合而成，效果：诅咒',
         tier: 1,
         icon: '🩸',
         status: '现有'
