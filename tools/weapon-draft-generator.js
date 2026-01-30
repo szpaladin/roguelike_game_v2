@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { WEAPONS, WEAPON_TIER, WEAPON_FUSION_TABLE } from '../js/weapons/WeaponsData.js';
+import { WEAPONS, WEAPON_TIER, WEAPON_EVOLUTION_TABLE } from '../js/weapons/WeaponsData.js';
 
 export const NAME_TO_ID = {
     '冰屑群': 'ice_shard_swarm',
@@ -346,9 +346,9 @@ function escapeString(value) {
 
 function formatFusionDraftModule(fusionDraft) {
     const lines = [];
-    lines.push('// 自动生成：weapon_fusion_suggestions.csv -> WEAPON_FUSION_TABLE 草案');
+    lines.push('// 自动生成：weapon_fusion_suggestions.csv -> WEAPON_EVOLUTION_TABLE 草案');
     lines.push('// 说明：result 为新武器 ID 时，请在 WEAPONS 中补充定义');
-    lines.push('export const WEAPON_FUSION_TABLE_DRAFT = [');
+    lines.push('export const WEAPON_EVOLUTION_TABLE_DRAFT = [');
     for (const item of fusionDraft) {
         lines.push('    {');
         lines.push(`        id: '${escapeString(item.id)}',`);
@@ -403,7 +403,7 @@ function formatEvolutionDraftModule(evolutionDraft) {
 export function generateDraftsFromCsv({
     csvText,
     weapons = WEAPONS,
-    fusionTable = WEAPON_FUSION_TABLE,
+    fusionTable = WEAPON_EVOLUTION_TABLE,
     nameToId = NAME_TO_ID
 }) {
     const { header, rows } = parseCsv(csvText);
@@ -492,10 +492,10 @@ export function generateDraftsFromCsv({
 
 export function generateDraftFiles({
     csvPath = 'weapon_fusion_suggestions.csv',
-    fusionOutPath = 'weapon_fusion_table_draft.js',
+    fusionOutPath = 'WEAPON_EVOLUTION_TABLE_DRAFT.js',
     evolutionOutPath = 'weapon_evolution_draft.js',
     weapons = WEAPONS,
-    fusionTable = WEAPON_FUSION_TABLE,
+    fusionTable = WEAPON_EVOLUTION_TABLE,
     nameToId = NAME_TO_ID
 } = {}) {
     const csvText = fs.readFileSync(csvPath, 'utf8');

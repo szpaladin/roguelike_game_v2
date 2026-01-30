@@ -1,7 +1,8 @@
 import { GAME_CONFIG } from '../config.js';
 import { log } from '../utils.js';
-import { WEAPONS, WEAPON_ID_MAP, WEAPON_TIER, getAvailableFusions } from '../weapons/WeaponsData.js';
-import { buildFusionDefinition } from '../weapons/FusionSystem.js';
+import { WEAPON_ID_MAP, WEAPON_TIER } from '../weapons/WeaponsData.js';
+import { executeFusion } from '../weapons/FusionSystem.js';
+import { executeEvolution, getAvailableEvolutions } from '../weapons/EvolutionSystem.js';
 
 const ORDER_MAP = {};
 Object.values(WEAPON_ID_MAP || {}).forEach((info) => {
@@ -32,18 +33,6 @@ function randomRange(min, max) {
 
 function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
-}
-
-function sortWeaponIds(ids) {
-    return ids
-        .filter(Boolean)
-        .slice()
-        .sort((a, b) => {
-            const orderA = ORDER_MAP[a] ?? 9999;
-            const orderB = ORDER_MAP[b] ?? 9999;
-            if (orderA !== orderB) return orderA - orderB;
-            return a.localeCompare(b);
-        });
 }
 
 function sortWeaponsByOrder(weapons) {
@@ -219,7 +208,7 @@ export default class ChestManager {
         const onComplete = resolved ? resolved.onComplete : null;
 
         const playerWeapons = player.weaponSystem.getWeapons();
-        const availableEvolutions = getAvailableFusions(playerWeapons);
+        const availableEvolutions = getAvailableEvolutions(playerWeapons);
         const fusionCandidates = sortWeaponsByOrder(
             playerWeapons.filter(w => w && w.def && !(w.def.isFusion || w.def.tier === WEAPON_TIER.FUSION))
         );
@@ -227,9 +216,15 @@ export default class ChestManager {
 
         this.chestUI.showChestMenu(availableEvolutions, fusionCandidates, goldReward, (selection) => {
             if (selection && selection.type === 'evolution' && selection.recipe) {
-                this.executeEvolution(player.weaponSystem, selection.recipe);
+                const result = executeEvolution(player.weaponSystem, selection.recipe);
+                if (result && result.success) {
+                    log(result.message, 'important');
+                }
             } else if (selection && selection.type === 'fusion' && Array.isArray(selection.weaponIds)) {
-                this.executeFusion(player.weaponSystem, selection.weaponIds);
+                const result = executeFusion(player.weaponSystem, selection.weaponIds);
+                if (result && result.success) {
+                    log(result.message, 'important');
+                }
             } else {
                 const amount = selection && typeof selection.amount === 'number'
                     ? selection.amount
@@ -249,24 +244,6 @@ export default class ChestManager {
      * @param {WeaponSystem} weaponSystem - 武器系统
      * @param {Object} recipe - 融合配方
      */
-    executeEvolution(weaponSystem, recipe) {
-        // 移除材料武器
-        for (const materialId of recipe.materials) {
-            weaponSystem.removeWeapon(materialId);
-        }
-
-        // 获取结果武器定义
-        const resultWeaponKey = Object.keys(WEAPONS).find(
-            key => WEAPONS[key].id === recipe.result
-        );
-
-        if (resultWeaponKey) {
-            // 使用 addWeapon 正确创建 Weapon 实例
-            weaponSystem.addWeapon(WEAPONS[resultWeaponKey]);
-            log(`武器进化成功！获得了 ${WEAPONS[resultWeaponKey].name}！`, 'important');
-        }
-    }
-
     updateChestMotion(chest, scrollY) {
         if (!chest) return;
         if (!chest.phase) {
@@ -308,27 +285,6 @@ export default class ChestManager {
 
         chest.x += chest.vx;
         chest.y += chest.vy;
-    }
-
-    executeFusion(weaponSystem, weaponIds) {
-        if (!Array.isArray(weaponIds) || weaponIds.length < 2) return false;
-        const [materialA, materialB] = sortWeaponIds(weaponIds);
-        if (!materialA || !materialB || materialA === materialB) return false;
-
-        const weapons = weaponSystem.getWeapons();
-        const weaponA = weapons.find(w => w.def && w.def.id === materialA);
-        const weaponB = weapons.find(w => w.def && w.def.id === materialB);
-        if (!weaponA || !weaponB) return false;
-        if (weaponA.def.isFusion || weaponB.def.isFusion) return false;
-
-        const fusedDef = buildFusionDefinition(weaponA.def, weaponB.def);
-        if (!fusedDef) return false;
-
-        weaponSystem.removeWeapon(materialA);
-        weaponSystem.removeWeapon(materialB);
-        weaponSystem.addWeapon(fusedDef);
-        log(`融合成功！获得了 ${fusedDef.name}！`, 'important');
-        return true;
     }
 
     /**

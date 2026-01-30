@@ -1,9 +1,26 @@
-import { WEAPONS, WEAPON_TIER } from './WeaponsData.js';
+import { WEAPONS, WEAPON_ID_MAP, WEAPON_TIER } from './WeaponsData.js';
 import { WEAPON_FUSION_RECIPES, FUSION_SOURCE_SIGNATURE } from './FusionRecipes.js';
 import { buildFusionSignature } from './FusionSignature.js';
 import { log } from '../utils.js';
 
 let syncWarningShown = false;
+
+const ORDER_MAP = {};
+Object.values(WEAPON_ID_MAP || {}).forEach((info) => {
+    if (info && info.id) ORDER_MAP[info.id] = info.order ?? 9999;
+});
+
+function sortWeaponIds(ids) {
+    return ids
+        .filter(Boolean)
+        .slice()
+        .sort((a, b) => {
+            const orderA = ORDER_MAP[a] ?? 9999;
+            const orderB = ORDER_MAP[b] ?? 9999;
+            if (orderA !== orderB) return orderA - orderB;
+            return a.localeCompare(b);
+        });
+}
 
 function warnIfFusionRecipesOutdated() {
     if (syncWarningShown) return;
@@ -219,6 +236,42 @@ export function buildFusionDefinition(defA, defB, recipe = null) {
     setIfDefined(def, 'terrainOnHit', mergeTerrainOnHit(defA, defB));
 
     return def;
+}
+
+export function executeFusion(weaponSystem, weaponIds, recipe = null) {
+    if (!weaponSystem || !Array.isArray(weaponIds) || weaponIds.length < 2) {
+        return { success: false, message: '材料不足', newWeapon: null };
+    }
+
+    const [materialA, materialB] = sortWeaponIds(weaponIds);
+    if (!materialA || !materialB || materialA === materialB) {
+        return { success: false, message: '材料不足', newWeapon: null };
+    }
+
+    const weapons = weaponSystem.getWeapons();
+    const weaponA = weapons.find(w => w && w.def && w.def.id === materialA);
+    const weaponB = weapons.find(w => w && w.def && w.def.id === materialB);
+    if (!weaponA || !weaponB) {
+        return { success: false, message: '材料不足', newWeapon: null };
+    }
+    if (weaponA.def.isFusion || weaponB.def.isFusion || weaponA.def.tier === WEAPON_TIER.FUSION || weaponB.def.tier === WEAPON_TIER.FUSION) {
+        return { success: false, message: '材料不足', newWeapon: null };
+    }
+
+    const fusedDef = buildFusionDefinition(weaponA.def, weaponB.def, recipe);
+    if (!fusedDef) {
+        return { success: false, message: '融合失败', newWeapon: null };
+    }
+
+    weaponSystem.removeWeapon(materialA);
+    weaponSystem.removeWeapon(materialB);
+
+    const newWeapon = weaponSystem.addWeapon(fusedDef);
+    return {
+        success: true,
+        message: `成功融合 ${fusedDef.name}！`,
+        newWeapon
+    };
 }
 
 export function resolveWeaponDefinition(weaponId) {

@@ -1165,9 +1165,9 @@ export const WEAPON_ID_MAP = {
 };
 
 /**
- * 武器合成表
+ * 武器进化表
  */
-export const WEAPON_FUSION_TABLE = [{
+export const WEAPON_EVOLUTION_TABLE = [{
         id: 'fusion_cell_poison',
         name: '瘟疫',
         materials: ['cell', 'poison'],
@@ -1731,79 +1731,3 @@ export function getWeaponIdByOrder(order) {
     }
     return null;
 }
-
-export function getAvailableFusions(playerWeapons) {
-    const availableFusions = [];
-    const playerWeaponIds = playerWeapons
-        .filter(w => w && w.def && !(w.def.isFusion || w.def.tier === WEAPON_TIER.FUSION))
-        .map(w => w.def.id);
-
-    for (const recipe of WEAPON_FUSION_TABLE) {
-        const hasAllMaterials = recipe.materials.every(materialId => {
-            return playerWeaponIds.includes(materialId);
-        });
-
-        if (hasAllMaterials) {
-            // 合成限制：合成后武器数不超过4个 (原逻辑)
-            const afterFusionCount = playerWeapons.length - recipe.materials.length + 1;
-            if (afterFusionCount <= 4) {
-                availableFusions.push(recipe);
-            }
-        }
-    }
-
-    return availableFusions;
-}
-
-export function performFusion(playerWeapons, recipe) {
-    const playerWeaponIds = playerWeapons.map(w => w.def.id);
-    const hasAllMaterials = recipe.materials.every(materialId => {
-        return playerWeaponIds.includes(materialId);
-    });
-
-    if (!hasAllMaterials) {
-        return { success: false, message: '材料不足', newWeapon: null };
-    }
-
-    // 移除材料
-    const materialsToRemove = [...recipe.materials];
-    for (let i = playerWeapons.length - 1; i >= 0; i--) {
-        const weaponId = playerWeapons[i].def.id;
-        const materialIndex = materialsToRemove.indexOf(weaponId);
-
-        if (materialIndex !== -1) {
-            playerWeapons.splice(i, 1);
-            materialsToRemove.splice(materialIndex, 1);
-            if (materialsToRemove.length === 0) break;
-        }
-    }
-
-    // 添加结果
-    const resultWeaponKey = Object.keys(WEAPONS).find(
-        key => WEAPONS[key].id === recipe.result
-    );
-
-    if (!resultWeaponKey) {
-        return { success: false, message: '合成结果武器不存在', newWeapon: null };
-    }
-
-    const resultWeaponDef = WEAPONS[resultWeaponKey];
-
-    const newWeapon = {
-        def: resultWeaponDef,
-        name: resultWeaponDef.name,
-        color: resultWeaponDef.color,
-        cooldown: 0
-    };
-
-    playerWeapons.push(newWeapon);
-
-    return {
-        success: true,
-        message: `成功合成 ${resultWeaponDef.name}！`,
-        newWeapon: newWeapon
-    };
-}
-
-
-

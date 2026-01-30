@@ -11,7 +11,7 @@ describe('weapon draft CLI', () => {
     test('writes fusion/evolution draft files from csv', () => {
         const workdir = fs.mkdtempSync(path.join(os.tmpdir(), 'weapon-drafts-'));
         const csvPath = path.join(workdir, 'weapon_fusion_suggestions.csv');
-        const fusionOutPath = path.join(workdir, 'weapon_fusion_table_draft.js');
+        const fusionOutPath = path.join(workdir, 'WEAPON_EVOLUTION_TABLE_DRAFT.js');
         const evolutionOutPath = path.join(workdir, 'weapon_evolution_draft.js');
 
         try {
@@ -27,7 +27,7 @@ describe('weapon draft CLI', () => {
             expect(result.evolutionCount).toBeGreaterThan(0);
             expect(fs.existsSync(fusionOutPath)).toBe(true);
             expect(fs.existsSync(evolutionOutPath)).toBe(true);
-            expect(fs.readFileSync(fusionOutPath, 'utf8')).toContain('WEAPON_FUSION_TABLE_DRAFT');
+            expect(fs.readFileSync(fusionOutPath, 'utf8')).toContain('WEAPON_EVOLUTION_TABLE_DRAFT');
             expect(fs.readFileSync(evolutionOutPath, 'utf8')).toContain('WEAPON_EVOLUTION_DRAFT');
         } finally {
             fs.rmSync(workdir, { recursive: true, force: true });

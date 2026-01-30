@@ -2,7 +2,7 @@ import {
     WEAPONS,
     WEAPON_ICON_MAP,
     WEAPON_ID_MAP,
-    WEAPON_FUSION_TABLE,
+    WEAPON_EVOLUTION_TABLE,
     WEAPON_TIER
 } from '../weapons/WeaponsData.js';
 import { STATUS_EFFECTS } from '../enemies/StatusEffects.js';
@@ -327,7 +327,7 @@ export default class WeaponCodexUI {
 
     getEvolutionRecipes(weaponId) {
         const recipes = [];
-        for (const recipe of WEAPON_FUSION_TABLE) {
+        for (const recipe of WEAPON_EVOLUTION_TABLE) {
             if (!recipe || !Array.isArray(recipe.materials)) continue;
             if (!recipe.materials.includes(weaponId)) continue;
             const resultId = recipe.result;
@@ -710,7 +710,7 @@ export default class WeaponCodexUI {
         const name = (def && def.name) || weaponId;
         const tierLabel = TIER_LABEL[def ? def.tier : undefined] || '未知';
 
-        const recipes = WEAPON_FUSION_TABLE.filter(r => r.result === weaponId);
+        const recipes = WEAPON_EVOLUTION_TABLE.filter(r => r.result === weaponId);
 
         const statsRows = [];
         const add = (label, value) => {

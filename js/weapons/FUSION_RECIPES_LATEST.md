@@ -1,6 +1,6 @@
-﻿# 姝﹀櫒铻嶅悎閰嶆柟锛堟渶鏂帮級
+# 姝﹀櫒铻嶅悎閰嶆柟锛堟渶鏂帮級
 - 鐢熸垚鏃堕棿: 2026-01-29 03:14:07
-- 鏁版嵁鏉ユ簮: roguelike_game_v2/js/weapons/WeaponsData.js (WEAPON_FUSION_TABLE)
+- 鏁版嵁鏉ユ簮: roguelike_game_v2/js/weapons/WeaponsData.js (WEAPON_EVOLUTION_TABLE)
 - 閰嶆柟鏁伴噺: 78
 
 | 鏉愭枡1 | 鏉愭枡2 | 缁撴灉 | 鐘舵€?| 鎻忚堪 |

@@ -1,4 +1,4 @@
-import { WEAPONS, WEAPON_FUSION_TABLE, WEAPON_ICON_MAP } from '../js/weapons/WeaponsData.js';
+import { WEAPONS, WEAPON_EVOLUTION_TABLE, WEAPON_ICON_MAP } from '../js/weapons/WeaponsData.js';
 
 const errors = [];
 const warnings = [];
@@ -122,9 +122,9 @@ for (const weapon of weapons) {
 const fusionIds = new Set();
 const fusionResults = new Set();
 
-for (const recipe of WEAPON_FUSION_TABLE) {
+for (const recipe of WEAPON_EVOLUTION_TABLE) {
     if (!recipe || typeof recipe !== 'object') {
-        addError('WEAPON_FUSION_TABLE 内存在无效配方');
+        addError('WEAPON_EVOLUTION_TABLE 内存在无效配方');
         continue;
     }
     if (!recipe.id) {

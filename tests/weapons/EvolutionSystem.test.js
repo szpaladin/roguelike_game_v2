@@ -1,5 +1,6 @@
-import EvolutionSystem from '../../js/weapons/EvolutionSystem.js';
-import { WEAPONS, WEAPON_FUSION_TABLE } from '../../js/weapons/WeaponsData.js';
+import EvolutionSystem, { executeEvolution } from '../../js/weapons/EvolutionSystem.js';
+import WeaponSystem from '../../js/weapons/WeaponSystem.js';
+import { WEAPONS, WEAPON_EVOLUTION_TABLE } from '../../js/weapons/WeaponsData.js';
 
 describe('EvolutionSystem', () => {
     let system;
@@ -29,5 +30,17 @@ describe('EvolutionSystem', () => {
     test('evolveWeapon fails if recipe not found or materials missing', () => {
         const result = system.evolveWeapon(playerWeapons, 'non_existent');
         expect(result.success).toBe(false);
+    });
+
+    test('executeEvolution uses weapon system to add evolution', () => {
+        const weaponSystem = new WeaponSystem();
+        weaponSystem.addWeapon(WEAPONS.FIRE);
+        weaponSystem.addWeapon(WEAPONS.SWIFT);
+        const recipe = WEAPON_EVOLUTION_TABLE.find(r => r.result === 'inferno');
+
+        const result = executeEvolution(weaponSystem, recipe);
+        expect(result.success).toBe(true);
+        const ids = weaponSystem.getWeapons().map(w => w.def.id);
+        expect(ids).toContain('inferno');
     });
 });

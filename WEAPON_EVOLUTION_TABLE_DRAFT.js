@@ -1,6 +1,6 @@
-// 自动生成：weapon_fusion_suggestions.csv -> WEAPON_FUSION_TABLE 草案
+// 自动生成：weapon_fusion_suggestions.csv -> WEAPON_EVOLUTION_TABLE 草案
 // 说明：result 为新武器 ID 时，请在 WEAPONS 中补充定义
-export const WEAPON_FUSION_TABLE_DRAFT = [
+export const WEAPON_EVOLUTION_TABLE_DRAFT = [
     {
         id: 'fusion_cell_dark',
         name: '暗孢群',
