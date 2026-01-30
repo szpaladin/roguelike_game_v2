@@ -70,12 +70,51 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+.fusion-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.fusion-header::before {
+  content: '';
+}
+
+.fusion-header h2 {
+  margin: 0;
+  font-size: 30px;
+  text-align: center;
+  grid-column: 2;
+}
+
+.fusion-back-btn {
+  width: auto;
+  padding: 8px 12px;
+  font-size: 12px;
+  white-space: nowrap;
+  position: static;
+  grid-column: 3;
+  justify-self: end;
+}
+
+.fusion-back-btn:hover {
+  transform: none;
+}
 .fusion-options {
   display: flex;
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
   margin-bottom: 20px;
+}
+
+.fusion-options.is-selection {
+  justify-content: flex-start;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 .fusion-card {
@@ -145,6 +184,80 @@
   color: #aaa;
   text-align: center;
   line-height: 1.4;
+}
+
+.fusion-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.fusion-confirm-btn {
+  width: auto;
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+.fusion-confirm-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.fusion-select-card {
+  width: 160px;
+  background: #2d1f3f;
+  border: 2px solid #6a4c7a;
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fusion-select-card:hover {
+  border-color: #e6b0ff;
+  background: #3a2850;
+}
+
+.fusion-select-card.selected {
+  border-color: #ffd700;
+  background: linear-gradient(135deg, #4a2a5c 0%, #2a1c3a 100%);
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.9),
+    0 0 26px rgba(255, 215, 0, 0.6),
+    inset 0 0 12px rgba(255, 215, 0, 0.25);
+}
+
+.fusion-select-card.selected .fusion-select-icon {
+  transform: scale(1.12);
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+}
+
+.fusion-select-card.selected::after {
+  content: '已选';
+  position: absolute;
+  top: -8px;
+  right: -6px;
+  background: #ffd700;
+  color: #1a1a2e;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+.fusion-select-icon {
+  font-size: 28px;
+}
+
+.fusion-select-name {
+  font-size: 14px;
+  color: #e6b0ff;
+  font-weight: 600;
 }
 
 .fusion-close-btn {
@@ -835,6 +948,24 @@ body {
 .btn:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 16px rgba(255, 215, 0, 0.4);
+}
+
+.btn-muted {
+  padding: 8px 12px;
+  background: #1f1b24;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  color: #d7d7d7;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.btn-muted:hover {
+  background: #26202e;
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #f0f0f0;
 }
 
 .death-dialog {

@@ -16,7 +16,7 @@ export const NAME_TO_ID = {
     '寒魄吸': 'frost_leech',
     '蔓延': 'overgrowth',
     '幽刃': 'phantom_blade',
-    '幽电': 'phantom_arc',
+    '电魂': 'electric_soul',
     '幽群': 'wraith_swarm',
     '恶灵': 'shadow_wraith',
     '影疾': 'shadow_rush',

@@ -702,9 +702,9 @@ export const WEAPONS = {
         status: '建议'
     },
 
-    PHANTOM_ARC: {
-        id: 'phantom_arc',
-        name: '幽电',
+    ELECTRIC_SOUL: {
+        id: 'electric_soul',
+        name: '电魂',
         tier: WEAPON_TIER.EVOLUTION,
         damage: 1,
         interval: 30,
@@ -840,24 +840,6 @@ export const WEAPONS = {
         blindDuration: 180,
         effects: '高伤 + 致盲',
         sources: ['light', 'steel'],
-        status: '建议'
-    },
-
-    FLASH_STRIKE: {
-        id: 'flash_strike',
-        name: '闪袭',
-        tier: WEAPON_TIER.EVOLUTION,
-        damage: 0.8,
-        interval: 25,
-        speed: 10,
-        radius: 4,
-        color: '#80ff55',
-        lifetime: 120,
-        piercing: true,
-        blindChance: 0.5,
-        blindDuration: 180,
-        effects: '穿透 + 致盲',
-        sources: ['light', 'swift'],
         status: '建议'
     },
 
@@ -1162,13 +1144,12 @@ export const WEAPON_ID_MAP = {
     GLACIER: { id: 'glacier', name: '冰川', tier: WEAPON_TIER.EVOLUTION, order: 55 },
     ICE_SPIKE: { id: 'ice_spike', name: '冰锥', tier: WEAPON_TIER.EVOLUTION, order: 56 },
     HOLY_WISP: { id: 'holy_wisp', name: '圣灵', tier: WEAPON_TIER.EVOLUTION, order: 58 },
-    PHANTOM_ARC: { id: 'phantom_arc', name: '幽电', tier: WEAPON_TIER.EVOLUTION, order: 59 },
+    ELECTRIC_SOUL: { id: 'electric_soul', name: '电魂', tier: WEAPON_TIER.EVOLUTION, order: 59 },
     NETHER_STONE: { id: 'nether_stone', name: '幽冥石', tier: WEAPON_TIER.EVOLUTION, order: 62 },
     RADIANT_ARC: { id: 'radiant_arc', name: '闪耀电弧', tier: WEAPON_TIER.EVOLUTION, order: 66 },
     SUN_LANCE: { id: 'sun_lance', name: '日光矛', tier: WEAPON_TIER.EVOLUTION, order: 68 },
     CRYSTAL_GLOW: { id: 'crystal_glow', name: '晶耀', tier: WEAPON_TIER.EVOLUTION, order: 69 },
     HOLY_HAMMER: { id: 'holy_hammer', name: '圣锤', tier: WEAPON_TIER.EVOLUTION, order: 70 },
-    FLASH_STRIKE: { id: 'flash_strike', name: '闪袭', tier: WEAPON_TIER.EVOLUTION, order: 71 },
     BLOOD_GLOW: { id: 'blood_glow', name: '血辉', tier: WEAPON_TIER.EVOLUTION, order: 72 },
     THUNDER_GRIT: { id: 'thunder_grit', name: '雷砾', tier: WEAPON_TIER.EVOLUTION, order: 75 },
     MAG_RAIL: { id: 'mag_rail', name: '磁轨', tier: WEAPON_TIER.EVOLUTION, order: 76 },
@@ -1431,9 +1412,9 @@ export const WEAPON_FUSION_TABLE = [{
     },
     {
         id: 'fusion_ghost_lightning',
-        name: '幽电',
+        name: '电魂',
         materials: ['ghost', 'lightning'],
-        result: 'phantom_arc',
+        result: 'electric_soul',
         description: '由幽灵与闪电融合而成，效果：连锁闪电 + 穿透',
         tier: 1,
         icon: '⚡',
@@ -1507,17 +1488,7 @@ export const WEAPON_FUSION_TABLE = [{
         icon: '✨',
         status: '建议'
     },
-    {
-        id: 'fusion_light_swift',
-        name: '闪袭',
-        materials: ['light', 'swift'],
-        result: 'flash_strike',
-        description: '由光芒与疾风融合而成，效果：穿透 + 致盲',
-        tier: 1,
-        icon: '⚡',
-        status: '建议'
-    },
-    {
+        {
         id: 'fusion_light_vampire',
         name: '血辉',
         materials: ['light', 'vampire'],
@@ -1691,7 +1662,6 @@ export const WEAPON_ICON_MAP = {
     rift_hammer: '🔨',
     eclipse: '✨',
     fire: '🔥',
-    flash_strike: '⚡',
     crystal_glow: '✨',
     frost: '❄️',
     frost_corrosion: '❄️',
@@ -1709,7 +1679,7 @@ export const WEAPON_ICON_MAP = {
     lightning: '⚡',
     mag_rail: '⚡',
     lava: '🌋',
-    phantom_arc: '⚡',
+    electric_soul: '⚡',
     poison: '☠️',
     poison_mist: '☁️',
     radiant_arc: '⚡',

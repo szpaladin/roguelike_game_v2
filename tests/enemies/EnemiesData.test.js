@@ -8,7 +8,7 @@ describe('EnemiesData', () => {
 
     test('getEnemyType returns correct type by index', () => {
         const type = getEnemyType(0);
-        expect(type.name).toBe('史莱姆');
+        expect(type.name).toBe('狮子鱼');
         expect(type.hp).toBeDefined();
     });
 
@@ -18,8 +18,13 @@ describe('EnemiesData', () => {
     });
 
     test('getEnemyTypeByName returns correct type by name', () => {
-        const type = getEnemyTypeByName('史莱姆');
-        expect(type.name).toBe('史莱姆');
+        const type = getEnemyTypeByName('狮子鱼');
+        expect(type.name).toBe('狮子鱼');
+    });
+
+    test('getEnemyTypeByName returns sea horse', () => {
+        const type = getEnemyTypeByName('海马');
+        expect(type.name).toBe('海马');
     });
 
     test('getEnemyTypeByName returns null for invalid name', () => {
@@ -29,9 +34,9 @@ describe('EnemiesData', () => {
     test('getMaxEnemyTier returns correct tier based on distance', () => {
         // Using production thresholds: 0->0, 500->1, 1500->2, 3000->3, 5000->4
         expect(getMaxEnemyTier(0)).toBe(0);
-        // Goblin available at 500 distance
+        // 泰坦扳机鱼 available at 500 distance
         expect(getMaxEnemyTier(500)).toBe(1);
-        // Demon available at 5000 distance
+        // 三齿鲨 available at 5000 distance
         expect(getMaxEnemyTier(5000)).toBe(4);
         // Large distance still returns max tier
         expect(getMaxEnemyTier(10000)).toBe(4);
@@ -39,7 +44,7 @@ describe('EnemiesData', () => {
 
     test('getRandomEnemyType returns a valid enemy type', () => {
         const type = getRandomEnemyType(0);
-        expect(type.name).toBe('史莱姆');
+        expect(['狮子鱼', '海马']).toContain(type.name);
 
         const typeHigh = getRandomEnemyType(100);
         expect(ENEMY_TYPES).toContainEqual(expect.objectContaining({ name: typeHigh.name }));

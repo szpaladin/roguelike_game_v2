@@ -765,8 +765,8 @@ export const WEAPON_EVOLUTION_DRAFT = [
         status: '现有'
     },
     {
-        id: 'phantom_arc',
-        name: '幽电',
+        id: 'electric_soul',
+        name: '电魂',
         tier: 2,
         damage: 1,
         interval: 30,

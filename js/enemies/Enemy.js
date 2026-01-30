@@ -17,6 +17,15 @@ export default class Enemy {
         this.color = data.color;
         this.exp = data.exp;
         this.gold = data.gold;
+        this.moveType = data.moveType || 'chase';
+        this.harmless = data.harmless === true;
+        this.patrolDirection = Number.isFinite(data.patrolDirection) ? data.patrolDirection : 1;
+        this.patrolBaseY = Number.isFinite(data.patrolBaseY) ? data.patrolBaseY : y;
+        this.patrolPhase = Number.isFinite(data.patrolPhase) ? data.patrolPhase : Math.random() * Math.PI * 2;
+        this.patrolWaveAmplitude = Number.isFinite(data.patrolWaveAmplitude)
+            ? data.patrolWaveAmplitude
+            : Math.max(4, this.radius * 0.6);
+        this.patrolWaveSpeed = Number.isFinite(data.patrolWaveSpeed) ? data.patrolWaveSpeed : 0.08;
 
         // 使用新的状态效果管理器
         this.statusEffects = new StatusEffectManager();
@@ -116,8 +125,9 @@ export default class Enemy {
      * @param {Object} playerPos - 玩家位置 {x, y}
      * @param {number} scrollY - 滚动位置
      * @param {number} canvasHeight - 画布高度
+     * @param {number} canvasWidth - 画布宽度
      */
-    update(playerPos, scrollY, canvasHeight) {
+    update(playerPos, scrollY, canvasHeight, canvasWidth) {
         if (this.hp <= 0) return;
 
         // 更新状态效果并应用持续伤害
@@ -128,16 +138,32 @@ export default class Enemy {
 
         // 移动逻辑 (如果不冰冻)
         if (!this.statusEffects.isFrozen()) {
-            // playerWorldY = scrollY + playerPos.y (玩家屏幕坐标转世界坐标)
-            const playerWorldY = scrollY + playerPos.y;
-            const dx = playerPos.x - this.x;
-            const dy = playerWorldY - this.y;
-            const d = Math.sqrt(dx * dx + dy * dy);
-            if (d > 0) {
-                // 应用速度倍率（考虑减速效果）
-                const speedMultiplier = this.statusEffects.getSpeedMultiplier();
-                this.x += (dx / d) * this.speed * speedMultiplier;
-                this.y += (dy / d) * this.speed * speedMultiplier;
+            const speedMultiplier = this.statusEffects.getSpeedMultiplier();
+            if (this.moveType === 'patrol_horizontal') {
+                this.x += this.speed * speedMultiplier * this.patrolDirection;
+                this.patrolPhase += this.patrolWaveSpeed * speedMultiplier;
+                this.y = this.patrolBaseY + Math.sin(this.patrolPhase) * this.patrolWaveAmplitude;
+                if (Number.isFinite(canvasWidth)) {
+                    const minX = this.radius;
+                    const maxX = canvasWidth - this.radius;
+                    if (this.x <= minX) {
+                        this.x = minX;
+                        this.patrolDirection = 1;
+                    } else if (this.x >= maxX) {
+                        this.x = maxX;
+                        this.patrolDirection = -1;
+                    }
+                }
+            } else {
+                // playerWorldY = scrollY + playerPos.y (玩家屏幕坐标转世界坐标)
+                const playerWorldY = scrollY + playerPos.y;
+                const dx = playerPos.x - this.x;
+                const dy = playerWorldY - this.y;
+                const d = Math.sqrt(dx * dx + dy * dy);
+                if (d > 0) {
+                    this.x += (dx / d) * this.speed * speedMultiplier;
+                    this.y += (dy / d) * this.speed * speedMultiplier;
+                }
             }
         }
     }

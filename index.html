@@ -85,17 +85,23 @@
 
         <!-- 宝箱菜单 -->
         <div class="overlay" id="chest-menu" style="display:none;">
-            <div class="dialog">
-                <h2>发现宝箱！</h2>
+            <div class="dialog chest-dialog">
+                <h2>宝箱奖励</h2>
                 <div id="chest-options" class="reward-options"></div>
             </div>
         </div>
 
         <!-- 宝箱奖励 -->
         <div class="overlay" id="fusion-overlay" style="display:none;">
-            <div class="dialog">
-                <h2>宝箱奖励</h2>
+            <div class="dialog fusion-dialog">
+                <div class="fusion-header">
+                    <h2 id="fusion-title">武器进化</h2>
+                    <button id="fusion-back-btn" class="btn-muted fusion-back-btn">返回</button>
+                </div>
                 <div id="fusion-options" class="fusion-options"></div>
+                <div class="fusion-actions">
+                    <button id="fusion-confirm-btn" class="btn fusion-confirm-btn">确认融合</button>
+                </div>
             </div>
         </div>
 

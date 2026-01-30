@@ -1,6 +1,63 @@
+import { GAME_CONFIG } from '../config.js';
 import { log } from '../utils.js';
-import { WEAPONS, getAvailableFusions } from '../weapons/WeaponsData.js';
-import { buildFusionDefinition, getAvailableWeaponFusions } from '../weapons/FusionSystem.js';
+import { WEAPONS, WEAPON_ID_MAP, WEAPON_TIER, getAvailableFusions } from '../weapons/WeaponsData.js';
+import { buildFusionDefinition } from '../weapons/FusionSystem.js';
+
+const ORDER_MAP = {};
+Object.values(WEAPON_ID_MAP || {}).forEach((info) => {
+    if (info && info.id) ORDER_MAP[info.id] = info.order ?? 9999;
+});
+
+const CHEST_MOTION = {
+    topSafeMargin: 80,
+    spawnOffsetYMin: 20,
+    spawnOffsetYMax: 60,
+    spawnOffsetX: 60,
+    dropSpeedMultiplier: 2.0,
+    dropDecay: 0.94,
+    minSpeedMultiplier: 0.7,
+    dropMaxFrames: 45,
+    dropJitter: 0.06,
+    dropVxDecay: 0.95,
+    dropMaxVx: 1.0,
+    driftAttract: 0.002,
+    driftJitter: 0.03,
+    driftMaxSpeedMultiplier: 0.8,
+    driftTargetYRatio: 0.55
+};
+
+function randomRange(min, max) {
+    return min + Math.random() * (max - min);
+}
+
+function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+}
+
+function sortWeaponIds(ids) {
+    return ids
+        .filter(Boolean)
+        .slice()
+        .sort((a, b) => {
+            const orderA = ORDER_MAP[a] ?? 9999;
+            const orderB = ORDER_MAP[b] ?? 9999;
+            if (orderA !== orderB) return orderA - orderB;
+            return a.localeCompare(b);
+        });
+}
+
+function sortWeaponsByOrder(weapons) {
+    return weapons
+        .slice()
+        .sort((a, b) => {
+            const idA = a && a.def ? a.def.id : '';
+            const idB = b && b.def ? b.def.id : '';
+            const orderA = ORDER_MAP[idA] ?? 9999;
+            const orderB = ORDER_MAP[idB] ?? 9999;
+            if (orderA !== orderB) return orderA - orderB;
+            return idA.localeCompare(idB);
+        });
+}
 
 /**
  * ChestManager - 宝箱管理器
@@ -10,14 +67,22 @@ export default class ChestManager {
     /**
      * @param {Object} chestUI - 宝箱UI实例
      */
-    constructor(chestUI) {
+    constructor(chestUI, view = {}) {
         this.chestUI = chestUI;
         this.chests = [];
+        this.viewWidth = Number.isFinite(view.width) ? view.width : 600;
+        this.viewHeight = Number.isFinite(view.height) ? view.height : 600;
+        this.lastScrollY = 0;
+        this.lastScrollDelta = GAME_CONFIG.AUTO_SCROLL_SPEED;
 
         // 宝箱掉落系统
         this.pendingChests = 0;      // 待掉落的宝箱数量
         this.lastChestDistance = 0;  // 上次计算宝箱的距离
         this.chestInterval = 100;    // 每100米可掉落一个宝箱
+    }
+
+    getScrollSpeedHint() {
+        return this.lastScrollDelta > 0 ? this.lastScrollDelta : GAME_CONFIG.AUTO_SCROLL_SPEED;
     }
 
     getGoldMultiplier(distanceMeters, riskSystem) {
@@ -75,12 +140,25 @@ export default class ChestManager {
      * 在指定位置生成宝箱
      */
     spawnChest(x, y) {
+        const scrollSpeed = this.getScrollSpeedHint();
+        const offsetY = randomRange(CHEST_MOTION.spawnOffsetYMin, CHEST_MOTION.spawnOffsetYMax);
+        const minY = this.lastScrollY + CHEST_MOTION.topSafeMargin;
+        const spawnY = Math.max(y + offsetY, minY);
+        const spawnX = x + randomRange(-CHEST_MOTION.spawnOffsetX, CHEST_MOTION.spawnOffsetX);
+        const minVy = scrollSpeed * CHEST_MOTION.minSpeedMultiplier;
+        const initialVy = Math.max(scrollSpeed * CHEST_MOTION.dropSpeedMultiplier, minVy);
+
         this.chests.push({
-            x,
-            y,
+            x: spawnX,
+            y: spawnY,
             radius: 15,
             color: '#ffd700',
-            interactionCooldown: 0
+            interactionCooldown: 0,
+            vx: randomRange(-CHEST_MOTION.dropMaxVx, CHEST_MOTION.dropMaxVx),
+            vy: initialVy,
+            minVy,
+            phase: 'drop',
+            dropFrames: 0
         });
         log('敌人掉落了宝箱！', 'info');
     }
@@ -92,8 +170,16 @@ export default class ChestManager {
      * @param {Function} onOpenChest - 打开宝箱时的回调
      */
     update(player, scrollY, onOpenChest) {
+        const scrollDelta = Math.max(0, scrollY - this.lastScrollY);
+        if (scrollDelta > 0) {
+            this.lastScrollDelta = scrollDelta;
+        }
+        this.lastScrollY = scrollY;
+
         for (let i = this.chests.length - 1; i >= 0; i--) {
             const chest = this.chests[i];
+
+            this.updateChestMotion(chest, scrollY);
 
             // 更新交互冷却
             if (chest.interactionCooldown > 0) {
@@ -132,20 +218,18 @@ export default class ChestManager {
         const riskSystem = resolved ? resolved.riskSystem : null;
         const onComplete = resolved ? resolved.onComplete : null;
 
-        // 获取可用的融合配方
         const playerWeapons = player.weaponSystem.getWeapons();
         const availableEvolutions = getAvailableFusions(playerWeapons);
-        const availableFusions = getAvailableWeaponFusions(playerWeapons);
+        const fusionCandidates = sortWeaponsByOrder(
+            playerWeapons.filter(w => w && w.def && !(w.def.isFusion || w.def.tier === WEAPON_TIER.FUSION))
+        );
         const goldReward = this.getGoldReward(distanceMeters, riskSystem);
 
-        // 显示融合选项 + 金币奖励
-        this.chestUI.showChestChoices(availableEvolutions, availableFusions, goldReward, (selection) => {
+        this.chestUI.showChestMenu(availableEvolutions, fusionCandidates, goldReward, (selection) => {
             if (selection && selection.type === 'evolution' && selection.recipe) {
-                // 执行进化
                 this.executeEvolution(player.weaponSystem, selection.recipe);
-            } else if (selection && selection.type === 'fusion' && selection.recipe) {
-                // 执行融合
-                this.executeFusion(player.weaponSystem, selection.recipe);
+            } else if (selection && selection.type === 'fusion' && Array.isArray(selection.weaponIds)) {
+                this.executeFusion(player.weaponSystem, selection.weaponIds);
             } else {
                 const amount = selection && typeof selection.amount === 'number'
                     ? selection.amount
@@ -183,9 +267,52 @@ export default class ChestManager {
         }
     }
 
-    executeFusion(weaponSystem, recipe) {
-        if (!recipe || !Array.isArray(recipe.materials) || recipe.materials.length < 2) return false;
-        const [materialA, materialB] = recipe.materials;
+    updateChestMotion(chest, scrollY) {
+        if (!chest) return;
+        if (!chest.phase) {
+            chest.phase = 'drift';
+            chest.vx = chest.vx ?? 0;
+            chest.vy = chest.vy ?? 0;
+        }
+
+        if (chest.phase === 'drop') {
+            const jitter = randomRange(-CHEST_MOTION.dropJitter, CHEST_MOTION.dropJitter);
+            chest.vx = (chest.vx + jitter) * CHEST_MOTION.dropVxDecay;
+            chest.vx = clamp(chest.vx, -CHEST_MOTION.dropMaxVx, CHEST_MOTION.dropMaxVx);
+            chest.vy = Math.max(chest.vy * CHEST_MOTION.dropDecay, chest.minVy ?? 0);
+
+            chest.x += chest.vx;
+            chest.y += chest.vy;
+            chest.dropFrames = (chest.dropFrames ?? 0) + 1;
+
+            if (chest.vy <= (chest.minVy ?? 0) || chest.dropFrames >= CHEST_MOTION.dropMaxFrames) {
+                chest.phase = 'drift';
+            }
+            return;
+        }
+
+        const targetX = this.viewWidth * 0.5;
+        const targetY = scrollY + this.viewHeight * CHEST_MOTION.driftTargetYRatio;
+        chest.vx += (targetX - chest.x) * CHEST_MOTION.driftAttract +
+            randomRange(-CHEST_MOTION.driftJitter, CHEST_MOTION.driftJitter);
+        chest.vy += (targetY - chest.y) * CHEST_MOTION.driftAttract +
+            randomRange(-CHEST_MOTION.driftJitter, CHEST_MOTION.driftJitter);
+
+        const maxSpeed = this.getScrollSpeedHint() * CHEST_MOTION.driftMaxSpeedMultiplier;
+        const speed = Math.hypot(chest.vx, chest.vy);
+        if (maxSpeed > 0 && speed > maxSpeed) {
+            const scale = maxSpeed / speed;
+            chest.vx *= scale;
+            chest.vy *= scale;
+        }
+
+        chest.x += chest.vx;
+        chest.y += chest.vy;
+    }
+
+    executeFusion(weaponSystem, weaponIds) {
+        if (!Array.isArray(weaponIds) || weaponIds.length < 2) return false;
+        const [materialA, materialB] = sortWeaponIds(weaponIds);
         if (!materialA || !materialB || materialA === materialB) return false;
 
         const weapons = weaponSystem.getWeapons();
@@ -194,7 +321,7 @@ export default class ChestManager {
         if (!weaponA || !weaponB) return false;
         if (weaponA.def.isFusion || weaponB.def.isFusion) return false;
 
-        const fusedDef = buildFusionDefinition(weaponA.def, weaponB.def, recipe);
+        const fusedDef = buildFusionDefinition(weaponA.def, weaponB.def);
         if (!fusedDef) return false;
 
         weaponSystem.removeWeapon(materialA);

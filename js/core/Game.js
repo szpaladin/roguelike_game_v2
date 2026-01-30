@@ -93,7 +93,10 @@ export default class Game {
         this.enemies = [];
 
         // 宝箱系统
-        this.chestManager = new ChestManager(this.chestUI);
+        this.chestManager = new ChestManager(this.chestUI, {
+            width: this.width,
+            height: this.height
+        });
 
         // 初始设置
         this.init();
@@ -207,7 +210,7 @@ export default class Game {
         const playerPos = { x: this.player.x, y: this.player.y };
         for (let i = this.enemies.length - 1; i >= 0; i--) {
             const enemy = this.enemies[i];
-            enemy.update(playerPos, this.scrollY, this.height);
+            enemy.update(playerPos, this.scrollY, this.height, this.width);
             if (enemy.hp <= 0 && !enemy.isDead) {
                 // 处理敌人死亡（经验、金币等）
                 this.player.stats.gainExp(enemy.exp || 1);
@@ -230,6 +233,7 @@ export default class Game {
 
         // 处理玩家与敌人的碰撞（玩家受伤）
         for (const enemy of playerCollisions) {
+            if (enemy.harmless || (enemy.attack ?? 0) <= 0) continue;
             if (!enemy.blinded) {
                 const damage = this.player.takeDamage(enemy.attack);
                 if (damage > 0) {
@@ -360,7 +364,7 @@ export default class Game {
                     return;
                 }
                 if (this.chestUI.isOpen()) {
-                    const handled = this.chestUI.selectDefaultReward();
+                    const handled = this.chestUI.handleEscape();
                     if (handled) {
                         return;
                     }

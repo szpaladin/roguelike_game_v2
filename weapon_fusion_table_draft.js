@@ -433,9 +433,9 @@ export const WEAPON_FUSION_TABLE_DRAFT = [
     },
     {
         id: 'fusion_ghost_lightning',
-        name: '幽电',
+        name: '电魂',
         materials: ['ghost', 'lightning'],
-        result: 'phantom_arc',
+        result: 'electric_soul',
         description: '由幽灵与闪电融合而成，效果：连锁闪电 + 穿透',
         tier: 1,
         icon: '⚡',

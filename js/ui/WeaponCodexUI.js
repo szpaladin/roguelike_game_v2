@@ -325,6 +325,42 @@ export default class WeaponCodexUI {
         });
     }
 
+    getEvolutionRecipes(weaponId) {
+        const recipes = [];
+        for (const recipe of WEAPON_FUSION_TABLE) {
+            if (!recipe || !Array.isArray(recipe.materials)) continue;
+            if (!recipe.materials.includes(weaponId)) continue;
+            const resultId = recipe.result;
+            if (!resultId) continue;
+            const resultDef = this.weaponsById[resultId];
+            const materials = recipe.materials.map((matId) => {
+                const matDef = this.weaponsById[matId];
+                return {
+                    id: matId,
+                    name: (matDef && matDef.name) || matId,
+                    icon: WEAPON_ICON_MAP[matId] || '??'
+                };
+            });
+            recipes.push({
+                materials,
+                result: {
+                    id: resultId,
+                    name: (resultDef && resultDef.name) || recipe.name || resultId,
+                    icon: WEAPON_ICON_MAP[resultId] || '??'
+                }
+            });
+        }
+        return recipes.sort((a, b) => {
+            const aName = a.result.name || a.result.id;
+            const bName = b.result.name || b.result.id;
+            const cmp = aName.localeCompare(bName, 'zh-Hans-CN');
+            if (cmp !== 0) return cmp;
+            const aMats = a.materials.map(m => m.name).join('+');
+            const bMats = b.materials.map(m => m.name).join('+');
+            return aMats.localeCompare(bMats, 'zh-Hans-CN');
+        });
+    }
+
     injectButton() {
         const weaponPanel = document.querySelector('.weapon-panel');
         if (!weaponPanel) return;
@@ -758,6 +794,27 @@ export default class WeaponCodexUI {
 
         const effectsHtml = `<div class="codex-effects">${safeText(deriveEffects(def))}</div>`;
 
+        const evolutionRecipes = this.getEvolutionRecipes(weaponId);
+        const evolutionsHtml = evolutionRecipes.length ? evolutionRecipes.map((recipe) => {
+            const matsHtml = recipe.materials.map((mat, idx) => {
+                const plus = idx === 0 ? '' : '<span class="codex-plus">+</span>';
+                return `${plus}<span class="codex-mat">${mat.icon} ${mat.name}</span>`;
+            }).join('');
+            return `
+                <div class="codex-recipe">
+                    <div class="codex-recipe-mats">
+                        ${matsHtml}
+                        <span class="codex-plus">→</span>
+                    </div>
+                    <button type="button" class="codex-source-card codex-evolution-card" data-weapon-id="${recipe.result.id}">
+                        <div class="codex-source-icon">${recipe.result.icon}</div>
+                        <div class="codex-source-name">${recipe.result.name}</div>
+                        <div class="codex-source-id">${recipe.result.id}</div>
+                    </button>
+                </div>
+            `;
+        }).join('') : `<div class="codex-muted">暂无可进化武器</div>`;
+
         this.detailDialog.innerHTML = `
             <div class="codex-detail-header">
                 <div class="codex-detail-title">
@@ -791,9 +848,20 @@ export default class WeaponCodexUI {
                 <div class="codex-section-title">效果</div>
                 ${effectsHtml}
             </div>
+
+            <div class="codex-section">
+                <div class="codex-section-title">可能进化的武器类型</div>
+                ${evolutionsHtml}
+            </div>
         `;
 
         this.detailDialog.querySelector('.codex-back-btn').onclick = () => this.closeDetail();
+        this.detailDialog.querySelectorAll('.codex-evolution-card').forEach((btn) => {
+            btn.onclick = () => {
+                const targetId = btn.getAttribute('data-weapon-id');
+                if (targetId) this.openDetail(targetId);
+            };
+        });
 
         this.detailOverlay.style.display = 'flex';
     }
