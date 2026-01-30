@@ -14,24 +14,29 @@ describe('ChestUI', () => {
     });
 
     test('showChestChoices shows overlay and appends gold last', () => {
-        const recipes = [
+        const evolutions = [
             { name: '燃霜', result: 'frostfire', materials: ['fire', 'frost'] }
         ];
+        const fusions = [
+            { id: 'fusion_fire_frost', materials: ['fire', 'frost'] }
+        ];
 
-        ui.showChestChoices(recipes, 90, () => { });
+        ui.showChestChoices(evolutions, fusions, 90, () => { });
 
         const overlay = document.getElementById('fusion-overlay');
         expect(overlay.style.display).toBe('flex');
 
         const cards = document.querySelectorAll('#fusion-options .fusion-card');
-        expect(cards.length).toBe(2);
+        expect(cards.length).toBe(3);
+        expect(cards[0].dataset.rewardType).toBe('evolution');
+        expect(cards[1].dataset.rewardType).toBe('fusion');
         const last = cards[cards.length - 1];
         expect(last.dataset.rewardType).toBe('gold');
     });
 
     test('selectDefaultReward chooses gold and closes overlay', () => {
         let selected = null;
-        ui.showChestChoices([], 88, (selection) => {
+        ui.showChestChoices([], [], 88, (selection) => {
             selected = selection;
         });
 

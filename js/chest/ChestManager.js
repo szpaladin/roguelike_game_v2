@@ -1,5 +1,6 @@
 import { log } from '../utils.js';
 import { WEAPONS, getAvailableFusions } from '../weapons/WeaponsData.js';
+import { buildFusionDefinition, getAvailableWeaponFusions } from '../weapons/FusionSystem.js';
 
 /**
  * ChestManager - 宝箱管理器
@@ -133,13 +134,17 @@ export default class ChestManager {
 
         // 获取可用的融合配方
         const playerWeapons = player.weaponSystem.getWeapons();
-        const availableFusions = getAvailableFusions(playerWeapons);
+        const availableEvolutions = getAvailableFusions(playerWeapons);
+        const availableFusions = getAvailableWeaponFusions(playerWeapons);
         const goldReward = this.getGoldReward(distanceMeters, riskSystem);
 
         // 显示融合选项 + 金币奖励
-        this.chestUI.showChestChoices(availableFusions, goldReward, (selection) => {
-            if (selection && selection.type === 'fusion' && selection.recipe) {
-                // 执行融合 - 手动处理以确保创建正确的 Weapon 实例
+        this.chestUI.showChestChoices(availableEvolutions, availableFusions, goldReward, (selection) => {
+            if (selection && selection.type === 'evolution' && selection.recipe) {
+                // 执行进化
+                this.executeEvolution(player.weaponSystem, selection.recipe);
+            } else if (selection && selection.type === 'fusion' && selection.recipe) {
+                // 执行融合
                 this.executeFusion(player.weaponSystem, selection.recipe);
             } else {
                 const amount = selection && typeof selection.amount === 'number'
@@ -160,7 +165,7 @@ export default class ChestManager {
      * @param {WeaponSystem} weaponSystem - 武器系统
      * @param {Object} recipe - 融合配方
      */
-    executeFusion(weaponSystem, recipe) {
+    executeEvolution(weaponSystem, recipe) {
         // 移除材料武器
         for (const materialId of recipe.materials) {
             weaponSystem.removeWeapon(materialId);
@@ -176,6 +181,27 @@ export default class ChestManager {
             weaponSystem.addWeapon(WEAPONS[resultWeaponKey]);
             log(`武器进化成功！获得了 ${WEAPONS[resultWeaponKey].name}！`, 'important');
         }
+    }
+
+    executeFusion(weaponSystem, recipe) {
+        if (!recipe || !Array.isArray(recipe.materials) || recipe.materials.length < 2) return false;
+        const [materialA, materialB] = recipe.materials;
+        if (!materialA || !materialB || materialA === materialB) return false;
+
+        const weapons = weaponSystem.getWeapons();
+        const weaponA = weapons.find(w => w.def && w.def.id === materialA);
+        const weaponB = weapons.find(w => w.def && w.def.id === materialB);
+        if (!weaponA || !weaponB) return false;
+        if (weaponA.def.isFusion || weaponB.def.isFusion) return false;
+
+        const fusedDef = buildFusionDefinition(weaponA.def, weaponB.def, recipe);
+        if (!fusedDef) return false;
+
+        weaponSystem.removeWeapon(materialA);
+        weaponSystem.removeWeapon(materialB);
+        weaponSystem.addWeapon(fusedDef);
+        log(`融合成功！获得了 ${fusedDef.name}！`, 'important');
+        return true;
     }
 
     /**

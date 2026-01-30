@@ -8,6 +8,7 @@
     "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
     "serve": "node server.js",
     "generate:weapon-drafts": "node tools/generate-weapon-drafts.js",
+    "generate:fusion-recipes": "node tools/generate-fusion-recipes.js",
     "validate:weapons": "node tools/validate-weapons.js"
   },
   "devDependencies": {

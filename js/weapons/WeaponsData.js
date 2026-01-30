@@ -1764,7 +1764,9 @@ export function getWeaponIdByOrder(order) {
 
 export function getAvailableFusions(playerWeapons) {
     const availableFusions = [];
-    const playerWeaponIds = playerWeapons.map(w => w.def.id);
+    const playerWeaponIds = playerWeapons
+        .filter(w => w && w.def && !(w.def.isFusion || w.def.tier === WEAPON_TIER.FUSION))
+        .map(w => w.def.id);
 
     for (const recipe of WEAPON_FUSION_TABLE) {
         const hasAllMaterials = recipe.materials.every(materialId => {

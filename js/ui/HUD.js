@@ -84,7 +84,7 @@ export default class HUD {
                 const weapon = weapons[i];
                 gridHTML.push(`
                     <div class="weapon-slot active">
-                        <div class="weapon-icon-display">${this.getWeaponIcon(weapon.def.id)}</div>
+                        <div class="weapon-icon-display">${this.getWeaponIcon(weapon.def.id, weapon.def)}</div>
                         <div class="weapon-name-display">${weapon.def.name}</div>
                     </div>
                 `);
@@ -103,7 +103,8 @@ export default class HUD {
     /**
      * 获取武器图标
      */
-    getWeaponIcon(weaponId) {
+    getWeaponIcon(weaponId, weaponDef = null) {
+        if (weaponDef && weaponDef.isFusion) return '🌀';
         return WEAPON_ICON_MAP[weaponId] || '??';
     }
 }

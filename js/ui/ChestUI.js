@@ -1,4 +1,4 @@
-import { WEAPON_ICON_MAP } from '../weapons/WeaponsData.js';
+import { WEAPON_ICON_MAP, WEAPONS } from '../weapons/WeaponsData.js';
 /**
  * ChestUI - 宝箱界面
  * 负责宝箱奖励（新武器）和武器进化的显示与逻辑
@@ -44,9 +44,9 @@ export default class ChestUI {
      * @param {Function} callback - 选择后的回调
      */
     showFusions(recipes, callback) {
-        this.showChestChoices(recipes, 0, (selection) => {
+        this.showChestChoices(recipes, [], 0, (selection) => {
             if (!callback) return;
-            if (selection && selection.type === 'fusion') {
+            if (selection && selection.type === 'evolution') {
                 callback(selection.recipe);
             } else {
                 callback(null);
@@ -54,14 +54,21 @@ export default class ChestUI {
         });
     }
 
-    showChestChoices(recipes, goldAmount, callback) {
+    showChestChoices(evolutions = [], fusions = [], goldAmount, callback) {
         if (!this.fusionOverlay || !this.fusionContainer) return;
         this.onSelectReward = callback;
         this.defaultReward = { type: 'gold', amount: goldAmount };
 
         this.fusionContainer.innerHTML = '';
-        recipes.forEach(recipe => {
+        evolutions.forEach(recipe => {
             const card = this.createFusionCard(recipe);
+            card.dataset.rewardType = 'evolution';
+            card.onclick = () => this.commitSelection({ type: 'evolution', recipe });
+            this.fusionContainer.appendChild(card);
+        });
+
+        fusions.forEach(recipe => {
+            const card = this.createFusionOptionCard(recipe);
             card.dataset.rewardType = 'fusion';
             card.onclick = () => this.commitSelection({ type: 'fusion', recipe });
             this.fusionContainer.appendChild(card);
@@ -116,6 +123,21 @@ export default class ChestUI {
         return div;
     }
 
+    createFusionOptionCard(recipe) {
+        const div = document.createElement('div');
+        div.className = 'fusion-card fusion-combo-card';
+        const materials = Array.isArray(recipe.materials) ? recipe.materials : [];
+        const materialIcons = materials.map(id => this.getWeaponIcon(id)).join(' + ');
+        const materialNames = materials.map(id => this.getWeaponName(id)).join(' × ');
+
+        div.innerHTML = `
+            <div class="fusion-icon">🔗</div>
+            <div class="fusion-materials">${materialIcons}</div>
+            <div class="fusion-result-name">${materialNames || '融合形态'}</div>
+        `;
+        return div;
+    }
+
     createGoldCard(amount) {
         const div = document.createElement('div');
         div.className = 'fusion-card fusion-gold-card';
@@ -132,6 +154,11 @@ export default class ChestUI {
      */
     getWeaponIcon(weaponId) {
         return WEAPON_ICON_MAP[weaponId] || '??';
+    }
+
+    getWeaponName(weaponId) {
+        const key = Object.keys(WEAPONS).find(k => WEAPONS[k].id === weaponId);
+        return key ? WEAPONS[key].name : weaponId;
     }
 
     close() {

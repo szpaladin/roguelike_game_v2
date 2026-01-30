@@ -18,7 +18,7 @@ describe('ChestManager - Weapon Fusion', () => {
     });
 
     describe('openChest with fusion options', () => {
-        test('shows fusion options and gold reward', () => {
+        test('shows evolution, fusion options and gold reward', () => {
             // Player has Fire + Frost = can make Frostfire
             const mockPlayer = {
                 weaponSystem: {
@@ -44,14 +44,16 @@ describe('ChestManager - Weapon Fusion', () => {
 
             // Should call showFusions with available recipes
             expect(mockChestUI.showChestChoices).toHaveBeenCalled();
-            const recipes = mockChestUI.showChestChoices.mock.calls[0][0];
-            const goldReward = mockChestUI.showChestChoices.mock.calls[0][1];
-            expect(recipes.some(r => r.result === 'frostfire')).toBe(true);
+            const evolutions = mockChestUI.showChestChoices.mock.calls[0][0];
+            const fusions = mockChestUI.showChestChoices.mock.calls[0][1];
+            const goldReward = mockChestUI.showChestChoices.mock.calls[0][2];
+            expect(evolutions.some(r => r.result === 'frostfire')).toBe(true);
+            expect(fusions.some(r => r.materials && r.materials.includes('fire'))).toBe(true);
             expect(goldReward).toBe(83);
             randomSpy.mockRestore();
         });
 
-        test('shows gold option when no fusion options available', () => {
+        test('shows gold option when no evolution or fusion options available', () => {
             // Player has only one weapon, cannot fuse
             const mockPlayer = {
                 weaponSystem: {
@@ -71,7 +73,7 @@ describe('ChestManager - Weapon Fusion', () => {
             const randomSpy = jest.spyOn(Math, 'random').mockReturnValue(0);
 
             chestManager.chests.push(mockChest);
-            mockChestUI.showChestChoices.mockImplementation((recipes, goldReward, callback) => {
+            mockChestUI.showChestChoices.mockImplementation((evolutions, fusions, goldReward, callback) => {
                 callback({ type: 'gold', amount: goldReward });
             });
 
@@ -89,7 +91,7 @@ describe('ChestManager - Weapon Fusion', () => {
             randomSpy.mockRestore();
         });
 
-        test('performs fusion when player selects a recipe', () => {
+        test('performs evolution when player selects an evolution recipe', () => {
             const mockPlayer = {
                 weaponSystem: {
                     weapons: [
@@ -112,10 +114,10 @@ describe('ChestManager - Weapon Fusion', () => {
             const mockChest = { x: 100, y: 200, interactionCooldown: 0 };
             const mockRisk = { getCurrentZone: () => ({ name: '舒适区' }) };
 
-            // Mock showFusions to immediately call callback with frostfire recipe
-            mockChestUI.showChestChoices.mockImplementation((recipes, goldReward, callback) => {
-                const frostfireRecipe = recipes.find(r => r.result === 'frostfire');
-                callback({ type: 'fusion', recipe: frostfireRecipe });
+            // Mock showChestChoices to immediately call callback with frostfire evolution
+            mockChestUI.showChestChoices.mockImplementation((evolutions, fusions, goldReward, callback) => {
+                const frostfireRecipe = evolutions.find(r => r.result === 'frostfire');
+                callback({ type: 'evolution', recipe: frostfireRecipe });
             });
 
             chestManager.openChest(mockChest, mockPlayer, {
@@ -127,6 +129,43 @@ describe('ChestManager - Weapon Fusion', () => {
             // After fusion: Fire + Frost removed, Frostfire added
             expect(mockPlayer.weaponSystem.weapons.length).toBe(1);
             expect(mockPlayer.weaponSystem.weapons[0].def.id).toBe('frostfire');
+        });
+
+        test('performs fusion when player selects a fusion recipe', () => {
+            const mockPlayer = {
+                weaponSystem: {
+                    weapons: [
+                        { def: WEAPONS.FIRE, name: '火焰', color: '#ff6600', cooldown: 0 },
+                        { def: WEAPONS.FROST, name: '冰霜', color: '#00ccff', cooldown: 0 }
+                    ],
+                    getWeapons: function () { return this.weapons; },
+                    removeWeapon: function (id) {
+                        this.weapons = this.weapons.filter(w => w.def.id !== id);
+                    },
+                    addWeapon: function (def) {
+                        this.weapons.push({ def, name: def.name, color: def.color, cooldown: 0 });
+                    }
+                },
+                stats: {
+                    addGold: jest.fn()
+                }
+            };
+            const mockChest = { x: 100, y: 200, interactionCooldown: 0 };
+            const mockRisk = { getCurrentZone: () => ({ name: '舒适区' }) };
+
+            mockChestUI.showChestChoices.mockImplementation((evolutions, fusions, goldReward, callback) => {
+                const fusionRecipe = fusions.find(r => r.materials && r.materials.includes('fire'));
+                callback({ type: 'fusion', recipe: fusionRecipe });
+            });
+
+            chestManager.openChest(mockChest, mockPlayer, {
+                distanceMeters: 0,
+                riskSystem: mockRisk,
+                onComplete: () => { }
+            });
+
+            expect(mockPlayer.weaponSystem.weapons.length).toBe(1);
+            expect(mockPlayer.weaponSystem.weapons[0].def.isFusion).toBe(true);
         });
     });
 });
