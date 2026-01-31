@@ -1,4 +1,4 @@
-import fs from 'fs';
+﻿import fs from 'fs';
 import { WEAPONS, WEAPON_TIER, WEAPON_EVOLUTION_TABLE } from '../js/weapons/WeaponsData.js';
 
 export const NAME_TO_ID = {
@@ -7,7 +7,7 @@ export const NAME_TO_ID = {
     '冰毒': 'ice_toxin',
     '冰电链': 'ice_chain',
     '吸毒': 'leech_toxin',
-    '吸雷链': 'leech_arc',
+    '雷汲脉冲': 'leech_arc',
     '圣灵': 'holy_wisp',
     '圣锤': 'holy_hammer',
     '夜刃': 'night_blade',

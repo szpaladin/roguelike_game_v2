@@ -1,4 +1,4 @@
-// 自动生成：weapon_fusion_suggestions.csv -> WEAPON_EVOLUTION_TABLE 草案
+﻿// 自动生成：weapon_fusion_suggestions.csv -> WEAPON_EVOLUTION_TABLE 草案
 // 说明：result 为新武器 ID 时，请在 WEAPONS 中补充定义
 export const WEAPON_EVOLUTION_TABLE_DRAFT = [
     {
@@ -623,7 +623,7 @@ export const WEAPON_EVOLUTION_TABLE_DRAFT = [
     },
     {
         id: 'fusion_lightning_vampire',
-        name: '吸雷链',
+        name: '雷汲脉冲',
         materials: ['lightning', 'vampire'],
         result: 'leech_arc',
         description: '由闪电与吸血融合而成，效果：连锁闪电 + 吸血',

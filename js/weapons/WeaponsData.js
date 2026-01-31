@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 武器 Tier 分级枚举
  * INITIAL: 初始武器 - 普通弹珠，游戏开始自带
  * BASIC: 基础武器 - 通过消耗技能点获取
@@ -22,7 +22,7 @@ export const WEAPONS = {
         id: 'basic',
         name: '普通弹珠',
         tier: WEAPON_TIER.INITIAL,
-        damage: 1,
+        damage: 0.5,
         interval: 30,
         speed: 8,
         radius: 4,
@@ -307,7 +307,7 @@ export const WEAPONS = {
         damage: 0.6,
         interval: 30,
         speed: 8,
-        radius: 12,
+        radius: 4,
         color: '#6f7a66',
         lifetime: 120,
         piercing: false,
@@ -914,12 +914,12 @@ export const WEAPONS = {
 
     LEECH_ARC: {
         id: 'leech_arc',
-        name: '吸雷链',
+        name: '雷汲脉冲',
         tier: WEAPON_TIER.EVOLUTION,
-        damage: 1,
+        damage: 0.5,
         interval: 30,
         speed: 7,
-        radius: 12,
+        radius: 4,
         color: '#c58000',
         lifetime: 120,
         piercing: false,
@@ -1153,7 +1153,7 @@ export const WEAPON_ID_MAP = {
     BLOOD_GLOW: { id: 'blood_glow', name: '血辉', tier: WEAPON_TIER.EVOLUTION, order: 72 },
     THUNDER_GRIT: { id: 'thunder_grit', name: '雷砾', tier: WEAPON_TIER.EVOLUTION, order: 75 },
     MAG_RAIL: { id: 'mag_rail', name: '磁轨', tier: WEAPON_TIER.EVOLUTION, order: 76 },
-    LEECH_ARC: { id: 'leech_arc', name: '吸雷链', tier: WEAPON_TIER.EVOLUTION, order: 77 },
+    LEECH_ARC: { id: 'leech_arc', name: '雷汲脉冲', tier: WEAPON_TIER.EVOLUTION, order: 77 },
     SWAMP: { id: 'swamp', name: '沼泽', tier: WEAPON_TIER.EVOLUTION, order: 79 },
     TOXIC_SPIKE: { id: 'toxic_spike', name: '毒钉', tier: WEAPON_TIER.EVOLUTION, order: 80 },
     LEY_BEAM: { id: 'ley_beam', name: '地脉束', tier: WEAPON_TIER.EVOLUTION, order: 82 },
@@ -1529,7 +1529,7 @@ export const WEAPON_EVOLUTION_TABLE = [{
     },
     {
         id: 'fusion_lightning_vampire',
-        name: '吸雷链',
+        name: '雷汲脉冲',
         materials: ['lightning', 'vampire'],
         result: 'leech_arc',
         description: '由闪电与吸血融合而成，效果：连锁闪电 + 吸血',
@@ -1731,3 +1731,4 @@ export function getWeaponIdByOrder(order) {
     }
     return null;
 }
+

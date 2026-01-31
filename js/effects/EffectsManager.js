@@ -7,6 +7,7 @@ export default class EffectsManager {
         this.explosionEffects = [];
         this.lightningEffects = [];
         this.rayEffects = [];
+        this.floatingTexts = [];
     }
 
     /**
@@ -41,6 +42,16 @@ export default class EffectsManager {
 
             if (effect.life <= 0) {
                 this.rayEffects.splice(i, 1);
+            }
+        }
+
+        // Update floating texts.
+        for (let i = this.floatingTexts.length - 1; i >= 0; i--) {
+            const effect = this.floatingTexts[i];
+            effect.life--;
+            effect.y += effect.vy;
+            if (effect.life <= 0) {
+                this.floatingTexts.splice(i, 1);
             }
         }
     }
@@ -102,6 +113,28 @@ export default class EffectsManager {
     }
 
     /**
+     * Draw floating texts (call after player draw).
+     */
+    drawFloatingTexts(ctx, scrollY) {
+        if (!ctx || this.floatingTexts.length === 0) return;
+
+        ctx.save();
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+
+        for (const effect of this.floatingTexts) {
+            const alpha = effect.maxLife > 0 ? effect.life / effect.maxLife : 1;
+            ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
+            ctx.font = effect.font;
+            ctx.fillStyle = effect.color;
+            ctx.fillText(effect.text, effect.x, effect.y - scrollY);
+        }
+
+        ctx.restore();
+        ctx.globalAlpha = 1;
+    }
+
+    /**
      * 添加爆炸特效
      */
     addExplosion(x, y, radius, color = '#ff4500') {
@@ -141,12 +174,34 @@ export default class EffectsManager {
     }
 
     /**
+     * Add a floating text effect.
+     */
+    addFloatingText(x, y, text, options = {}) {
+        const life = Number.isFinite(options.life) ? options.life : 50;
+        const font = options.font || '12px Arial';
+        const color = options.color || '#ffffff';
+        const vy = Number.isFinite(options.vy) ? options.vy : -0.4;
+
+        this.floatingTexts.push({
+            x,
+            y,
+            text,
+            color,
+            font,
+            vy,
+            life,
+            maxLife: life
+        });
+    }
+
+    /**
      * 清除所有特效
      */
     clear() {
         this.explosionEffects = [];
         this.lightningEffects = [];
         this.rayEffects = [];
+        this.floatingTexts = [];
     }
 }
 

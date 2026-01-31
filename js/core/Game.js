@@ -228,6 +228,19 @@ export default class Game {
             }
         }
 
+        // 7.5 Floating text for random level-up bonuses
+        const levelUpBonuses = this.player.stats.consumeLevelUpBonuses();
+        if (levelUpBonuses.length > 0) {
+            const baseX = this.player.x;
+            const baseY = this.player.y + this.scrollY - this.player.radius - 8;
+            levelUpBonuses.forEach((bonus, index) => {
+                const isStrength = bonus.stat === 'strength';
+                const text = isStrength ? '力量+1' : '智力+1';
+                const color = isStrength ? '#ff9f1a' : '#5db2ff';
+                this.effectsManager.addFloatingText(baseX, baseY - index * 14, text, { color });
+            });
+        }
+
         // 8. 碰撞检测
         const playerCollisions = this.collisionManager.checkPlayerEnemyCollisions(this.player, this.enemies, this.scrollY);
 
@@ -302,6 +315,9 @@ export default class Game {
 
         // 绘制玩家
         this.player.draw(this.ctx);
+
+        // Draw level-up floating texts
+        this.effectsManager.drawFloatingTexts(this.ctx, this.scrollY);
 
         // 绘制光照遮罩（最后绘制）
         this.lightingSystem.draw(this.ctx, this.width, this.height);

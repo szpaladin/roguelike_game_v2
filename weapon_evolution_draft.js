@@ -1,4 +1,4 @@
-// 自动生成：weapon_fusion_suggestions.csv -> Evolution 武器草案
+﻿// 自动生成：weapon_fusion_suggestions.csv -> Evolution 武器草案
 // 说明：status=建议 的条目是根据材料和效果的草案参数
 // 提示：tier 当前为数值 2，对应 WEAPON_TIER.EVOLUTION
 export const WEAPON_EVOLUTION_DRAFT = [
@@ -401,7 +401,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         id: 'frostfire',
         name: '燃霜',
         tier: 2,
-        damage: 1,
+        damage: 0.5,
         interval: 30,
         speed: 8,
         radius: 4,
@@ -459,7 +459,7 @@ export const WEAPON_EVOLUTION_DRAFT = [
         damage: 1,
         interval: 30,
         speed: 8,
-        radius: 12,
+        radius: 4,
         color: '#ffb300',
         lifetime: 120,
         piercing: false,
@@ -1067,12 +1067,12 @@ export const WEAPON_EVOLUTION_DRAFT = [
     },
     {
         id: 'leech_arc',
-        name: '吸雷链',
+        name: '雷汲脉冲',
         tier: 2,
-        damage: 1,
+        damage: 0.5,
         interval: 30,
         speed: 7,
-        radius: 12,
+        radius: 4,
         color: '#c58000',
         lifetime: 120,
         piercing: false,

@@ -29,11 +29,20 @@ describe('PlayerStats', () => {
         });
 
         test('gainExp triggers level up when threshold reached', () => {
+            const prevStrength = stats.strength;
+            const prevIntelligence = stats.intelligence;
             stats.gainExp(10);
             expect(stats.level).toBe(2);
             expect(stats.exp).toBe(0);
             expect(stats.skillPoints).toBe(1);
             expect(stats.expToNext).toBe(12); // 10 * 1.2
+            const totalDelta = (stats.strength + stats.intelligence) - (prevStrength + prevIntelligence);
+            expect(totalDelta).toBe(1);
+
+            const bonuses = stats.consumeLevelUpBonuses();
+            expect(bonuses.length).toBe(1);
+            expect(['strength', 'intelligence']).toContain(bonuses[0].stat);
+            expect(bonuses[0].amount).toBe(1);
         });
 
         test('gainExp handles multiple level ups', () => {

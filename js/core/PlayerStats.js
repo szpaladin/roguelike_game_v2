@@ -15,6 +15,7 @@ export default class PlayerStats {
         this.speed = 3;
         this.skillPoints = 0;
         this.gold = 0;
+        this.pendingLevelUpBonuses = [];
     }
 
     /**
@@ -49,6 +50,11 @@ export default class PlayerStats {
 
         // 按比例恢复生命值
         this.hp = Math.floor(this.maxHp * hpRatio);
+
+        // Randomly increase strength or intelligence by 1 on level up.
+        const bonusStat = Math.random() < 0.5 ? 'strength' : 'intelligence';
+        this[bonusStat] += 1;
+        this.pendingLevelUpBonuses.push({ stat: bonusStat, amount: 1 });
     }
 
     /**
@@ -141,6 +147,16 @@ export default class PlayerStats {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Read and clear pending level-up bonuses.
+     * @returns {Array<{stat: string, amount: number}>}
+     */
+    consumeLevelUpBonuses() {
+        const bonuses = this.pendingLevelUpBonuses.slice();
+        this.pendingLevelUpBonuses.length = 0;
+        return bonuses;
     }
 
     /**
