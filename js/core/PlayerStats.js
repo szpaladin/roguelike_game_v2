@@ -9,8 +9,8 @@ export default class PlayerStats {
         this.level = 1;
         this.exp = 0;
         this.expToNext = 10;
-        this.strength = 50;      // 力量：影响武器直接伤害 (伤害 = 武器倍率 * 力量/10)
-        this.intelligence = 50;  // 智力：影响DOT伤害 (DOT = 基础DOT * 智力/50)
+        this.strength = 5;       // 力量：影响武器直接伤害 (伤害 = 武器倍率 * (力量+45)/10)
+        this.intelligence = 5;   // 智力：影响DOT伤害 (DOT = 基础DOT * (智力+45)/50)
         this.defense = 2;
         this.speed = 3;
         this.skillPoints = 0;

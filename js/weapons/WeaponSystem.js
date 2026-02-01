@@ -52,7 +52,9 @@ export default class WeaponSystem {
         weapon.cooldown = def.interval;
 
         // 计算最终伤害
-        const finalDamage = def.damage * (playerAttack / 10);
+        const baseAttack = Number.isFinite(playerAttack) ? playerAttack : 0;
+        const effectiveAttack = baseAttack + 45;
+        const finalDamage = def.damage * (effectiveAttack / 10);
 
         return {
             x: target.x + randOffset,

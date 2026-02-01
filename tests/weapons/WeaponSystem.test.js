@@ -50,9 +50,9 @@ describe('WeaponSystem', () => {
             }
         };
 
-        system.autoShoot(playerPos, 50, enemies, bulletPool, 0);
+        system.autoShoot(playerPos, 5, enemies, bulletPool, 0);
         expect(spawnedData).not.toBeNull();
-        expect(spawnedData.damage).toBe(WEAPONS.FIRE.damage * 5); // 50/10 = 5
+        expect(spawnedData.damage).toBe(WEAPONS.FIRE.damage * 5); // (5 + 45) / 10 = 5
         expect(system.weapons[0].cooldown).toBe(WEAPONS.FIRE.interval);
     });
 
@@ -83,7 +83,7 @@ describe('WeaponSystem', () => {
                 }
             };
 
-            system.autoShoot(playerPos, 50, enemies, bulletPool, 0);
+            system.autoShoot(playerPos, 5, enemies, bulletPool, 0);
 
             // All 3 weapons should fire
             expect(spawnedBullets.length).toBe(3);
@@ -111,7 +111,7 @@ describe('WeaponSystem', () => {
                 }
             };
 
-            system.autoShoot(playerPos, 50, enemies, bulletPool, 0);
+            system.autoShoot(playerPos, 5, enemies, bulletPool, 0);
 
             expect(spawnedBullets.length).toBe(1);
             // With single weapon, spread should be 0, so vy should be 0
@@ -144,7 +144,7 @@ describe('WeaponSystem', () => {
         };
 
         const randomSpy = jestGlobals.spyOn(Math, 'random').mockReturnValue(0.5);
-        system.autoShoot(playerPos, 50, enemies, bulletPool, 300);
+        system.autoShoot(playerPos, 5, enemies, bulletPool, 300);
         randomSpy.mockRestore();
 
         expect(bulletPool.spawnBullet).toHaveBeenCalledTimes(1);

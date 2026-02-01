@@ -58,7 +58,9 @@ export default class Weapon {
         this.cooldown = this.def.interval;
 
         // 计算最终伤害 = 武器伤害倍率 * 力量 / 10
-        const finalDamage = this.def.damage * (playerAttack / 10);
+        const baseAttack = Number.isFinite(playerAttack) ? playerAttack : 0;
+        const effectiveAttack = baseAttack + 45;
+        const finalDamage = this.def.damage * (effectiveAttack / 10);
 
         // 返回子弹数据（合并武器定义的所有属性）
         return {
@@ -106,7 +108,9 @@ export default class Weapon {
         this.cooldown = this.def.interval;
 
         // 计算最终伤害 = 武器伤害倍率 * 力量 / 10
-        const finalDamage = this.def.damage * (playerAttack / 10);
+        const baseAttack = Number.isFinite(playerAttack) ? playerAttack : 0;
+        const effectiveAttack = baseAttack + 45;
+        const finalDamage = this.def.damage * (effectiveAttack / 10);
 
         // 返回子弹数据（合并武器定义的所有属性）
         return {

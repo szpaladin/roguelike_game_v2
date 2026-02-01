@@ -14,8 +14,8 @@ describe('PlayerStats', () => {
             expect(stats.level).toBe(1);
             expect(stats.exp).toBe(0);
             expect(stats.expToNext).toBe(10);
-            expect(stats.strength).toBe(50);
-            expect(stats.intelligence).toBe(50);
+            expect(stats.strength).toBe(5);
+            expect(stats.intelligence).toBe(5);
             expect(stats.defense).toBe(2);
             expect(stats.skillPoints).toBe(0);
             expect(stats.gold).toBe(0);
@@ -124,7 +124,7 @@ describe('PlayerStats', () => {
             expect(stats.maxHp).toBe(120);
 
             expect(stats.upgradeStrength()).toBe(true);
-            expect(stats.strength).toBe(55);
+            expect(stats.strength).toBe(10);
 
             expect(stats.upgradeDefense()).toBe(true);
             expect(stats.defense).toBe(3);

@@ -61,12 +61,14 @@ export default class CollisionManager {
     checkBulletEnemyCollisions(bullets, enemies, playerAttack = 5) {
         const hits = [];
         const playerStats = this.player ? this.player.stats : null;
-        const intMultiplier = playerStats ? playerStats.intelligence / 50 : 1;
+        const intMultiplier = playerStats ? (playerStats.intelligence + 45) / 50 : 1;
+        const baseAttack = Number.isFinite(playerAttack) ? playerAttack : 0;
+        const effectiveAttack = baseAttack + 45;
 
         const triggerOvergrowthExplosion = (target, statusResult) => {
             if (!statusResult || !statusResult.overgrowth) return;
             const { radius, multiplier, color } = statusResult.overgrowth;
-            const damage = playerAttack * multiplier * intMultiplier;
+            const damage = effectiveAttack * multiplier * intMultiplier;
             this.aoeHandler.handleStatusExplosion(target, enemies, damage, radius, color);
         };
 
@@ -101,7 +103,7 @@ export default class CollisionManager {
                         const result = applyBulletStatusEffects(bullet, target, playerStats);
                         triggerOvergrowthExplosion(target, result);
                     };
-                    this.aoeHandler.handleRangeEffects(bullet, enemy, enemies, playerAttack, applyStatuses);
+                    this.aoeHandler.handleRangeEffects(bullet, enemy, enemies, effectiveAttack, applyStatuses);
 
                     hits.push({ bullet, enemy, damage: actualDamage });
 

@@ -399,7 +399,7 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null, opti
     const result = {};
 
     // 获取智力倍率（用于 DOT 伤害）
-    const intMultiplier = playerStats ? playerStats.intelligence / 50 : 1;
+    const intMultiplier = playerStats ? (playerStats.intelligence + 45) / 50 : 1;
     const hasBurn = bullet.burnDuration > 0;
     const hasFreeze = bullet.freezeChance > 0;
     const hasDarkFlame = bullet.darkFlameDuration > 0;

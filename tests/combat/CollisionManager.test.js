@@ -79,7 +79,7 @@ describe('CollisionManager', () => {
     });
 
     test('overgrowth detonates at 3 stacks and damages nearby enemies with int scaling', () => {
-        manager.setDependencies(null, null, { stats: { intelligence: 100 } });
+        manager.setDependencies(null, null, { stats: { intelligence: 55 } });
 
         const overgrowthTarget = new Enemy(15, 0, {
             name: 'E3', hp: 500, maxHp: 500, attack: 10, defense: 0, speed: 1, radius: 10, color: 'green', exp: 10, gold: 10
@@ -103,11 +103,11 @@ describe('CollisionManager', () => {
             overgrowthExplosionMultiplier: 2.5
         });
 
-        manager.checkBulletEnemyCollisions([makeBullet()], [overgrowthTarget, nearbyEnemy], 50);
-        manager.checkBulletEnemyCollisions([makeBullet()], [overgrowthTarget, nearbyEnemy], 50);
+        manager.checkBulletEnemyCollisions([makeBullet()], [overgrowthTarget, nearbyEnemy], 5);
+        manager.checkBulletEnemyCollisions([makeBullet()], [overgrowthTarget, nearbyEnemy], 5);
         expect(nearbyEnemy.hp).toBe(300);
 
-        manager.checkBulletEnemyCollisions([makeBullet()], [overgrowthTarget, nearbyEnemy], 50);
+        manager.checkBulletEnemyCollisions([makeBullet()], [overgrowthTarget, nearbyEnemy], 5);
         expect(nearbyEnemy.hp).toBe(50);
     });
 
