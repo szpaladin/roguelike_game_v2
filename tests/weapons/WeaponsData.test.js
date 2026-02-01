@@ -53,7 +53,7 @@ describe('WeaponsData', () => {
         expect(WEAPONS.HOLY_HEAL).toBeDefined();
         expect(WEAPONS.HOLY_HEAL.id).toBe('holy_heal');
         expect(WEAPONS.HOLY_HEAL.damage).toBe(0.1);
-        expect(WEAPONS.HOLY_HEAL.lifeStealChance).toBe(0.7);
+        expect(WEAPONS.HOLY_HEAL.lifeStealChance).toBe(0.21);
         expect(WEAPONS.HOLY_HEAL.blindChance).toBeUndefined();
     });
 });

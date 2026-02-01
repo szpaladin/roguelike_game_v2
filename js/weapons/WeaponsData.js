@@ -877,7 +877,7 @@ export const WEAPONS = {
         color: '#c58055',
         lifetime: 120,
         piercing: false,
-        lifeStealChance: 0.7,
+        lifeStealChance: 0.21,
         lifeStealAmount: 1,
         effects: '吸血',
         sources: ['light', 'vampire'],
