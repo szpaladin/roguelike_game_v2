@@ -15,6 +15,7 @@ import CollisionManager from '../combat/CollisionManager.js';
 import EffectsManager from '../effects/EffectsManager.js';
 import StatusVFXManager from '../effects/StatusVFXManager.js';
 import PlagueSystem from '../effects/PlagueSystem.js';
+import DarkFlameSystem from '../effects/DarkFlameSystem.js';
 import TerrainEffectManager from '../effects/TerrainEffectManager.js';
 import ChestManager from '../chest/ChestManager.js';
 import HUD from '../ui/HUD.js';
@@ -24,6 +25,8 @@ import ChestUI from '../ui/ChestUI.js';
 import GameOverUI from '../ui/GameOverUI.js';
 import EvacuationResultUI from '../ui/EvacuationResultUI.js';
 import WeaponCodexUI from '../ui/WeaponCodexUI.js';
+import BaseScreen from '../meta/BaseScreen.js';
+import { STATUS_EFFECTS } from '../enemies/StatusEffects.js';
 
 /**
  * Game - 游戏主控类
@@ -65,12 +68,14 @@ export default class Game {
         // 初始化子系统
         this.mapManager = new MapManager();
         this.player = new Player(this.width / 2, this.height * 0.3);
+        this.metaProgress.applyUpgrades(this.player.stats);
         this.enemySpawner = new EnemySpawner();
         this.bulletPool = new BulletPool();
         this.collisionManager = new CollisionManager();
         this.effectsManager = new EffectsManager();
         this.statusVFXManager = new StatusVFXManager();
         this.plagueSystem = new PlagueSystem();
+        this.darkFlameSystem = new DarkFlameSystem();
         this.terrainEffects = new TerrainEffectManager();
 
         // UI 系统
@@ -86,7 +91,25 @@ export default class Game {
                 return this.upgradeUI.isOpen() ||
                     this.chestUI.isOpen() ||
                     this.gameOverUI.isVisible() ||
-                    this.evacuationResultUI.isVisible();
+                    this.evacuationResultUI.isVisible() ||
+                    (this.baseScreen && this.baseScreen.isOpen());
+            }
+        });
+        this.baseScreen = new BaseScreen(this.metaProgress, {
+            onStart: () => {
+                try {
+                    sessionStorage.setItem('skipBaseOnce', '1');
+                } catch (e) {
+                    console.warn('Failed to persist base skip flag:', e);
+                }
+                location.reload();
+            },
+            onOpen: () => {
+                this.paused = true;
+                this.keys = {};
+            },
+            onClose: () => {
+                this.paused = false;
             }
         });
 
@@ -130,7 +153,23 @@ export default class Game {
         this.evacuationManager.setSiegeCallback(() => this.spawnSiegeEnemies());
 
         // 设置结算界面回调
-        this.evacuationResultUI.onContinue(() => location.reload());
+        this.evacuationResultUI.onContinue(() => {
+            this.enterBase();
+        });
+
+        // 进入游戏先展示基地（除非从基地点击开始潜水触发重载）
+        let skipBase = false;
+        try {
+            skipBase = sessionStorage.getItem('skipBaseOnce') === '1';
+            if (skipBase) {
+                sessionStorage.removeItem('skipBaseOnce');
+            }
+        } catch (e) {
+            console.warn('Failed to read base skip flag:', e);
+        }
+        if (!skipBase) {
+            this.enterBase();
+        }
     }
 
     /**
@@ -212,6 +251,16 @@ export default class Game {
             const enemy = this.enemies[i];
             enemy.update(playerPos, this.scrollY, this.height, this.width);
             if (enemy.hp <= 0 && !enemy.isDead) {
+                const sacrifice = enemy.statusEffects ? enemy.statusEffects.getEffect('abyss_sacrifice') : null;
+                if (sacrifice) {
+                    const healAmount = Number.isFinite(sacrifice.params.healAmount)
+                        ? sacrifice.params.healAmount
+                        : STATUS_EFFECTS.ABYSS_SACRIFICE.defaultHeal;
+                    if (healAmount > 0) {
+                        this.player.stats.heal(healAmount);
+                    }
+                }
+
                 // 处理敌人死亡（经验、金币等）
                 this.player.stats.gainExp(enemy.exp || 1);
                 this.player.stats.addGold(enemy.gold || 1);
@@ -259,6 +308,7 @@ export default class Game {
 
         this.statusVFXManager.update(this.enemies);
         this.plagueSystem.update(this.enemies);
+        this.darkFlameSystem.update(this.enemies);
 
         // 9. 检查游戏结束
         if (!this.player.stats.isAlive()) {
@@ -356,6 +406,9 @@ export default class Game {
     }
 
     handleInput(e, isDown) {
+        if (this.baseScreen && this.baseScreen.isOpen()) {
+            return;
+        }
         const key = e.key.toLowerCase();
         this.keys[key] = isDown;
 
@@ -389,6 +442,12 @@ export default class Game {
                 this.chestUI.close();
                 this.paused = false;
             }
+        }
+    }
+
+    enterBase() {
+        if (this.baseScreen) {
+            this.baseScreen.open();
         }
     }
 

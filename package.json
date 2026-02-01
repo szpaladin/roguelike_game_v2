@@ -9,7 +9,8 @@
     "serve": "node server.js",
     "generate:weapon-drafts": "node tools/generate-weapon-drafts.js",
     "generate:fusion-recipes": "node tools/generate-fusion-recipes.js",
-    "validate:weapons": "node tools/validate-weapons.js"
+    "validate:weapons": "node tools/validate-weapons.js",
+    "scan:encoding": "node tools/scan-mojibake.js"
   },
   "devDependencies": {
     "jest": "^29.7.0",

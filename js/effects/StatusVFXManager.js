@@ -2,6 +2,7 @@ import BurningVFX from './BurningVFX.js';
 import PoisonVFX from './PoisonVFX.js';
 import FrozenVFX from './FrozenVFX.js';
 import PlagueVFX from './PlagueVFX.js';
+import DarkFlameVFX from './DarkFlameVFX.js';
 
 export default class StatusVFXManager {
     constructor() {
@@ -9,7 +10,8 @@ export default class StatusVFXManager {
             ['burning', BurningVFX],
             ['poisoned', PoisonVFX],
             ['frozen', FrozenVFX],
-            ['plagued', PlagueVFX]
+            ['plagued', PlagueVFX],
+            ['dark_flame', DarkFlameVFX]
         ]);
         this.enemyEffects = new Map();
     }
@@ -25,9 +27,12 @@ export default class StatusVFXManager {
 
         for (const enemy of aliveEnemies) {
             if (!enemy || !enemy.statusEffects) continue;
+            const hasDarkFlame = enemy.statusEffects.hasEffect('dark_flame');
 
             for (const [effectId, VfxClass] of this.registry.entries()) {
-                const hasEffect = enemy.statusEffects.hasEffect(effectId);
+                const hasEffect = effectId === 'burning' && hasDarkFlame
+                    ? false
+                    : enemy.statusEffects.hasEffect(effectId);
                 let effectMap = this.enemyEffects.get(enemy);
 
                 if (hasEffect) {

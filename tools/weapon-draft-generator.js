@@ -11,7 +11,7 @@ export const NAME_TO_ID = {
     '圣灵': 'holy_wisp',
     '圣锤': 'holy_hammer',
     '夜刃': 'night_blade',
-    '太阳束': 'solar_beam',
+    '高温射线': 'high_temperature_ray',
     '寒束': 'cold_beam',
     '寒魄吸': 'frost_leech',
     '蔓延': 'overgrowth',

@@ -1,4 +1,4 @@
-import StatusEffectManager from './StatusEffectManager.js';
+﻿import StatusEffectManager from './StatusEffectManager.js';
 
 /**
  * Enemy class - 敌人基类
@@ -35,7 +35,7 @@ export default class Enemy {
      * 受到伤害
      * @param {number} rawDamage - 原始伤害值
      * @param {Object} options - 伤害选项
-     * @returns {number} - 实际受到的伤害
+     * @returns {number} - 实际受到的伤害值
      */
     takeDamage(rawDamage, options = {}) {
         return this.applyDamage(rawDamage, {
@@ -49,7 +49,7 @@ export default class Enemy {
      * 应用伤害（支持诅咒触发）
      * @param {number} rawDamage - 原始伤害值
      * @param {Object} options - 伤害选项
-     * @returns {number} - 实际受到的伤害
+     * @returns {number} - 实际受到的伤害值
      */
     applyDamage(rawDamage, options = {}) {
         const source = options.source || 'hit';
@@ -190,7 +190,7 @@ export default class Enemy {
 
         ctx.save();
 
-        // 基础圆
+        // 基础体
         ctx.beginPath();
         ctx.arc(this.x, this.y - scrollY, this.radius, 0, Math.PI * 2);
         ctx.fillStyle = this.color;
@@ -201,7 +201,8 @@ export default class Enemy {
         if (activeEffects.length > 0) {
             // 按优先级排序：冻结 > 燃烧 > 中毒
             let primaryEffect = null;
-            if (this.frozen) primaryEffect = this.statusEffects.getEffect('frozen');
+            if (this.statusEffects.hasEffect('dark_flame')) primaryEffect = this.statusEffects.getEffect('dark_flame');
+            else if (this.frozen) primaryEffect = this.statusEffects.getEffect('frozen');
             else if (this.statusEffects.hasEffect('burning')) primaryEffect = this.statusEffects.getEffect('burning');
             else if (this.statusEffects.hasEffect('poisoned')) primaryEffect = this.statusEffects.getEffect('poisoned');
 
@@ -268,4 +269,5 @@ export default class Enemy {
         }
     }
 }
+
 

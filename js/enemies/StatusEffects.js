@@ -30,6 +30,21 @@ export const STATUS_EFFECTS = {
         defaultDamagePerFrame: 5 / 60
     },
 
+    // 黑焰 - 超长持续与接触传播
+    DARK_FLAME: {
+        id: 'dark_flame',
+        name: '黑焰',
+        type: STATUS_TYPE.DOT,
+        color: '#2b153a',
+        icon: '🖤',
+        maxStacks: 1,
+        description: '超长持续黑焰，可接触传播',
+        defaultDuration: 1800,
+        defaultDamagePerFrame: 0.04,
+        spreadInterval: 60,
+        contactPadding: 6
+    },
+
     // 冰冻 - 减速/定身
     FROZEN: {
         id: 'frozen',
@@ -107,6 +122,19 @@ export const STATUS_EFFECTS = {
         defaultDuration: 1800,
         defaultConsumeStacks: 1,
         defaultDamageMultiplier: 1.5
+    },
+
+    // 海渊献祭 - 敌人死亡时回复氧气
+    ABYSS_SACRIFICE: {
+        id: 'abyss_sacrifice',
+        name: '海渊献祭',
+        type: STATUS_TYPE.DEBUFF,
+        color: '#3a4b6a',
+        icon: '🪬',
+        maxStacks: 1,
+        description: '目标在状态持续期间死亡时，回复玩家氧气',
+        defaultDuration: 600,
+        defaultHeal: 2
     },
 
     // 岩脊带控场 - 地形减速
@@ -205,6 +233,8 @@ export function extractStatusEffectsFromBullet(bulletData) {
     const effects = [];
     const hasBurn = bulletData.burnDuration > 0;
     const hasFreeze = bulletData.freezeChance > 0;
+    const hasDarkFlame = bulletData.darkFlameDuration > 0;
+    const hasAbyssSacrifice = bulletData.abyssSacrificeDuration > 0;
 
     // 燃烧效果
     if (hasBurn) {
@@ -246,6 +276,32 @@ export function extractStatusEffectsFromBullet(bulletData) {
             duration: bulletData.vulnerabilityDuration || STATUS_EFFECTS.VULNERABLE.defaultDuration,
             params: {
                 vulnerabilityAmount: bulletData.vulnerability
+            }
+        });
+    }
+
+    // 黑焰效果
+    if (hasDarkFlame) {
+        effects.push({
+            effectId: 'dark_flame',
+            duration: bulletData.darkFlameDuration,
+            params: {
+                damagePerFrame: bulletData.darkFlameDamagePerFrame || STATUS_EFFECTS.DARK_FLAME.defaultDamagePerFrame,
+                baseDuration: bulletData.darkFlameDuration,
+                spreadInterval: bulletData.darkFlameSpreadInterval || STATUS_EFFECTS.DARK_FLAME.spreadInterval,
+                contactPadding: bulletData.darkFlameContactPadding || STATUS_EFFECTS.DARK_FLAME.contactPadding,
+                color: bulletData.darkFlameColor
+            }
+        });
+    }
+
+    // 海渊献祭效果
+    if (hasAbyssSacrifice) {
+        effects.push({
+            effectId: 'abyss_sacrifice',
+            duration: bulletData.abyssSacrificeDuration,
+            params: {
+                healAmount: bulletData.abyssSacrificeHeal || STATUS_EFFECTS.ABYSS_SACRIFICE.defaultHeal
             }
         });
     }
@@ -346,6 +402,8 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null, opti
     const intMultiplier = playerStats ? playerStats.intelligence / 50 : 1;
     const hasBurn = bullet.burnDuration > 0;
     const hasFreeze = bullet.freezeChance > 0;
+    const hasDarkFlame = bullet.darkFlameDuration > 0;
+    const hasAbyssSacrifice = bullet.abyssSacrificeDuration > 0;
     const suppressFreeze = options && options.suppressFreeze === true;
 
     // 冰冻效果（触发时同时施加易伤）
@@ -435,6 +493,31 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null, opti
                 color: bullet.overgrowthExplosionColor || STATUS_EFFECTS.OVERGROWTH.color
             };
         }
+    }
+
+    // 黑焰效果（DOT 伤害 = 基础伤害 × 智力倍率）
+    if (hasDarkFlame) {
+        const darkFlameDuration = bullet.darkFlameDuration || STATUS_EFFECTS.DARK_FLAME.defaultDuration;
+        const darkFlameDamage = (bullet.darkFlameDamagePerFrame || STATUS_EFFECTS.DARK_FLAME.defaultDamagePerFrame) * intMultiplier;
+        const spreadInterval = bullet.darkFlameSpreadInterval || STATUS_EFFECTS.DARK_FLAME.spreadInterval;
+        const contactPadding = bullet.darkFlameContactPadding || STATUS_EFFECTS.DARK_FLAME.contactPadding;
+        const color = bullet.darkFlameColor || STATUS_EFFECTS.DARK_FLAME.color;
+        enemy.applyStatusEffect('dark_flame', darkFlameDuration, {
+            damagePerFrame: darkFlameDamage,
+            baseDuration: darkFlameDuration,
+            spreadInterval,
+            contactPadding,
+            color
+        });
+    }
+
+    // 海渊献祭效果（敌人死亡时回复氧气）
+    if (hasAbyssSacrifice) {
+        const duration = bullet.abyssSacrificeDuration || STATUS_EFFECTS.ABYSS_SACRIFICE.defaultDuration;
+        const healAmount = bullet.abyssSacrificeHeal || STATUS_EFFECTS.ABYSS_SACRIFICE.defaultHeal;
+        enemy.applyStatusEffect('abyss_sacrifice', duration, {
+            healAmount
+        });
     }
 
     // 诅咒效果（叠层，受伤时触发）

@@ -193,6 +193,15 @@ export function buildFusionDefinition(defA, defB, recipe = null) {
     setIfDefined(def, 'burnDamagePerFrame', sumValues(defA.burnDamagePerFrame, defB.burnDamagePerFrame));
     if (defA.burnColor || defB.burnColor) def.burnColor = defA.burnColor || defB.burnColor;
 
+    setIfDefined(def, 'darkFlameDuration', pickMax(defA.darkFlameDuration, defB.darkFlameDuration));
+    setIfDefined(def, 'darkFlameDamagePerFrame', sumValues(defA.darkFlameDamagePerFrame, defB.darkFlameDamagePerFrame));
+    setIfDefined(def, 'darkFlameSpreadInterval', pickMin(defA.darkFlameSpreadInterval, defB.darkFlameSpreadInterval));
+    setIfDefined(def, 'darkFlameContactPadding', pickMax(defA.darkFlameContactPadding, defB.darkFlameContactPadding));
+    if (defA.darkFlameColor || defB.darkFlameColor) def.darkFlameColor = defA.darkFlameColor || defB.darkFlameColor;
+
+    setIfDefined(def, 'abyssSacrificeDuration', pickMax(defA.abyssSacrificeDuration, defB.abyssSacrificeDuration));
+    setIfDefined(def, 'abyssSacrificeHeal', pickMax(defA.abyssSacrificeHeal, defB.abyssSacrificeHeal));
+
     setIfDefined(def, 'poisonDuration', pickMax(defA.poisonDuration, defB.poisonDuration));
     setIfDefined(def, 'poisonDamagePerStack', sumValues(defA.poisonDamagePerStack, defB.poisonDamagePerStack));
 

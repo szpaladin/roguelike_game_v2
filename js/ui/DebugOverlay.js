@@ -57,6 +57,8 @@ export default class DebugOverlay {
 
         const padding = 6;
         const lineHeight = 14;
+        const offsetX = 170;
+        const offsetY = 8;
         let maxWidth = 0;
         for (const line of lines) {
             maxWidth = Math.max(maxWidth, ctx.measureText(line).width);
@@ -66,11 +68,11 @@ export default class DebugOverlay {
         const boxHeight = lineHeight * lines.length + padding * 2;
 
         ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
-        ctx.fillRect(8, 8, boxWidth, boxHeight);
+        ctx.fillRect(offsetX, offsetY, boxWidth, boxHeight);
 
         ctx.fillStyle = '#b9f7ff';
         for (let i = 0; i < lines.length; i++) {
-            ctx.fillText(lines[i], 8 + padding, 8 + padding + lineHeight * i);
+            ctx.fillText(lines[i], offsetX + padding, offsetY + padding + lineHeight * i);
         }
 
         ctx.restore();

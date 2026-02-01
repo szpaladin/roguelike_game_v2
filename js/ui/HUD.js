@@ -60,7 +60,10 @@ export default class HUD {
         if (e.intelligence) e.intelligence.textContent = String(s.intelligence);
         if (e.defense) e.defense.textContent = String(s.defense);
         if (e.gold) e.gold.textContent = String(s.gold);
-        if (this.elements.floor) this.elements.floor.textContent = String(Math.floor(distance));
+        if (this.elements.floor) {
+            const meters = (distance || 0) / 10;
+            this.elements.floor.textContent = `${meters.toFixed(1)}米`;
+        }
 
         // 更新武器显示
         this.updateWeaponDisplay(player);

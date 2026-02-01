@@ -32,7 +32,9 @@ function init() {
 
     // 重新开始逻辑
     game.gameOverUI.onRestart(() => {
-        window.location.reload(); // 简单起见，重新加载页面
+        if (game.enterBase) {
+            game.enterBase();
+        }
     });
 
     // 启动游戏

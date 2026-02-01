@@ -126,7 +126,7 @@ export const WEAPON_EVOLUTION_TABLE_DRAFT = [
         name: '暗焰',
         materials: ['dark', 'fire'],
         result: 'dark_flame',
-        description: '由黑暗与火焰融合而成，效果：燃烧DOT + 易伤',
+        description: '由黑暗与火焰融合而成，效果：黑焰DOT + 接触传播',
         tier: 1,
         icon: '🔥',
         status: '现有'
@@ -226,7 +226,7 @@ export const WEAPON_EVOLUTION_TABLE_DRAFT = [
         name: '血咒',
         materials: ['dark', 'vampire'],
         result: 'soul_drain',
-        description: '由黑暗与吸血融合而成，效果：诅咒',
+        description: '由黑暗与吸血融合而成，效果：诅咒 + 海渊献祭',
         tier: 1,
         icon: '🩸',
         status: '现有'
@@ -246,7 +246,7 @@ export const WEAPON_EVOLUTION_TABLE_DRAFT = [
         name: '鬼火',
         materials: ['fire', 'ghost'],
         result: 'ghost_fire',
-        description: '由火焰与幽灵融合而成，效果：穿透 + 燃烧DOT',
+        description: '由火焰与幽灵融合而成，效果：穿透 + 黑焰',
         tier: 1,
         icon: '🔥',
         status: '现有'
@@ -283,10 +283,10 @@ export const WEAPON_EVOLUTION_TABLE_DRAFT = [
     },
     {
         id: 'fusion_fire_ray',
-        name: '太阳束',
+        name: '高温射线',
         materials: ['fire', 'ray'],
-        result: 'solar_beam',
-        description: '由火焰与射线融合而成，效果：射线AOE + 燃烧DOT',
+        result: 'high_temperature_ray',
+        description: '由火焰与射线融合而成，效果：射线AOE',
         tier: 1,
         icon: '🔥',
         status: '现有'
@@ -493,12 +493,12 @@ export const WEAPON_EVOLUTION_TABLE_DRAFT = [
     },
     {
         id: 'fusion_ghost_vampire',
-        name: '血影',
+        name: '渊灵',
         materials: ['ghost', 'vampire'],
-        result: 'blood_wraith',
-        description: '由幽灵与吸血融合而成，效果：穿透 + 吸血',
+        result: 'abyss_wraith',
+        description: '由幽灵与吸血融合而成，效果：穿透 + 海渊献祭',
         tier: 1,
-        icon: '🩸',
+        icon: '🪬',
         status: '现有'
     },
     {

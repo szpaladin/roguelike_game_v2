@@ -1,5 +1,5 @@
-/**
- * MetaProgress 单元测试
+﻿/**
+ * MetaProgress 单元测试（基于新的持久化结构）
  */
 
 // 简单的 localStorage mock
@@ -24,11 +24,14 @@ describe('MetaProgress', () => {
     describe('初始化', () => {
         test('应该创建默认数据结构', () => {
             const progress = metaProgress.getProgress();
-            expect(progress.totalGold).toBe(0);
-            expect(progress.highestDistance).toBe(0);
-            expect(progress.totalRuns).toBe(0);
-            expect(progress.successfulEvacuations).toBe(0);
+            expect(progress.gold).toBe(0);
+            expect(progress.upgrades).toEqual({ maxHp: 0, strength: 0, intelligence: 0 });
+            expect(progress.stats.runs).toBe(0);
+            expect(progress.stats.bestDepth).toBe(0);
             expect(progress.unlockedWeapons).toEqual([]);
+            expect(progress.inventory).toBeDefined();
+            expect(progress.loadout).toBeDefined();
+            expect(progress.pendingLoot).toEqual([]);
         });
     });
 
@@ -38,14 +41,14 @@ describe('MetaProgress', () => {
 
             expect(result.goldEarned).toBe(100);
             expect(result.penaltyApplied).toBe(false);
-            expect(metaProgress.getProgress().totalGold).toBe(100);
+            expect(metaProgress.getProgress().gold).toBe(100);
         });
 
         test('应该更新最远距离记录', () => {
             metaProgress.processEvacuation({ gold: 50, distance: 500 });
             metaProgress.processEvacuation({ gold: 50, distance: 800 });
 
-            expect(metaProgress.getProgress().highestDistance).toBe(800);
+            expect(metaProgress.getProgress().stats.bestDepth).toBe(800);
         });
 
         test('应该解锁新武器', () => {
@@ -63,8 +66,8 @@ describe('MetaProgress', () => {
             metaProgress.processEvacuation({ gold: 100, distance: 1000 });
             metaProgress.processEvacuation({ gold: 100, distance: 1000 });
 
-            expect(metaProgress.getProgress().successfulEvacuations).toBe(2);
-            expect(metaProgress.getProgress().totalRuns).toBe(2);
+            expect(metaProgress.getProgress().stats.successfulEvacuations).toBe(2);
+            expect(metaProgress.getProgress().stats.runs).toBe(2);
         });
     });
 
@@ -90,14 +93,14 @@ describe('MetaProgress', () => {
         test('死亡仍应更新最远距离', () => {
             metaProgress.processDeath({ gold: 100, distance: 2000 }, 0.5);
 
-            expect(metaProgress.getProgress().highestDistance).toBe(2000);
+            expect(metaProgress.getProgress().stats.bestDepth).toBe(2000);
         });
 
         test('死亡不应增加成功撤离次数', () => {
             metaProgress.processDeath({ gold: 100, distance: 1000 }, 0.5);
 
-            expect(metaProgress.getProgress().successfulEvacuations).toBe(0);
-            expect(metaProgress.getProgress().totalRuns).toBe(1);
+            expect(metaProgress.getProgress().stats.successfulEvacuations).toBe(0);
+            expect(metaProgress.getProgress().stats.runs).toBe(1);
         });
     });
 
@@ -106,7 +109,7 @@ describe('MetaProgress', () => {
             metaProgress.processEvacuation({ gold: 100, distance: 1000 });
             metaProgress.reset();
 
-            expect(metaProgress.getProgress().totalGold).toBe(0);
+            expect(metaProgress.getProgress().gold).toBe(0);
         });
     });
 });

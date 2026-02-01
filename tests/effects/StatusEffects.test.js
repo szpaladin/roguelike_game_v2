@@ -13,4 +13,14 @@ describe('StatusEffects', () => {
         expect(ridge.defaultSlowAmount).toBe(0.3);
         expect(ridge.defaultSlowDuration).toBe(120);
     });
+
+    test('abyss sacrifice definition exists', () => {
+        const sacrifice = STATUS_EFFECTS.ABYSS_SACRIFICE;
+        expect(sacrifice).toBeDefined();
+        expect(sacrifice.id).toBe('abyss_sacrifice');
+        expect(sacrifice.name).toBe('海渊献祭');
+        expect(sacrifice.type).toBe(STATUS_TYPE.DEBUFF);
+        expect(sacrifice.defaultDuration).toBe(600);
+        expect(sacrifice.defaultHeal).toBe(2);
+    });
 });

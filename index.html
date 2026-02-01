@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
@@ -9,7 +9,8 @@
 </head>
 
 <body>
-    <div class="game-container">
+    <div id="game-root">
+        <div class="game-container">
         <main class="game-main">
             <section class="game-left">
                 <div class="map-container">
@@ -114,9 +115,54 @@
                 <button id="restart-btn" class="btn">重新开始</button>
             </div>
         </div>
+
+        </div>
     </div>
 
-    <script type="module" src="js/main.js"></script>
+    <!-- 基地界面 -->
+    <div class="base-root" id="base-root" style="display:none;">
+        <div class="dialog base-dialog">
+            <div class="base-header">
+                <div class="base-title">roguelike潜水探索小游戏 · 局外养成界面</div>
+            </div>
+
+            <div class="base-content">
+                <div class="base-gold-row">
+                    <div class="base-gold">金币：<span id="base-gold">0</span></div>
+                </div>
+
+                <div class="base-start-row">
+                    <button class="btn base-start-btn" id="base-start-btn">开始潜水</button>
+                </div>
+
+                <div class="base-row">
+                    <section class="base-panel base-panel-log">
+                        <h3>潜水日志</h3>
+                        <div class="base-summary">
+                            航次 <span id="base-runs">0</span> · 最深 <span id="base-best-depth">0</span>m
+                        </div>
+                        <div class="base-log" id="base-log"></div>
+                    </section>
+
+                    <section class="base-panel base-panel-upgrades">
+                        <h3>升级面板</h3>
+                        <div class="base-upgrade-list" id="base-upgrade-list"></div>
+                        <div class="base-tip" id="base-loadout-tip">升级船舱可解锁携带槽位</div>
+                    </section>
+                </div>
+
+                <section class="base-panel base-panel-inventory">
+                    <h3>仓库（背包）</h3>
+                    <div class="base-inventory-grid" id="base-inventory-grid">
+                        <div class="base-placeholder">背包系统后续开放</div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+<script type="module" src="js/main.js"></script>
 </body>
 
 </html>
+
+

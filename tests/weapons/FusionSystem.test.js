@@ -105,4 +105,53 @@ describe('FusionSystem', () => {
         expect(fused.terrainOnHit.slowAmount).toBeCloseTo(0.5, 5);
         expect(fused.terrainOnHit.slowDuration).toBe(120);
     });
+
+    test('buildFusionDefinition merges dark flame fields', () => {
+        const defA = {
+            id: 'a',
+            name: 'A',
+            darkFlameDuration: 600,
+            darkFlameDamagePerFrame: 0.02,
+            darkFlameSpreadInterval: 60,
+            darkFlameContactPadding: 4,
+            darkFlameColor: '#111111'
+        };
+        const defB = {
+            id: 'b',
+            name: 'B',
+            darkFlameDuration: 900,
+            darkFlameDamagePerFrame: 0.04,
+            darkFlameSpreadInterval: 40,
+            darkFlameContactPadding: 10,
+            darkFlameColor: '#222222'
+        };
+
+        const fused = buildFusionDefinition(defA, defB, { id: 'fusion_a_b' });
+
+        expect(fused.darkFlameDuration).toBe(900);
+        expect(fused.darkFlameDamagePerFrame).toBeCloseTo(0.06, 5);
+        expect(fused.darkFlameSpreadInterval).toBe(40);
+        expect(fused.darkFlameContactPadding).toBe(10);
+        expect(fused.darkFlameColor).toBe('#111111');
+    });
+
+    test('buildFusionDefinition merges abyss sacrifice fields', () => {
+        const defA = {
+            id: 'a',
+            name: 'A',
+            abyssSacrificeDuration: 300,
+            abyssSacrificeHeal: 1
+        };
+        const defB = {
+            id: 'b',
+            name: 'B',
+            abyssSacrificeDuration: 600,
+            abyssSacrificeHeal: 2
+        };
+
+        const fused = buildFusionDefinition(defA, defB, { id: 'fusion_a_b' });
+
+        expect(fused.abyssSacrificeDuration).toBe(600);
+        expect(fused.abyssSacrificeHeal).toBe(2);
+    });
 });

@@ -109,6 +109,8 @@ const ATTACK_GROUP_MAP = ATTACK_GROUPS.reduce((acc, group) => {
 
 const STATUS_WEAPON_FIELDS = {
     burning: ['burnDuration'],
+    dark_flame: ['darkFlameDuration'],
+    abyss_sacrifice: ['abyssSacrificeDuration'],
     frozen: ['freezeChance', 'freezeDuration'],
     poisoned: ['poisonDuration'],
     plagued: ['plagueDuration'],
@@ -179,6 +181,7 @@ function fmtMultiplier(value, digits = 2) {
 const STATUS_CORE_FIELDS = [
     { key: 'defaultDamagePerFrame', label: '每帧伤害', format: (v) => `${fmtNumber(v)}/f` },
     { key: 'defaultDamagePerStack', label: '每层伤害', format: (v) => `${fmtNumber(v)}/f` },
+    { key: 'defaultHeal', label: '死亡回复' },
     { key: 'defaultSlowAmount', label: '减速比例', format: fmtPercent },
     { key: 'defaultSlowDuration', label: '减速持续', format: fmtFrames },
     { key: 'defaultVulnerabilityAmount', label: '易伤增幅', format: fmtPercent },
@@ -213,6 +216,8 @@ function deriveEffects(def) {
     if (def.rayRange || def.rayLength) tags.push('射线');
     if (def.chainCount) tags.push('连锁');
     if (def.burnDuration) tags.push('燃烧');
+    if (def.darkFlameDuration) tags.push('黑焰');
+    if (def.abyssSacrificeDuration) tags.push('海渊献祭');
     if (def.poisonDuration) tags.push('中毒');
     if (def.plagueDuration) tags.push('瘟疫');
     if (def.overgrowthDuration) tags.push('蔓延');
@@ -748,6 +753,11 @@ export default class WeaponCodexUI {
             add('中毒时长', fmtFrames(def.poisonDuration));
             if (def.poisonDamagePerStack !== undefined) {
                 add('中毒伤害', `${def.poisonDamagePerStack.toFixed ? def.poisonDamagePerStack.toFixed(4) : def.poisonDamagePerStack}/f`);
+            }
+
+            add('献祭时长', fmtFrames(def.abyssSacrificeDuration));
+            if (def.abyssSacrificeHeal !== undefined) {
+                add('献祭回复', safeText(def.abyssSacrificeHeal));
             }
 
             if (def.freezeChance !== undefined) add('冻结概率', `${Math.round(def.freezeChance * 100)}%`);
