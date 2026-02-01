@@ -61,7 +61,7 @@
 | 光芒 (light) | 岩石 (rock) | 晶耀 (crystal_glow) | 现有 | 由光芒与岩石融合而成，效果：顶落岩石 + 岩脊带控场 + 致盲 |
 | 光芒 (light) | 钢铁 (steel) | 圣锤 (holy_hammer) | 现有 | 由光芒与钢铁融合而成，效果：高伤 + 致盲 |
 | 光芒 (light) | 疾风 (swift) | 闪袭 (flash_strike) | 现有 | 由光芒与疾风融合而成，效果：穿透 + 致盲 |
-| 光芒 (light) | 吸血 (vampire) | 血辉 (blood_glow) | 现有 | 由光芒与吸血融合而成，效果：致盲 + 吸血 |
+| 光芒 (light) | 吸血 (vampire) | 圣愈 (holy_heal) | 现有 | 由光芒与吸血融合而成，效果：吸血 |
 | 闪电 (lightning) | 剧毒 (poison) | 毒电链 (venom_arc) | 现有 | 由闪电与剧毒融合而成，效果：中毒DOT + 连锁闪电 |
 | 闪电 (lightning) | 射线 (ray) | 离子束 (ion_beam) | 现有 | 由闪电与射线融合而成，效果：连锁闪电 + 射线AOE |
 | 闪电 (lightning) | 岩石 (rock) | 雷砾 (thunder_grit) | 现有 | 由闪电与岩石融合而成，效果：顶落岩石 + 岩脊带控场 |

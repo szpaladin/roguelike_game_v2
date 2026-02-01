@@ -563,10 +563,10 @@ export const WEAPON_EVOLUTION_TABLE_DRAFT = [
     },
     {
         id: 'fusion_light_vampire',
-        name: '血辉',
+        name: '圣愈',
         materials: ['light', 'vampire'],
-        result: 'blood_glow',
-        description: '由光芒与吸血融合而成，效果：致盲 + 吸血',
+        result: 'holy_heal',
+        description: '由光芒与吸血融合而成，效果：吸血',
         tier: 1,
         icon: '✨',
         status: '现有'

@@ -57,7 +57,7 @@ export const NAME_TO_ID = {
     '血束': 'blood_beam',
     '血槌': 'blood_hammer',
     '血焰': 'blood_flame',
-    '血辉': 'blood_glow',
+    '圣愈': 'holy_heal',
     '血震': 'blood_quake',
     '裂地锤': 'rift_hammer',
     '裂风群': 'split_wind_swarm',

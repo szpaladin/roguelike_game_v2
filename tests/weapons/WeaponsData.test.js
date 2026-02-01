@@ -48,4 +48,12 @@ describe('WeaponsData', () => {
         expect(WEAPONS.HIGH_TEMPERATURE_RAY.radius).toBe(6);
         expect(WEAPONS.HIGH_TEMPERATURE_RAY.burnDuration).toBeUndefined();
     });
+
+    test('holy heal definition is updated', () => {
+        expect(WEAPONS.HOLY_HEAL).toBeDefined();
+        expect(WEAPONS.HOLY_HEAL.id).toBe('holy_heal');
+        expect(WEAPONS.HOLY_HEAL.damage).toBe(0.1);
+        expect(WEAPONS.HOLY_HEAL.lifeStealChance).toBe(0.7);
+        expect(WEAPONS.HOLY_HEAL.blindChance).toBeUndefined();
+    });
 });

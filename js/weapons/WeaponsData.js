@@ -866,22 +866,20 @@ export const WEAPONS = {
         status: '建议'
     },
 
-    BLOOD_GLOW: {
-        id: 'blood_glow',
-        name: '血辉',
+    HOLY_HEAL: {
+        id: 'holy_heal',
+        name: '圣愈',
         tier: WEAPON_TIER.EVOLUTION,
-        damage: 1,
+        damage: 0.1,
         interval: 30,
         speed: 7,
         radius: 4,
         color: '#c58055',
         lifetime: 120,
         piercing: false,
-        lifeStealChance: 0.06,
+        lifeStealChance: 0.7,
         lifeStealAmount: 1,
-        blindChance: 0.5,
-        blindDuration: 180,
-        effects: '致盲 + 吸血',
+        effects: '吸血',
         sources: ['light', 'vampire'],
         status: '建议'
     },
@@ -1174,7 +1172,7 @@ export const WEAPON_ID_MAP = {
     SUN_LANCE: { id: 'sun_lance', name: '日光矛', tier: WEAPON_TIER.EVOLUTION, order: 68 },
     CRYSTAL_GLOW: { id: 'crystal_glow', name: '晶耀', tier: WEAPON_TIER.EVOLUTION, order: 69 },
     HOLY_HAMMER: { id: 'holy_hammer', name: '圣锤', tier: WEAPON_TIER.EVOLUTION, order: 70 },
-    BLOOD_GLOW: { id: 'blood_glow', name: '血辉', tier: WEAPON_TIER.EVOLUTION, order: 72 },
+    HOLY_HEAL: { id: 'holy_heal', name: '圣愈', tier: WEAPON_TIER.EVOLUTION, order: 72 },
     THUNDER_GRIT: { id: 'thunder_grit', name: '雷砾', tier: WEAPON_TIER.EVOLUTION, order: 75 },
     MAG_RAIL: { id: 'mag_rail', name: '磁轨', tier: WEAPON_TIER.EVOLUTION, order: 76 },
     LEECH_ARC: { id: 'leech_arc', name: '雷汲脉冲', tier: WEAPON_TIER.EVOLUTION, order: 77 },
@@ -1524,10 +1522,10 @@ export const WEAPON_EVOLUTION_TABLE = [{
     },
         {
         id: 'fusion_light_vampire',
-        name: '血辉',
+        name: '圣愈',
         materials: ['light', 'vampire'],
-        result: 'blood_glow',
-        description: '由光芒与吸血融合而成，效果：致盲 + 吸血',
+        result: 'holy_heal',
+        description: '由光芒与吸血融合而成，效果：吸血',
         tier: 1,
         icon: '✨',
         status: '建议'
@@ -1685,7 +1683,7 @@ export const WEAPON_EVOLUTION_TABLE = [{
 export const WEAPON_ICON_MAP = {
     blizzard: '🌨️',
     abyss_wraith: '🪬',
-    blood_glow: '✨',
+    holy_heal: '✨',
     blood_quake: '🩸',
     bomb: '💣',
     cell: '🧬',
