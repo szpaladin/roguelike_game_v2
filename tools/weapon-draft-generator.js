@@ -21,7 +21,7 @@ export const NAME_TO_ID = {
     '恶灵': 'shadow_wraith',
     '影疾': 'shadow_rush',
     '日光矛': 'sun_lance',
-    '日蚀': 'eclipse',
+    '闪烁': 'eclipse',
     '晶格束': 'lattice_beam',
     '暗孢群': 'dark_spore_swarm',
     '暗焰': 'dark_flame',

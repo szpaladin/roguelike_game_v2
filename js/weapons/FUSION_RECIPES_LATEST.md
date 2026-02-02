@@ -20,7 +20,7 @@
 | 黑暗 (dark) | 火焰 (fire) | 暗焰 (dark_flame) | 现有 | 由黑暗与火焰融合而成，效果：黑焰DOT + 接触传播 |
 | 黑暗 (dark) | 冰霜 (frost) | 怨灵 (frost_corrosion) | 现有 | 由黑暗与冰霜融合而成，效果：冻结 + 诅咒 |
 | 黑暗 (dark) | 幽灵 (ghost) | 恶灵 (shadow_wraith) | 现有 | 由黑暗与幽灵融合而成，效果：穿透 + 诅咒 |
-| 黑暗 (dark) | 光芒 (light) | 日蚀 (eclipse) | 现有 | 由黑暗与光芒融合而成，效果：致盲 + 易伤 |
+| 黑暗 (dark) | 光芒 (light) | 闪烁 (eclipse) | 现有 | 由黑暗与光芒融合而成，效果：全屏伤害 |
 | 黑暗 (dark) | 闪电 (lightning) | 虚雷 (void_thunder) | 现有 | 由黑暗与闪电融合而成，效果：连锁闪电 + 易伤 |
 | 黑暗 (dark) | 剧毒 (poison) | 瘟疫 (plague) | 现有 | 由黑暗与剧毒融合而成，效果：瘟疫扩散 + 持续DOT |
 | 黑暗 (dark) | 射线 (ray) | 虚空射线 (void_beam) | 现有 | 由黑暗与射线融合而成，效果：射线AOE + 诅咒 |

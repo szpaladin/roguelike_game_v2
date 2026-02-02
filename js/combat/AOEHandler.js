@@ -28,6 +28,11 @@ export default class AOEHandler {
      * @param {number} playerAttack - 玩家攻击力
      */
     handleRangeEffects(bullet, hitEnemy, enemies, playerAttack, applyStatusEffects = null) {
+        // 全屏伤害
+        if (bullet.fullScreenDamage) {
+            this.handleFullScreenDamage(bullet, hitEnemy, enemies, playerAttack, applyStatusEffects);
+        }
+
         // 闪电连锁
         if (bullet.chainCount > 0) {
             this.handleChainLightning(bullet, hitEnemy, enemies, playerAttack, applyStatusEffects);
@@ -266,6 +271,24 @@ export default class AOEHandler {
                         applyStatusEffects(target);
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * 全屏伤害
+     */
+    handleFullScreenDamage(bullet, hitEnemy, enemies, playerAttack, applyStatusEffects = null) {
+        if (!Array.isArray(enemies) || enemies.length === 0) return;
+        if (bullet.fullScreenDamageTriggered) return;
+        bullet.fullScreenDamageTriggered = true;
+
+        const screenDamage = bullet.damage || playerAttack;
+        for (const target of enemies) {
+            if (target.hp <= 0) continue;
+            target.takeDamage(screenDamage);
+            if (applyStatusEffects && target !== hitEnemy) {
+                applyStatusEffects(target);
             }
         }
     }

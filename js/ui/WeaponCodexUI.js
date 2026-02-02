@@ -1,4 +1,4 @@
-import {
+﻿import {
     WEAPONS,
     WEAPON_ICON_MAP,
     WEAPON_ID_MAP,
@@ -58,6 +58,12 @@ const ATTACK_RULES = [
         label: '射线',
         icon: '🔦',
         test: (def) => !!(def && (def.rayRange || def.rayLength))
+    },
+    {
+        key: 'full_screen',
+        label: '全屏',
+        icon: '🌕',
+        test: (def) => !!(def && def.fullScreenDamage)
     },
     {
         key: 'aoe',
@@ -730,6 +736,7 @@ export default class WeaponCodexUI {
             add('半径', safeText(def.radius));
             add('存活', fmtFrames(def.lifetime));
             add('穿透', fmtBool(!!def.piercing));
+            add('全屏伤害', fmtBool(!!def.fullScreenDamage));
 
             add('射线范围', safeText(def.rayRange));
             add('射线长度', safeText(def.rayLength));
@@ -994,3 +1001,4 @@ export default class WeaponCodexUI {
         this.detailOverlay.style.display = 'flex';
     }
 }
+

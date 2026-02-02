@@ -26,4 +26,23 @@ describe('AOEHandler', () => {
         // Should not throw
         expect(() => handler.handleRangeEffects(bullet, hitEnemy, [], 10)).not.toThrow();
     });
+
+    test('fullScreenDamage hits all enemies once', () => {
+        const enemies = [
+            { hp: 10, takeDamage(amount) { this.hp -= amount; return amount; } },
+            { hp: 10, takeDamage(amount) { this.hp -= amount; return amount; } },
+            { hp: 10, takeDamage(amount) { this.hp -= amount; return amount; } }
+        ];
+        const hitEnemy = enemies[0];
+        let statusCalls = 0;
+        const applyStatus = () => { statusCalls += 1; };
+        const bullet = { fullScreenDamage: true, damage: 2 };
+
+        handler.handleRangeEffects(bullet, hitEnemy, enemies, 5, applyStatus);
+        expect(enemies.map(enemy => enemy.hp)).toEqual([8, 8, 8]);
+        expect(statusCalls).toBe(2);
+
+        handler.handleRangeEffects(bullet, hitEnemy, enemies, 5, applyStatus);
+        expect(enemies.map(enemy => enemy.hp)).toEqual([8, 8, 8]);
+    });
 });

@@ -153,12 +153,12 @@ export const WEAPON_EVOLUTION_TABLE_DRAFT = [
     },
     {
         id: 'fusion_dark_light',
-        name: '日蚀',
+        name: '闪烁',
         materials: ['dark', 'light'],
         result: 'eclipse',
-        description: '由黑暗与光芒融合而成，效果：致盲 + 易伤',
+        description: '由黑暗与光芒融合而成，效果：全屏伤害',
         tier: 1,
-        icon: '✨',
+        icon: '🌟',
         status: '现有'
     },
     {
