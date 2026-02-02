@@ -205,6 +205,114 @@
   transform: none;
 }
 
+/* 道具详情弹窗 */
+.artifact-dialog {
+  min-width: 560px;
+  background: linear-gradient(135deg, #1a2a2f 0%, #111a1f 100%);
+  border: 4px solid #1f7a6f;
+  box-shadow: 0 0 30px rgba(31, 122, 111, 0.35);
+  text-align: center;
+}
+
+.artifact-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.artifact-header::before {
+  content: '';
+}
+
+.artifact-header h2 {
+  margin: 0;
+  font-size: 28px;
+  text-align: center;
+  grid-column: 2;
+  color: #d6fff7;
+}
+
+.artifact-back-btn {
+  width: auto;
+  padding: 8px 12px;
+  font-size: 12px;
+  white-space: nowrap;
+  grid-column: 3;
+  justify-self: end;
+}
+
+.artifact-content {
+  display: flex;
+  justify-content: center;
+}
+
+.artifact-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: 420px;
+}
+
+.artifact-icon {
+  font-size: 56px;
+}
+
+.artifact-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #d6fff7;
+}
+
+.artifact-desc {
+  font-size: 14px;
+  color: #b0c7c7;
+  line-height: 1.4;
+}
+
+.artifact-section {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(214, 255, 247, 0.2);
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.artifact-section.is-drawback {
+  border-color: rgba(255, 180, 180, 0.3);
+}
+
+.artifact-section-title {
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #a7ffe9;
+  margin-bottom: 4px;
+}
+
+.artifact-section.is-drawback .artifact-section-title {
+  color: #ffb3b3;
+}
+
+.artifact-section-body {
+  font-size: 14px;
+  color: #e2f3f0;
+}
+
+.artifact-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.artifact-confirm-btn {
+  width: auto;
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
 .fusion-select-card {
   width: 160px;
   background: #2d1f3f;
@@ -347,6 +455,13 @@ body {
 }
 
 .weapon-panel h2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.inventory-panel h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -517,10 +632,28 @@ body {
   margin-bottom: 2px;
 }
 
-.codex-status-card .codex-card-icon,
-.codex-status-card .codex-card-name,
-.codex-status-type {
+.codex-status-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.codex-status-card .codex-card-icon {
   color: var(--status-color, #ffd700);
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.35);
+}
+
+.codex-status-card .codex-card-name,
+.codex-status-card .codex-status-type {
+  color: #f2f4f8;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.codex-status-card[data-status-id="dark_flame"] .codex-card-name,
+.codex-status-card[data-status-id="dark_flame"] .codex-status-type,
+.codex-status-card[data-status-id="blinded"] .codex-card-name,
+.codex-status-card[data-status-id="blinded"] .codex-status-type {
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.35),
+    0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
 .codex-status-type {
@@ -823,12 +956,15 @@ body {
   border: 2px solid #444;
   border-radius: 6px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 8px 4px 4px 4px;
   font-size: 20px;
   cursor: pointer;
   transition: all 0.2s;
   position: relative;
+  color: #666;
 }
 
 .inventory-slot:hover {
@@ -839,6 +975,29 @@ body {
 .inventory-slot.empty {
   border-color: #333;
   opacity: 0.5;
+}
+
+.inventory-slot.active {
+  background: #3a3a4a;
+  border-color: #ffd700;
+  color: #fff;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+}
+
+.inventory-icon-display {
+  font-size: 32px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inventory-name-display {
+  font-size: 10px;
+  text-align: center;
+  width: 100%;
+  color: #e0e0e0;
+  line-height: 1.2;
 }
 
 .inventory-slot .item-count {

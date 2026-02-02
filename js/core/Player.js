@@ -42,7 +42,10 @@ export default class Player {
             // 注意：由于是按帧更新逻辑，这里计算位移
             // 原项目中是每帧固定位移，即 speed * 1 (帧)
             // 在 TDD 测试中，我们按 1/60 换算以匹配
-            const moveDist = this.stats.speed * (dt * 60);
+            const speedMultiplier = this.artifactSystem && typeof this.artifactSystem.getSpeedMultiplier === 'function'
+                ? this.artifactSystem.getSpeedMultiplier()
+                : 1;
+            const moveDist = this.stats.speed * speedMultiplier * (dt * 60);
             this.x += (dx / dist) * moveDist;
             this.y += (dy / dist) * moveDist;
         }
@@ -53,7 +56,10 @@ export default class Player {
         this.y = Math.max(this.radius, Math.min(600 - this.radius, this.y));
 
         // 3. 更新冷却和状态
-        this.weaponSystem.update();
+        const cooldownMultiplier = this.artifactSystem && typeof this.artifactSystem.getWeaponCooldownMultiplier === 'function'
+            ? this.artifactSystem.getWeaponCooldownMultiplier()
+            : 1;
+        this.weaponSystem.update(cooldownMultiplier);
 
         if (this.invulnerable) {
             this.invulnerableTime--;
@@ -69,7 +75,31 @@ export default class Player {
     takeDamage(amount) {
         if (this.invulnerable) return 0;
 
-        const actualDamage = this.stats.takeDamage(amount);
+        const artifactSystem = this.artifactSystem;
+        if (artifactSystem && typeof artifactSystem.consumeShieldCharge === 'function') {
+            if (artifactSystem.consumeShieldCharge()) {
+                this.invulnerable = true;
+                this.invulnerableTime = Math.max(this.invulnerableTime, 20);
+                return 0;
+            }
+        }
+
+        const damageMultiplier = artifactSystem && typeof artifactSystem.getDamageTakenMultiplier === 'function'
+            ? artifactSystem.getDamageTakenMultiplier()
+            : 1;
+        const actualDamage = this.stats.takeDamage(amount * damageMultiplier);
+
+        if (this.stats.hp <= 0 && artifactSystem && typeof artifactSystem.tryConsumeDeathSave === 'function') {
+            if (artifactSystem.tryConsumeDeathSave()) {
+                this.stats.hp = 1;
+                this.invulnerable = true;
+                this.invulnerableTime = artifactSystem.getDeathSaveInvulnFrames
+                    ? artifactSystem.getDeathSaveInvulnFrames()
+                    : GAME_CONFIG.PLAYER_INVULNERABLE_TIME;
+                return 0;
+            }
+        }
+
         if (actualDamage > 0) {
             this.invulnerable = true;
             this.invulnerableTime = GAME_CONFIG.PLAYER_INVULNERABLE_TIME;

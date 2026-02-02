@@ -30,9 +30,9 @@ export default class WeaponSystem {
     /**
      * 更新所有武器冷却
      */
-    update() {
+    update(cooldownMultiplier = 1) {
         for (const weapon of this.weapons) {
-            weapon.update();
+            weapon.update(cooldownMultiplier);
         }
     }
 
@@ -76,7 +76,7 @@ export default class WeaponSystem {
      * @param {BulletPool} bulletPool - 子弹对象池
      * @param {number} scrollY - 当前滚动位置（世界坐标需要）
      */
-    autoShoot(playerPos, playerAttack, enemies, bulletPool, scrollY = 0) {
+    autoShoot(playerPos, playerAttack, enemies, bulletPool, scrollY = 0, artifactSystem = null) {
         const playerWorldY = scrollY + playerPos.y;
         const weaponCount = this.weapons.length;
 
@@ -103,6 +103,9 @@ export default class WeaponSystem {
                     );
                 }
                 if (bulletData) {
+                    if (artifactSystem && typeof artifactSystem.applyBulletModifiers === 'function') {
+                        artifactSystem.applyBulletModifiers(bulletData);
+                    }
                     bulletPool.spawnBullet(bulletData);
                 }
             }

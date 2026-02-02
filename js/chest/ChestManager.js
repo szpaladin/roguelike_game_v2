@@ -68,6 +68,24 @@ export default class ChestManager {
         this.pendingChests = 0;      // 待掉落的宝箱数量
         this.lastChestDistance = 0;  // 上次计算宝箱的距离
         this.chestInterval = 100;    // 每100米可掉落一个宝箱
+        this.artifactCounter = 0;
+        this.nextArtifactThreshold = this.rollArtifactThreshold();
+        this.artifactSystem = view.artifactSystem || null;
+    }
+
+    setArtifactSystem(system) {
+        this.artifactSystem = system;
+    }
+
+    rollArtifactThreshold() {
+        return Math.random() < 0.5 ? 3 : 4;
+    }
+
+    getChestInterval() {
+        const multiplier = this.artifactSystem && typeof this.artifactSystem.getChestIntervalMultiplier === 'function'
+            ? this.artifactSystem.getChestIntervalMultiplier()
+            : 1;
+        return this.chestInterval * multiplier;
     }
 
     getScrollSpeedHint() {
@@ -92,7 +110,10 @@ export default class ChestManager {
         const max = 100;
         const base = Math.floor(Math.random() * (max - min + 1)) + min;
         const multiplier = this.getGoldMultiplier(distanceMeters, riskSystem);
-        return Math.round(base * multiplier);
+        const artifactMultiplier = this.artifactSystem && typeof this.artifactSystem.getGoldRewardMultiplier === 'function'
+            ? this.artifactSystem.getGoldRewardMultiplier()
+            : 1;
+        return Math.round(base * multiplier * artifactMultiplier);
     }
 
     /**
@@ -101,13 +122,31 @@ export default class ChestManager {
      */
     updatePendingChests(distance) {
         const distanceInMeters = distance / 10;  // 10像素 = 1米
-        const expectedChests = Math.floor(distanceInMeters / this.chestInterval);
-        const newPendingChests = expectedChests - Math.floor(this.lastChestDistance / this.chestInterval);
+        const interval = this.getChestInterval();
+        const expectedChests = Math.floor(distanceInMeters / interval);
+        const newPendingChests = expectedChests - Math.floor(this.lastChestDistance / interval);
 
         if (newPendingChests > 0) {
             this.pendingChests += newPendingChests;
             this.lastChestDistance = distanceInMeters;
         }
+    }
+
+    shouldOfferArtifact(artifactSystem) {
+        this.artifactCounter += 1;
+        if (this.artifactCounter < this.nextArtifactThreshold) {
+            return false;
+        }
+        this.artifactCounter = 0;
+        this.nextArtifactThreshold = this.rollArtifactThreshold();
+
+        if (!artifactSystem || typeof artifactSystem.isFull !== 'function') {
+            return false;
+        }
+        if (artifactSystem.isFull()) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -213,8 +252,13 @@ export default class ChestManager {
             playerWeapons.filter(w => w && w.def && !(w.def.isFusion || w.def.tier === WEAPON_TIER.FUSION))
         );
         const goldReward = this.getGoldReward(distanceMeters, riskSystem);
+        const artifactSystem = player && player.artifactSystem ? player.artifactSystem : this.artifactSystem;
+        const shouldOfferArtifact = this.shouldOfferArtifact(artifactSystem);
+        const artifactReward = shouldOfferArtifact && artifactSystem && typeof artifactSystem.getRandomArtifact === 'function'
+            ? artifactSystem.getRandomArtifact()
+            : null;
 
-        this.chestUI.showChestMenu(availableEvolutions, fusionCandidates, goldReward, (selection) => {
+        this.chestUI.showChestMenu(availableEvolutions, fusionCandidates, artifactReward, goldReward, (selection) => {
             if (selection && selection.type === 'evolution' && selection.recipe) {
                 const result = executeEvolution(player.weaponSystem, selection.recipe);
                 if (result && result.success) {
@@ -224,6 +268,20 @@ export default class ChestManager {
                 const result = executeFusion(player.weaponSystem, selection.weaponIds);
                 if (result && result.success) {
                     log(result.message, 'important');
+                }
+            } else if (selection && selection.type === 'artifact' && selection.artifactId) {
+                if (artifactSystem && typeof artifactSystem.addArtifact === 'function') {
+                    const addResult = artifactSystem.addArtifact(selection.artifactId);
+                    if (addResult && addResult.success) {
+                        const def = artifactSystem.getArtifactDefinition
+                            ? artifactSystem.getArtifactDefinition(selection.artifactId)
+                            : null;
+                        const name = def ? def.name : selection.artifactId;
+                        log(`获得道具：${name}`, 'important');
+                        if (resolved && typeof resolved.onArtifactAdded === 'function') {
+                            resolved.onArtifactAdded(selection.artifactId, artifactSystem.getArtifacts());
+                        }
+                    }
                 }
             } else {
                 const amount = selection && typeof selection.amount === 'number'
@@ -321,5 +379,7 @@ export default class ChestManager {
         this.chests = [];
         this.pendingChests = 0;
         this.lastChestDistance = 0;
+        this.artifactCounter = 0;
+        this.nextArtifactThreshold = this.rollArtifactThreshold();
     }
 }

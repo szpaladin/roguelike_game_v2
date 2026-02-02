@@ -26,8 +26,10 @@ import ChestUI from '../ui/ChestUI.js';
 import GameOverUI from '../ui/GameOverUI.js';
 import EvacuationResultUI from '../ui/EvacuationResultUI.js';
 import WeaponCodexUI from '../ui/WeaponCodexUI.js';
+import ArtifactCodexUI from '../ui/ArtifactCodexUI.js';
 import BaseScreen from '../meta/BaseScreen.js';
 import { STATUS_EFFECTS } from '../enemies/StatusEffects.js';
+import ArtifactSystem from '../artifacts/ArtifactSystem.js';
 
 /**
  * Game - 游戏主控类
@@ -70,6 +72,15 @@ export default class Game {
         this.mapManager = new MapManager();
         this.player = new Player(this.width / 2, this.height * 0.3);
         this.metaProgress.applyUpgrades(this.player.stats);
+
+        // 道具系统（局内）
+        this.artifactSystem = new ArtifactSystem();
+        this.player.artifactSystem = this.artifactSystem;
+        const metaSnapshot = this.metaProgress.getProgress();
+        const artifactSlots = metaSnapshot.artifacts ? metaSnapshot.artifacts.maxSlots : 4;
+        this.artifactSystem.setMaxSlots(artifactSlots);
+        const runArtifacts = this.metaProgress.prepareArtifactsForRun(artifactSlots);
+        this.artifactSystem.setArtifacts(runArtifacts);
         this.enemySpawner = new EnemySpawner();
         this.bulletPool = new BulletPool();
         this.collisionManager = new CollisionManager();
@@ -94,7 +105,20 @@ export default class Game {
                     this.chestUI.isOpen() ||
                     this.gameOverUI.isVisible() ||
                     this.evacuationResultUI.isVisible() ||
-                    (this.baseScreen && this.baseScreen.isOpen());
+                    (this.baseScreen && this.baseScreen.isOpen()) ||
+                    (this.artifactCodexUI && this.artifactCodexUI.isOpen());
+            }
+        });
+        this.artifactCodexUI = new ArtifactCodexUI({
+            getPaused: () => this.paused,
+            setPaused: (v) => { this.paused = v; },
+            isBlocked: () => {
+                return this.upgradeUI.isOpen() ||
+                    this.chestUI.isOpen() ||
+                    this.gameOverUI.isVisible() ||
+                    this.evacuationResultUI.isVisible() ||
+                    (this.baseScreen && this.baseScreen.isOpen()) ||
+                    (this.weaponCodexUI && this.weaponCodexUI.isOpen());
             }
         });
         this.baseScreen = new BaseScreen(this.metaProgress, {
@@ -120,7 +144,8 @@ export default class Game {
         // 宝箱系统
         this.chestManager = new ChestManager(this.chestUI, {
             width: this.width,
-            height: this.height
+            height: this.height,
+            artifactSystem: this.artifactSystem
         });
 
         // 初始设置
@@ -131,6 +156,7 @@ export default class Game {
         this.mapManager.initMap();
         this.upgradeUI.init(this.player);
         this.weaponCodexUI.init();
+        this.artifactCodexUI.init();
 
         // 注册升级菜单关闭回调
         this.upgradeUI.onClose(() => {
@@ -182,6 +208,10 @@ export default class Game {
         this.debugOverlay.update(dt);
         if (this.paused || this.gameOver) return;
 
+        if (this.artifactSystem) {
+            this.artifactSystem.update(dt, this.player.stats);
+        }
+
         this.gameTime++;
         // distance 是像素单位的滚动距离
         this.distance += GAME_CONFIG.AUTO_SCROLL_SPEED * (dt * 60);
@@ -199,6 +229,9 @@ export default class Game {
         const newZone = this.riskSystem.checkZoneChange(distanceInMeters);
         if (newZone) {
             log('深度增加，光线变暗，危险更多，氧气消耗也加快了。', 'important');
+            if (this.artifactSystem && typeof this.artifactSystem.onZoneChange === 'function') {
+                this.artifactSystem.onZoneChange();
+            }
         }
 
         // 2. 生成敌人（传入玩家世界坐标）
@@ -213,12 +246,19 @@ export default class Game {
 
         // 3.5 氧气消耗（从 RiskSystem 获取间隔）
         const oxygenInterval = this.riskSystem.getOxygenInterval(distanceInMeters);
-        this.oxygenSystem.setInterval(oxygenInterval);
+        const oxygenMultiplier = this.artifactSystem && typeof this.artifactSystem.getOxygenIntervalMultiplier === 'function'
+            ? this.artifactSystem.getOxygenIntervalMultiplier()
+            : 1;
+        this.oxygenSystem.setInterval(oxygenInterval * oxygenMultiplier);
         this.oxygenSystem.update(dt, this.player.stats);
 
         // 3.6 光照更新（从 RiskSystem 获取透明度）
         const lightingAlpha = this.riskSystem.getLightingAlpha(distanceInMeters);
-        this.lightingSystem.setTargetAlpha(lightingAlpha);
+        const lightingOffset = this.artifactSystem && typeof this.artifactSystem.getLightingAlphaOffset === 'function'
+            ? this.artifactSystem.getLightingAlphaOffset()
+            : 0;
+        const finalLighting = Math.max(0, Math.min(0.9, lightingAlpha + lightingOffset));
+        this.lightingSystem.setTargetAlpha(finalLighting);
         this.lightingSystem.update(dt);
 
         // 4. 自动攻击（子弹生成）
@@ -227,7 +267,8 @@ export default class Game {
             this.player.stats.strength,
             this.enemies,
             this.bulletPool,
-            this.scrollY
+            this.scrollY,
+            this.artifactSystem
         );
 
         // 5. 子弹/特效更新
@@ -238,6 +279,11 @@ export default class Game {
         this.chestManager.updatePendingChests(this.distance);
 
         // 6.5 撤离系统更新
+        if (this.artifactSystem && typeof this.artifactSystem.getEvacuationSpawnIntervalMultiplier === 'function') {
+            const baseInterval = GAME_CONFIG.EVACUATION?.SPAWN_INTERVAL || 5000;
+            this.evacuationManager.spawnInterval = baseInterval
+                * this.artifactSystem.getEvacuationSpawnIntervalMultiplier();
+        }
         this.evacuationManager.updateSpawning(this.distance);
         // 更新围攻配置（根据当前深度）
         const siegeConfig = this.riskSystem.getSiegeConfig(distanceInMeters);
@@ -267,6 +313,9 @@ export default class Game {
                 this.player.stats.gainExp(enemy.exp || 1);
                 this.player.stats.addGold(enemy.gold || 1);
                 enemy.isDead = true;
+                if (this.artifactSystem && typeof this.artifactSystem.onEnemyKilled === 'function') {
+                    this.artifactSystem.onEnemyKilled();
+                }
 
                 this.plagueSystem.spawnDeathCloud(enemy);
 
@@ -324,6 +373,11 @@ export default class Game {
             this.chestManager.openChest(chest, this.player, {
                 distanceMeters: Math.floor(this.distance / 10),
                 riskSystem: this.riskSystem,
+                onArtifactAdded: () => {
+                    if (this.artifactSystem) {
+                        this.metaProgress.updateRunArtifacts(this.artifactSystem.getArtifacts());
+                    }
+                },
                 onComplete: () => {
                     this.paused = false;
                 }
@@ -388,6 +442,9 @@ export default class Game {
         const distanceInMeters = Math.floor(this.distance / 10);
         const deathPenalty = this.riskSystem.getDeathPenalty(distanceInMeters);
         const goldRetentionPercent = Math.round(this.riskSystem.getGoldRetention(distanceInMeters) * 100);
+        if (this.artifactSystem) {
+            this.metaProgress.completeRunArtifacts(this.artifactSystem.getArtifacts(), false);
+        }
         const result = this.metaProgress.processDeath({
             gold: this.player.stats.gold,
             distance: distanceInMeters,
@@ -399,6 +456,9 @@ export default class Game {
     handleEvacuation() {
         this.gameOver = true;
         // 撤离成功结算（100%收益）
+        if (this.artifactSystem) {
+            this.metaProgress.completeRunArtifacts(this.artifactSystem.getArtifacts(), true);
+        }
         const result = this.metaProgress.processEvacuation({
             gold: this.player.stats.gold,
             distance: Math.floor(this.distance / 10),
@@ -433,6 +493,9 @@ export default class Game {
             if (key === 'escape') {
                 // 优先关闭图鉴（避免后续逻辑强制把 paused 设置为 false）
                 if (this.weaponCodexUI && this.weaponCodexUI.handleEscape()) {
+                    return;
+                }
+                if (this.artifactCodexUI && this.artifactCodexUI.handleEscape()) {
                     return;
                 }
                 if (this.chestUI.isOpen()) {

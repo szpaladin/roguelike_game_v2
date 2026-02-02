@@ -28,7 +28,7 @@ describe('ChestUI', () => {
             { def: { id: 'frost', name: '冰霜' } }
         ];
 
-        ui.showChestMenu(evolutions, fusionWeapons, 90, () => { });
+        ui.showChestMenu(evolutions, fusionWeapons, null, 90, () => { });
 
         const menu = document.getElementById('chest-menu');
         expect(menu.style.display).toBe('flex');
@@ -43,7 +43,7 @@ describe('ChestUI', () => {
 
     test('handleEscape on menu defaults to gold', () => {
         let selected = null;
-        ui.showChestMenu([], [], 88, (selection) => {
+        ui.showChestMenu([], [], null, 88, (selection) => {
             selected = selection;
         });
 
@@ -60,7 +60,7 @@ describe('ChestUI', () => {
             { def: { id: 'fire', name: '火焰' } },
             { def: { id: 'frost', name: '冰霜' } }
         ];
-        ui.showChestMenu([], fusionWeapons, 50, () => { });
+        ui.showChestMenu([], fusionWeapons, null, 50, () => { });
 
         const fusionEntry = document.querySelector('.reward-card[data-reward-type="fusion"]');
         fusionEntry.click();
@@ -82,7 +82,7 @@ describe('ChestUI', () => {
             { def: { id: 'frost', name: '冰霜' } },
             { def: { id: 'fire', name: '火焰' } }
         ];
-        ui.showChestMenu([], fusionWeapons, 0, (selection) => {
+        ui.showChestMenu([], fusionWeapons, null, 0, (selection) => {
             selected = selection;
         });
 

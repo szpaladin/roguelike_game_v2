@@ -45,7 +45,7 @@ describe('ChestManager - Weapon Fusion', () => {
             expect(mockChestUI.showChestMenu).toHaveBeenCalled();
             const evolutions = mockChestUI.showChestMenu.mock.calls[0][0];
             const fusionWeapons = mockChestUI.showChestMenu.mock.calls[0][1];
-            const goldReward = mockChestUI.showChestMenu.mock.calls[0][2];
+            const goldReward = mockChestUI.showChestMenu.mock.calls[0][3];
             expect(evolutions.some(r => r.result === 'frostfire')).toBe(true);
             expect(fusionWeapons.map(w => w.def.id)).toEqual(expect.arrayContaining(['fire', 'frost']));
             expect(goldReward).toBe(75);
@@ -72,7 +72,7 @@ describe('ChestManager - Weapon Fusion', () => {
             const randomSpy = jest.spyOn(Math, 'random').mockReturnValue(0);
 
             chestManager.chests.push(mockChest);
-            mockChestUI.showChestMenu.mockImplementation((evolutions, fusionWeapons, goldReward, callback) => {
+            mockChestUI.showChestMenu.mockImplementation((evolutions, fusionWeapons, artifactReward, goldReward, callback) => {
                 callback({ type: 'gold', amount: goldReward });
             });
 
@@ -114,7 +114,7 @@ describe('ChestManager - Weapon Fusion', () => {
             const mockRisk = { getCurrentZone: () => ({ name: 'Unknown' }) };
 
             // Mock showChestMenu to immediately call callback with frostfire evolution
-            mockChestUI.showChestMenu.mockImplementation((evolutions, fusionWeapons, goldReward, callback) => {
+            mockChestUI.showChestMenu.mockImplementation((evolutions, fusionWeapons, artifactReward, goldReward, callback) => {
                 const frostfireRecipe = evolutions.find(r => r.result === 'frostfire');
                 callback({ type: 'evolution', recipe: frostfireRecipe });
             });
@@ -152,7 +152,7 @@ describe('ChestManager - Weapon Fusion', () => {
             const mockChest = { x: 100, y: 200, interactionCooldown: 0 };
             const mockRisk = { getCurrentZone: () => ({ name: 'Unknown' }) };
 
-            mockChestUI.showChestMenu.mockImplementation((evolutions, fusionWeapons, goldReward, callback) => {
+            mockChestUI.showChestMenu.mockImplementation((evolutions, fusionWeapons, artifactReward, goldReward, callback) => {
                 callback({ type: 'fusion', weaponIds: ['frost', 'fire'] });
             });
 

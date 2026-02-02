@@ -12,6 +12,7 @@ export default class CollisionManager {
     constructor() {
         // AOE 效果处理器
         this.aoeHandler = new AOEHandler();
+        this.effectsManager = null;
         // 玩家引用（用于吸血等效果）
         this.player = null;
         this.terrainEffects = null;
@@ -25,6 +26,7 @@ export default class CollisionManager {
      */
     setDependencies(effectsManager, bulletPool, player, terrainEffects = null) {
         this.aoeHandler.setDependencies(effectsManager, bulletPool);
+        this.effectsManager = effectsManager;
         this.player = player;
         this.terrainEffects = terrainEffects;
     }
@@ -61,15 +63,69 @@ export default class CollisionManager {
     checkBulletEnemyCollisions(bullets, enemies, playerAttack = 5) {
         const hits = [];
         const playerStats = this.player ? this.player.stats : null;
+        const artifactSystem = this.player ? this.player.artifactSystem : null;
+        const statusModifiers = artifactSystem && typeof artifactSystem.getStatusModifiers === 'function'
+            ? artifactSystem.getStatusModifiers()
+            : null;
         const intMultiplier = playerStats ? (playerStats.intelligence + 45) / 50 : 1;
         const baseAttack = Number.isFinite(playerAttack) ? playerAttack : 0;
-        const effectiveAttack = baseAttack + 45;
+        const baseEffectiveAttack = baseAttack + 45;
+        const globalDamageMultiplier = artifactSystem && typeof artifactSystem.getDamageMultiplier === 'function'
+            ? artifactSystem.getDamageMultiplier()
+            : 1;
 
-        const triggerOvergrowthExplosion = (target, statusResult) => {
+        const resolveChainChance = (baseChance, chainChance) => {
+            if (Number.isFinite(chainChance)) return chainChance;
+            if (Number.isFinite(baseChance)) return baseChance * 0.1;
+            return 0;
+        };
+
+        const tryExecute = (target, bulletData, options = {}) => {
+            if (!target || target.hp <= 0) return false;
+            if (target.isBoss === true) return false;
+
+            const isSecondary = options.isSecondary === true;
+            const shatterTriggered = options.shatterTriggered === true;
+            const hasShatterExecute = Number.isFinite(bulletData.executeOnShatterChance)
+                || Number.isFinite(bulletData.executeOnShatterChainChance);
+
+            if (hasShatterExecute && !shatterTriggered) return false;
+
+            let chance = 0;
+            if (hasShatterExecute) {
+                chance = isSecondary
+                    ? resolveChainChance(bulletData.executeOnShatterChance, bulletData.executeOnShatterChainChance)
+                    : bulletData.executeOnShatterChance;
+            } else {
+                chance = isSecondary
+                    ? resolveChainChance(bulletData.executeChance, bulletData.executeChainChance)
+                    : bulletData.executeChance;
+            }
+
+            if (!Number.isFinite(chance) || chance <= 0) return false;
+            if (Math.random() >= chance) return false;
+
+            target.hp = 0;
+            if (this.effectsManager) {
+                const offsetY = Number.isFinite(target.radius) ? target.radius + 6 : 6;
+                this.effectsManager.addFloatingText(target.x, target.y - offsetY, '\u79d2\u6740', {
+                    font: '10px Arial',
+                    color: '#fff2f2',
+                    life: 40,
+                    vy: -0.6
+                });
+            }
+            return true;
+        };
+
+        const triggerOvergrowthExplosion = (target, statusResult, attackValue) => {
             if (!statusResult || !statusResult.overgrowth) return;
             const { radius, multiplier, color } = statusResult.overgrowth;
-            const damage = effectiveAttack * multiplier * intMultiplier;
+            const damage = attackValue * multiplier * intMultiplier;
             this.aoeHandler.handleStatusExplosion(target, enemies, damage, radius, color);
+            if (artifactSystem && typeof artifactSystem.onOvergrowthExplosion === 'function') {
+                artifactSystem.onOvergrowthExplosion();
+            }
         };
 
         for (const bullet of bullets) {
@@ -90,7 +146,10 @@ export default class CollisionManager {
                     let actualDamage = 0;
 
                     if (!isFullScreenDamage) {
-                        const rawDamage = (bullet.damage || 0) * (shatterTriggered ? shatterMultiplier : 1);
+                        const hitMultiplier = artifactSystem && typeof artifactSystem.getHitDamageMultiplier === 'function'
+                            ? artifactSystem.getHitDamageMultiplier(enemy)
+                            : 1;
+                        const rawDamage = (bullet.damage || 0) * (shatterTriggered ? shatterMultiplier : 1) * hitMultiplier;
                         actualDamage = enemy.takeDamage(rawDamage);
                         if (shatterTriggered && bullet.shatterConsumesFrozen !== false && enemy.statusEffects) {
                             enemy.statusEffects.removeEffect('frozen');
@@ -99,15 +158,28 @@ export default class CollisionManager {
 
                     // 应用状态效果（传入玩家属性用于智力倍率计算）
                     const suppressFreeze = shatterTriggered && bullet.shatterPreventRefreeze !== false;
-                    const statusResult = applyBulletStatusEffects(bullet, enemy, playerStats, { suppressFreeze });
-                    triggerOvergrowthExplosion(enemy, statusResult);
+                    const attackMultiplier = bullet.damageMultiplier ?? globalDamageMultiplier;
+                    const attackValue = baseEffectiveAttack * attackMultiplier;
+                    const statusResult = applyBulletStatusEffects(bullet, enemy, playerStats, {
+                        suppressFreeze,
+                        modifiers: statusModifiers
+                    });
+                    triggerOvergrowthExplosion(enemy, statusResult, attackValue);
+                    tryExecute(enemy, bullet, { shatterTriggered });
 
                     // 应用攻击范围效果
                     const applyStatuses = (target) => {
-                        const result = applyBulletStatusEffects(bullet, target, playerStats);
-                        triggerOvergrowthExplosion(target, result);
+                        const targetFrozenBefore = target.statusEffects && target.statusEffects.isFrozen();
+                        const result = applyBulletStatusEffects(bullet, target, playerStats, { modifiers: statusModifiers });
+                        triggerOvergrowthExplosion(target, result, attackValue);
+                        const secondaryShatter = shatterMultiplier > 1 && targetFrozenBefore;
+                        tryExecute(target, bullet, { isSecondary: true, shatterTriggered: secondaryShatter });
                     };
-                    this.aoeHandler.handleRangeEffects(bullet, enemy, enemies, effectiveAttack, applyStatuses);
+                    this.aoeHandler.handleRangeEffects(bullet, enemy, enemies, attackValue, applyStatuses);
+
+                    if (!isFullScreenDamage && artifactSystem && typeof artifactSystem.applyOnHitEffects === 'function') {
+                        artifactSystem.applyOnHitEffects(bullet, enemy, enemies, attackValue, this.aoeHandler);
+                    }
 
                     hits.push({ bullet, enemy, damage: actualDamage });
 

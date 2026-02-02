@@ -151,6 +151,17 @@ export const STATUS_EFFECTS = {
         defaultStrikes: 3
     },
 
+    // 秒杀 - 概率处决
+    EXECUTE: {
+        id: 'execute',
+        name: '秒杀',
+        type: STATUS_TYPE.DEBUFF,
+        color: '#ff8a8a',
+        icon: '⚔️',
+        maxStacks: 1,
+        description: '命中有概率直接秒杀非Boss目标；连锁/范围为直接命中的1/10；冰锥需碎冰触发'
+    },
+
     // 岩脊带控场 - 地形减速
     RIDGE_CONTROL: {
         id: 'ridge_control',
@@ -482,6 +493,20 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null, opti
 
     // 获取智力倍率（用于 DOT 伤害）
     const intMultiplier = playerStats ? (playerStats.intelligence + 45) / 50 : 1;
+    const modifiers = options && options.modifiers ? options.modifiers : {};
+    const dotDurationMultiplier = Number.isFinite(modifiers.dotDurationMultiplier) ? modifiers.dotDurationMultiplier : 1;
+    const dotDamageMultiplier = Number.isFinite(modifiers.dotDamageMultiplier) ? modifiers.dotDamageMultiplier : 1;
+    const freezeChanceMultiplier = Number.isFinite(modifiers.freezeChanceMultiplier) ? modifiers.freezeChanceMultiplier : 1;
+    const freezeDurationBonus = Number.isFinite(modifiers.freezeDurationBonus) ? modifiers.freezeDurationBonus : 0;
+    const curseDamageMultiplier = Number.isFinite(modifiers.curseDamageMultiplier) ? modifiers.curseDamageMultiplier : 1;
+    const curseConsumeStacksBonus = Number.isFinite(modifiers.curseConsumeStacksBonus) ? modifiers.curseConsumeStacksBonus : 0;
+    const curseDurationMultiplier = Number.isFinite(modifiers.curseDurationMultiplier) ? modifiers.curseDurationMultiplier : 1;
+    const overgrowthExplosionMultiplier = Number.isFinite(modifiers.overgrowthExplosionMultiplier)
+        ? modifiers.overgrowthExplosionMultiplier
+        : 1;
+    const overgrowthExplosionRadiusBonus = Number.isFinite(modifiers.overgrowthExplosionRadiusBonus)
+        ? modifiers.overgrowthExplosionRadiusBonus
+        : 0;
     const hasBurn = bullet.burnDuration > 0;
     const hasFreeze = bullet.freezeChance > 0;
     const hasDarkFlame = bullet.darkFlameDuration > 0;
@@ -491,8 +516,8 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null, opti
     const suppressLightningRod = options && options.suppressLightningRod === true;
 
     // 冰冻效果（触发时同时施加易伤）
-    if (hasFreeze && !suppressFreeze && Math.random() < bullet.freezeChance) {
-        const freezeDuration = bullet.freezeDuration || STATUS_EFFECTS.FROZEN.defaultDuration;
+    if (hasFreeze && !suppressFreeze && Math.random() < bullet.freezeChance * freezeChanceMultiplier) {
+        const freezeDuration = (bullet.freezeDuration || STATUS_EFFECTS.FROZEN.defaultDuration) + freezeDurationBonus;
         enemy.applyFreeze(freezeDuration);
 
         if (bullet.vulnerability > 0) {
@@ -502,11 +527,14 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null, opti
 
     // 燃烧效果（DOT 伤害 = 基础伤害 × 智力倍率）
     if (hasBurn) {
-        const burnDamage = (bullet.burnDamagePerFrame || STATUS_EFFECTS.BURNING.defaultDamagePerFrame) * intMultiplier;
-        enemy.applyBurn(bullet.burnDuration, burnDamage, bullet.burnColor);
+        const burnDuration = (bullet.burnDuration || STATUS_EFFECTS.BURNING.defaultDuration) * dotDurationMultiplier;
+        const burnDamage = (bullet.burnDamagePerFrame || STATUS_EFFECTS.BURNING.defaultDamagePerFrame)
+            * intMultiplier
+            * dotDamageMultiplier;
+        enemy.applyBurn(burnDuration, burnDamage, bullet.burnColor);
 
         if (bullet.vulnerability > 0) {
-            enemy.applyVulnerable(bullet.vulnerability, bullet.burnDuration);
+            enemy.applyVulnerable(bullet.vulnerability, burnDuration);
         }
     }
 
@@ -525,8 +553,10 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null, opti
 
     // 瘟疫效果（DOT 伤害 = 基础伤害 × 智力倍率）
     if (bullet.plagueDuration > 0) {
-        const plagueDuration = bullet.plagueDuration || STATUS_EFFECTS.PLAGUED.defaultDuration;
-        const plagueDamage = (bullet.plagueDamagePerStack || STATUS_EFFECTS.PLAGUED.defaultDamagePerStack) * intMultiplier;
+        const plagueDuration = (bullet.plagueDuration || STATUS_EFFECTS.PLAGUED.defaultDuration) * dotDurationMultiplier;
+        const plagueDamage = (bullet.plagueDamagePerStack || STATUS_EFFECTS.PLAGUED.defaultDamagePerStack)
+            * intMultiplier
+            * dotDamageMultiplier;
         const cloudRadius = bullet.plagueCloudRadius
             || STATUS_EFFECTS.PLAGUED.cloudRadius
             || STATUS_EFFECTS.PLAGUED.deathCloudRadius
@@ -547,16 +577,21 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null, opti
 
     // 中毒效果（DOT 伤害 = 基础伤害 × 智力倍率）
     if (bullet.poisonDuration > 0) {
-        const poisonDamage = (bullet.poisonDamagePerStack || STATUS_EFFECTS.POISONED.defaultDamagePerStack) * intMultiplier;
-        enemy.applyPoison(bullet.poisonDuration, poisonDamage);
+        const poisonDuration = (bullet.poisonDuration || STATUS_EFFECTS.POISONED.defaultDuration) * dotDurationMultiplier;
+        const poisonDamage = (bullet.poisonDamagePerStack || STATUS_EFFECTS.POISONED.defaultDamagePerStack)
+            * intMultiplier
+            * dotDamageMultiplier;
+        enemy.applyPoison(poisonDuration, poisonDamage);
     }
 
     // 蔓延效果（叠层达到阈值后爆发）
     if (bullet.overgrowthDuration > 0) {
         const duration = bullet.overgrowthDuration || STATUS_EFFECTS.OVERGROWTH.defaultDuration;
         const triggerStacks = bullet.overgrowthTriggerStacks || STATUS_EFFECTS.OVERGROWTH.defaultTriggerStacks;
-        const explosionRadius = bullet.overgrowthExplosionRadius || STATUS_EFFECTS.OVERGROWTH.defaultExplosionRadius;
-        const explosionMultiplier = bullet.overgrowthExplosionMultiplier || STATUS_EFFECTS.OVERGROWTH.defaultExplosionMultiplier;
+        const explosionRadius = (bullet.overgrowthExplosionRadius || STATUS_EFFECTS.OVERGROWTH.defaultExplosionRadius)
+            + overgrowthExplosionRadiusBonus;
+        const explosionMultiplier = (bullet.overgrowthExplosionMultiplier || STATUS_EFFECTS.OVERGROWTH.defaultExplosionMultiplier)
+            * overgrowthExplosionMultiplier;
         enemy.applyStatusEffect('overgrowth', duration, {
             stacks: 1,
             triggerStacks,
@@ -581,8 +616,10 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null, opti
 
     // 黑焰效果（DOT 伤害 = 基础伤害 × 智力倍率）
     if (hasDarkFlame) {
-        const darkFlameDuration = bullet.darkFlameDuration || STATUS_EFFECTS.DARK_FLAME.defaultDuration;
-        const darkFlameDamage = (bullet.darkFlameDamagePerFrame || STATUS_EFFECTS.DARK_FLAME.defaultDamagePerFrame) * intMultiplier;
+        const darkFlameDuration = (bullet.darkFlameDuration || STATUS_EFFECTS.DARK_FLAME.defaultDuration) * dotDurationMultiplier;
+        const darkFlameDamage = (bullet.darkFlameDamagePerFrame || STATUS_EFFECTS.DARK_FLAME.defaultDamagePerFrame)
+            * intMultiplier
+            * dotDamageMultiplier;
         const spreadInterval = bullet.darkFlameSpreadInterval || STATUS_EFFECTS.DARK_FLAME.spreadInterval;
         const contactPadding = bullet.darkFlameContactPadding || STATUS_EFFECTS.DARK_FLAME.contactPadding;
         const color = bullet.darkFlameColor || STATUS_EFFECTS.DARK_FLAME.color;
@@ -634,9 +671,10 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null, opti
 
     // 诅咒效果（叠层，受伤时触发）
     if (bullet.curseDuration > 0) {
-        const duration = bullet.curseDuration || STATUS_EFFECTS.CURSED.defaultDuration;
-        const consumeStacks = bullet.curseConsumeStacks || STATUS_EFFECTS.CURSED.defaultConsumeStacks;
-        const damageMultiplier = bullet.curseDamageMultiplier || STATUS_EFFECTS.CURSED.defaultDamageMultiplier;
+        const duration = (bullet.curseDuration || STATUS_EFFECTS.CURSED.defaultDuration) * curseDurationMultiplier;
+        const consumeStacks = (bullet.curseConsumeStacks || STATUS_EFFECTS.CURSED.defaultConsumeStacks) + curseConsumeStacksBonus;
+        const damageMultiplier = (bullet.curseDamageMultiplier || STATUS_EFFECTS.CURSED.defaultDamageMultiplier)
+            * curseDamageMultiplier;
         enemy.applyStatusEffect('cursed', duration, {
             stacks: 1,
             consumeStacks,

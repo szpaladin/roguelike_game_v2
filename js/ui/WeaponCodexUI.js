@@ -126,7 +126,8 @@ const STATUS_WEAPON_FIELDS = {
     blinded: ['blindChance'],
     vulnerable: ['vulnerability'],
     radiation_vulnerable: ['radiationVulnerability'],
-    lightning_rod: ['lightningRodDuration']
+    lightning_rod: ['lightningRodDuration'],
+    execute: ['executeChance', 'executeChainChance', 'executeOnShatterChance', 'executeOnShatterChainChance']
 };
 
 function fmtFrames(frames) {
@@ -232,6 +233,9 @@ function deriveEffects(def) {
     if (def.freezeChance || def.freezeDuration) tags.push('冻结');
     if (def.blindChance || def.blindDuration) tags.push('致盲');
     if (def.lifeStealChance) tags.push('吸血');
+    if (def.executeChance || def.executeChainChance || def.executeOnShatterChance || def.executeOnShatterChainChance) {
+        tags.push('秒杀');
+    }
     if (def.vulnerability || def.radiationVulnerability) tags.push('易伤');
 
     return tags.length ? tags.join('、') : '（待补全）';
@@ -774,6 +778,12 @@ export default class WeaponCodexUI {
             add('致盲时长', fmtFrames(def.blindDuration));
             if (def.lifeStealChance !== undefined) add('吸血概率', `${Math.round(def.lifeStealChance * 100)}%`);
             add('吸血数值', safeText(def.lifeStealAmount));
+            if (def.executeChance !== undefined) add('秒杀概率', `${fmtNumber(def.executeChance * 100, 2)}%`);
+            if (def.executeChainChance !== undefined) add('秒杀概率(连锁)', `${fmtNumber(def.executeChainChance * 100, 2)}%`);
+            if (def.executeOnShatterChance !== undefined) add('碎冰秒杀概率', `${fmtNumber(def.executeOnShatterChance * 100, 2)}%`);
+            if (def.executeOnShatterChainChance !== undefined) {
+                add('碎冰秒杀概率(连锁)', `${fmtNumber(def.executeOnShatterChainChance * 100, 2)}%`);
+            }
 
             if (def.vulnerability !== undefined) add('易伤', `${Math.round(def.vulnerability * 100)}%`);
             if (def.radiationVulnerability !== undefined) add('辐射易伤', `${Math.round(def.radiationVulnerability * 100)}%`);
@@ -917,6 +927,11 @@ export default class WeaponCodexUI {
             if (!val) return;
             addRow(coreRows, field.label, val);
         });
+
+        if (statusId === 'vulnerable') {
+            addRow(coreRows, '默认规则', '仅未配置易伤数值时，才使用默认值');
+            addRow(coreRows, '叠层', '不可叠层');
+        }
 
         STATUS_ADVANCED_FIELDS.forEach((field) => {
             const raw = def[field.key];

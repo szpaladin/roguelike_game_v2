@@ -141,4 +141,102 @@ describe('CollisionManager', () => {
         manager.checkBulletEnemyCollisions([bullet], [target], 10);
         expect(terrainManager.addRidge).toHaveBeenCalledWith(target.x, target.y, bullet.terrainOnHit);
     });
+
+    test('execute triggers on direct hit', () => {
+        const randomSpy = jest.spyOn(Math, 'random').mockReturnValue(0);
+        const target = new Enemy(15, 0, {
+            name: 'E6', hp: 100, maxHp: 100, attack: 10, defense: 0, speed: 1, radius: 10, color: 'red', exp: 10, gold: 10
+        });
+
+        const bullet = new Bullet({
+            x: 10,
+            y: 0,
+            vx: 1,
+            vy: 0,
+            damage: 1,
+            radius: 2,
+            lifetime: 60,
+            active: true,
+            executeChance: 1
+        });
+
+        manager.checkBulletEnemyCollisions([bullet], [target], 5);
+        expect(target.hp).toBeLessThanOrEqual(0);
+        randomSpy.mockRestore();
+    });
+
+    test('execute on shatter requires frozen target', () => {
+        const randomSpy = jest.spyOn(Math, 'random').mockReturnValue(0);
+        const target = new Enemy(15, 0, {
+            name: 'E7', hp: 100, maxHp: 100, attack: 10, defense: 0, speed: 1, radius: 10, color: 'blue', exp: 10, gold: 10
+        });
+
+        const shatterBullet = new Bullet({
+            x: 10,
+            y: 0,
+            vx: 1,
+            vy: 0,
+            damage: 10,
+            radius: 2,
+            lifetime: 60,
+            active: true,
+            shatterMultiplier: 2,
+            executeOnShatterChance: 1
+        });
+
+        manager.checkBulletEnemyCollisions([shatterBullet], [target], 5);
+        expect(target.hp).toBeGreaterThan(0);
+
+        const frozenTarget = new Enemy(15, 0, {
+            name: 'E8', hp: 100, maxHp: 100, attack: 10, defense: 0, speed: 1, radius: 10, color: 'cyan', exp: 10, gold: 10
+        });
+        frozenTarget.applyFreeze(60);
+
+        const shatterBullet2 = new Bullet({
+            x: 10,
+            y: 0,
+            vx: 1,
+            vy: 0,
+            damage: 10,
+            radius: 2,
+            lifetime: 60,
+            active: true,
+            shatterMultiplier: 2,
+            executeOnShatterChance: 1
+        });
+
+        manager.checkBulletEnemyCollisions([shatterBullet2], [frozenTarget], 5);
+        expect(frozenTarget.hp).toBeLessThanOrEqual(0);
+        randomSpy.mockRestore();
+    });
+
+    test('execute chain chance applies to secondary targets', () => {
+        const randomSpy = jest.spyOn(Math, 'random').mockReturnValue(0);
+        const hitEnemy = new Enemy(15, 0, {
+            name: 'E9', hp: 100, maxHp: 100, attack: 10, defense: 0, speed: 1, radius: 10, color: 'purple', exp: 10, gold: 10
+        });
+        const chainEnemy = new Enemy(40, 0, {
+            name: 'E10', hp: 100, maxHp: 100, attack: 10, defense: 0, speed: 1, radius: 10, color: 'orange', exp: 10, gold: 10
+        });
+
+        const chainBullet = new Bullet({
+            x: 10,
+            y: 0,
+            vx: 1,
+            vy: 0,
+            damage: 1,
+            radius: 2,
+            lifetime: 60,
+            active: true,
+            chainCount: 1,
+            chainRange: 100,
+            executeChance: 0,
+            executeChainChance: 1
+        });
+
+        manager.checkBulletEnemyCollisions([chainBullet], [hitEnemy, chainEnemy], 5);
+        expect(hitEnemy.hp).toBeGreaterThan(0);
+        expect(chainEnemy.hp).toBeLessThanOrEqual(0);
+        randomSpy.mockRestore();
+    });
 });

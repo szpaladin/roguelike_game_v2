@@ -703,7 +703,9 @@ export const WEAPONS = {
         shatterMultiplier: 2,
         shatterConsumesFrozen: true,
         shatterPreventRefreeze: true,
-        effects: '冻结 + 碎冰倍伤',
+        executeOnShatterChance: 0.05,
+        executeOnShatterChainChance: 0.005,
+        effects: '冻结 + 碎冰倍伤 + 秒杀',
         sources: ['frost', 'steel'],
         status: '现有'
     },
@@ -1064,7 +1066,9 @@ export const WEAPONS = {
         dropSpeed: 6,
         dropLifetime: 240,
         dropRadius: 14,
-        effects: '顶落岩石',
+        executeChance: 0.02,
+        executeChainChance: 0.002,
+        effects: '顶落岩石 + 秒杀',
         sources: ['rock', 'steel'],
         status: '建议'
     },

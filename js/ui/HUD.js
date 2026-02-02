@@ -1,5 +1,6 @@
 import SkillPointUI from './SkillPointUI.js';
 import { WEAPON_ICON_MAP } from '../weapons/WeaponsData.js';
+import { ARTIFACT_MAP } from '../artifacts/ArtifactData.js';
 
 /**
  * HUD - 头部显示系统
@@ -67,6 +68,8 @@ export default class HUD {
 
         // 更新武器显示
         this.updateWeaponDisplay(player);
+        // 更新道具显示
+        this.updateArtifactDisplay(player);
 
         // 更新技能点指示器
         this.skillPointUI.update(s.skillPoints);
@@ -109,5 +112,39 @@ export default class HUD {
     getWeaponIcon(weaponId, weaponDef = null) {
         if (weaponDef && weaponDef.isFusion) return '🌀';
         return WEAPON_ICON_MAP[weaponId] || '??';
+    }
+
+    updateArtifactDisplay(player) {
+        const inventory = this.elements.inventory;
+        if (!inventory) return;
+
+        const system = player.artifactSystem;
+        const artifacts = system && typeof system.getArtifacts === 'function'
+            ? system.getArtifacts()
+            : [];
+        const maxSlots = system && Number.isFinite(system.maxSlots) ? system.maxSlots : 4;
+
+        const gridHTML = [];
+        for (let i = 0; i < maxSlots; i++) {
+            if (i < artifacts.length) {
+                const def = ARTIFACT_MAP[artifacts[i]];
+                const icon = def ? def.icon : '🎁';
+                const name = def ? def.name : artifacts[i];
+                gridHTML.push(`
+                    <div class="inventory-slot active">
+                        <div class="inventory-icon-display">${icon}</div>
+                        <div class="inventory-name-display">${name}</div>
+                    </div>
+                `);
+            } else {
+                gridHTML.push(`
+                    <div class="inventory-slot empty">
+                        <div class="inventory-icon-display">-</div>
+                    </div>
+                `);
+            }
+        }
+
+        inventory.innerHTML = gridHTML.join('');
     }
 }

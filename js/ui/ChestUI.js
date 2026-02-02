@@ -26,6 +26,11 @@ export default class ChestUI {
         this.backBtn = document.getElementById('fusion-back-btn');
         this.overlayOptions = document.getElementById('fusion-options');
         this.confirmBtn = document.getElementById('fusion-confirm-btn');
+        this.artifactOverlay = document.getElementById('artifact-overlay');
+        this.artifactTitle = document.getElementById('artifact-title');
+        this.artifactBackBtn = document.getElementById('artifact-back-btn');
+        this.artifactContent = document.getElementById('artifact-content');
+        this.artifactConfirmBtn = document.getElementById('artifact-confirm-btn');
 
         this.onSelectWeapon = null;
         this.onSelectReward = null;
@@ -33,12 +38,19 @@ export default class ChestUI {
         this.evolutionRecipes = [];
         this.fusionWeapons = [];
         this.selectedFusionIds = new Set();
+        this.artifactReward = null;
 
         if (this.backBtn) {
             this.backBtn.onclick = () => this.showMenu();
         }
         if (this.confirmBtn) {
             this.confirmBtn.onclick = () => this.confirmFusion();
+        }
+        if (this.artifactBackBtn) {
+            this.artifactBackBtn.onclick = () => this.showMenu();
+        }
+        if (this.artifactConfirmBtn) {
+            this.artifactConfirmBtn.onclick = () => this.confirmArtifact();
         }
     }
 
@@ -57,12 +69,13 @@ export default class ChestUI {
         this.menu.style.display = 'flex';
     }
 
-    showChestMenu(evolutions = [], fusionWeapons = [], goldAmount = 0, callback) {
+    showChestMenu(evolutions = [], fusionWeapons = [], artifactReward = null, goldAmount = 0, callback) {
         if (!this.menu || !this.optionsContainer) return;
         this.onSelectReward = callback;
         this.defaultReward = { type: 'gold', amount: goldAmount };
         this.evolutionRecipes = Array.isArray(evolutions) ? evolutions : [];
         this.fusionWeapons = Array.isArray(fusionWeapons) ? fusionWeapons : [];
+        this.artifactReward = artifactReward;
 
         this.optionsContainer.innerHTML = '';
 
@@ -86,6 +99,17 @@ export default class ChestUI {
             });
             fusionCard.onclick = () => this.showFusionDialog();
             this.optionsContainer.appendChild(fusionCard);
+        }
+
+        if (this.artifactReward) {
+            const artifactCard = this.createRewardCard({
+                type: 'artifact',
+                icon: this.artifactReward.icon || '🎁',
+                title: '道具',
+                desc: '查看道具详情'
+            });
+            artifactCard.onclick = () => this.showArtifactDialog();
+            this.optionsContainer.appendChild(artifactCard);
         }
 
         const goldCard = this.createRewardCard({
@@ -150,7 +174,43 @@ export default class ChestUI {
         this.updateFusionSelectionUI();
     }
 
+    showArtifactDialog() {
+        if (!this.artifactOverlay || !this.artifactContent || !this.artifactReward) return;
+        this.hideMenu();
+        this.artifactOverlay.style.display = 'flex';
+        if (this.artifactTitle) this.artifactTitle.textContent = '道具详情';
+        this.renderArtifactDetail(this.artifactReward);
+    }
+
+    renderArtifactDetail(artifact) {
+        if (!this.artifactContent || !artifact) return;
+        this.artifactContent.innerHTML = `
+            <div class="artifact-detail">
+                <div class="artifact-icon">${artifact.icon || '🎁'}</div>
+                <div class="artifact-name">${artifact.name || ''}</div>
+                <div class="artifact-desc">${artifact.desc || ''}</div>
+                <div class="artifact-section">
+                    <div class="artifact-section-title">效果</div>
+                    <div class="artifact-section-body">${artifact.effectDesc || ''}</div>
+                </div>
+                <div class="artifact-section is-drawback">
+                    <div class="artifact-section-title">代价</div>
+                    <div class="artifact-section-body">${artifact.drawbackDesc || ''}</div>
+                </div>
+            </div>
+        `;
+    }
+
+    confirmArtifact() {
+        if (!this.artifactReward) return;
+        this.commitSelection({ type: 'artifact', artifactId: this.artifactReward.id });
+    }
+
     handleEscape() {
+        if (this.artifactOverlay && this.artifactOverlay.style.display === 'flex') {
+            this.showMenu();
+            return true;
+        }
         if (this.overlay && this.overlay.style.display === 'flex') {
             this.showMenu();
             return true;
@@ -171,6 +231,7 @@ export default class ChestUI {
         const callback = this.onSelectReward;
         this.onSelectReward = null;
         this.defaultReward = null;
+        this.artifactReward = null;
         this.selectedFusionIds.clear();
         this.close();
         if (callback) callback(selection);
@@ -275,6 +336,7 @@ export default class ChestUI {
 
     showMenu() {
         if (this.overlay) this.overlay.style.display = 'none';
+        if (this.artifactOverlay) this.artifactOverlay.style.display = 'none';
         if (this.menu) this.menu.style.display = 'flex';
     }
 
@@ -285,10 +347,12 @@ export default class ChestUI {
     close() {
         if (this.menu) this.menu.style.display = 'none';
         if (this.overlay) this.overlay.style.display = 'none';
+        if (this.artifactOverlay) this.artifactOverlay.style.display = 'none';
     }
 
     isOpen() {
         return (this.menu && this.menu.style.display === 'flex') ||
-            (this.overlay && this.overlay.style.display === 'flex');
+            (this.overlay && this.overlay.style.display === 'flex') ||
+            (this.artifactOverlay && this.artifactOverlay.style.display === 'flex');
     }
 }

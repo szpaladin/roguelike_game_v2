@@ -22,6 +22,11 @@ export default class MetaStore {
                 lastResult: null
             },
             unlockedWeapons: [],
+            artifacts: {
+                stash: [],
+                inRun: [],
+                maxSlots: 4
+            },
             inventory: { width: 4, height: 4, items: [] },
             loadout: { slots: 0, equipped: [] },
             pendingLoot: []
@@ -47,6 +52,18 @@ export default class MetaStore {
         }
         if (!Array.isArray(next.unlockedWeapons)) {
             next.unlockedWeapons = [];
+        }
+        if (!next.artifacts) {
+            next.artifacts = { stash: [], inRun: [], maxSlots: 4 };
+        }
+        if (!Array.isArray(next.artifacts.stash)) {
+            next.artifacts.stash = [];
+        }
+        if (!Array.isArray(next.artifacts.inRun)) {
+            next.artifacts.inRun = [];
+        }
+        if (!Number.isFinite(next.artifacts.maxSlots)) {
+            next.artifacts.maxSlots = 4;
         }
 
         if (next.gold === undefined && next.totalGold !== undefined) {
@@ -175,5 +192,44 @@ export default class MetaStore {
         this.save();
 
         return result;
+    }
+
+    prepareArtifactsForRun(maxSlots = null) {
+        if (!this.data || !this.data.artifacts) return [];
+        const artifacts = this.data.artifacts;
+        const limit = Number.isFinite(maxSlots) ? maxSlots : (artifacts.maxSlots || 4);
+        const stash = Array.isArray(artifacts.stash) ? artifacts.stash.slice() : [];
+        if (limit <= 0) {
+            artifacts.inRun = [];
+            this.save();
+            return [];
+        }
+        const selected = stash.slice(0, limit);
+        const remaining = stash.slice(selected.length);
+        artifacts.inRun = selected;
+        artifacts.stash = remaining;
+        this.save();
+        return selected;
+    }
+
+    updateRunArtifacts(artifacts = []) {
+        if (!this.data || !this.data.artifacts) return;
+        this.data.artifacts.inRun = Array.isArray(artifacts) ? artifacts.slice() : [];
+        this.save();
+    }
+
+    completeRunArtifacts(runArtifacts = [], success = false) {
+        if (!this.data || !this.data.artifacts) return;
+        if (success) {
+            const stash = Array.isArray(this.data.artifacts.stash)
+                ? this.data.artifacts.stash.slice()
+                : [];
+            for (const id of runArtifacts) {
+                if (id) stash.push(id);
+            }
+            this.data.artifacts.stash = stash;
+        }
+        this.data.artifacts.inRun = [];
+        this.save();
     }
 }

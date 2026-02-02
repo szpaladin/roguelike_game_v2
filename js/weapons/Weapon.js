@@ -16,9 +16,9 @@ export default class Weapon {
     /**
      * 更新冷却时间
      */
-    update() {
+    update(cooldownStep = 1) {
         if (this.cooldown > 0) {
-            this.cooldown--;
+            this.cooldown = Math.max(0, this.cooldown - cooldownStep);
         }
     }
 
