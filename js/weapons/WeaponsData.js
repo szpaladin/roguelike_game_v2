@@ -483,17 +483,20 @@ export const WEAPONS = {
 
     DARK_STEEL: {
         id: 'dark_steel',
-        name: '黑钢',
+        name: '手里剑',
         tier: WEAPON_TIER.EVOLUTION,
-        damage: 3,
+        damage: 1.0,
         interval: 90,
         speed: 5.5,
         radius: 6,
         color: '#8660a1',
         lifetime: 150,
         piercing: false,
-        vulnerability: 0.25,
-        effects: '高伤 + 易伤',
+        canSplit: true,
+        splitCount: 5,
+        splitRange: 200,
+        splitDamageMultiplier: 0.2,
+        effects: '分裂小子弹',
         sources: ['dark', 'steel'],
         status: '建议'
     },
@@ -560,7 +563,7 @@ export const WEAPONS = {
 
     TOXIC_FLAME: {
         id: 'toxic_flame',
-        name: '毒焰',
+        name: '硫磺',
         tier: WEAPON_TIER.EVOLUTION,
         damage: 0.75,
         interval: 30,
@@ -914,9 +917,9 @@ export const WEAPONS = {
 
     MAG_RAIL: {
         id: 'mag_rail',
-        name: '磁轨',
+        name: '避雷针',
         tier: WEAPON_TIER.EVOLUTION,
-        damage: 3,
+        damage: 0.8,
         interval: 90,
         speed: 7,
         radius: 12,
@@ -926,7 +929,10 @@ export const WEAPONS = {
         chainCount: 3,
         chainRange: 150,
         chainCooldown: 10,
-        effects: '高伤 + 连锁闪电',
+        lightningRodDuration: 180,
+        lightningRodInterval: 60,
+        lightningRodStrikes: 3,
+        effects: '连锁闪电 + 引雷',
         sources: ['lightning', 'steel'],
         status: '建议'
     },
@@ -1152,10 +1158,10 @@ export const WEAPON_ID_MAP = {
     ECLIPSE: { id: 'eclipse', name: '闪烁', tier: WEAPON_TIER.EVOLUTION, order: 35 },
     VOID_BEAM: { id: 'void_beam', name: '虚空射线', tier: WEAPON_TIER.EVOLUTION, order: 38 },
     CURSED_STONE: { id: 'cursed_stone', name: '暗蚀地带', tier: WEAPON_TIER.EVOLUTION, order: 39 },
-    DARK_STEEL: { id: 'dark_steel', name: '黑钢', tier: WEAPON_TIER.EVOLUTION, order: 40 },
+    DARK_STEEL: { id: 'dark_steel', name: '手里剑', tier: WEAPON_TIER.EVOLUTION, order: 40 },
     SOUL_DRAIN: { id: 'soul_drain', name: '血咒', tier: WEAPON_TIER.EVOLUTION, order: 42 },
     GHOST_FIRE: { id: 'ghost_fire', name: '鬼火', tier: WEAPON_TIER.EVOLUTION, order: 43 },
-    TOXIC_FLAME: { id: 'toxic_flame', name: '毒焰', tier: WEAPON_TIER.EVOLUTION, order: 46 },
+    TOXIC_FLAME: { id: 'toxic_flame', name: '硫磺', tier: WEAPON_TIER.EVOLUTION, order: 46 },
     HIGH_TEMPERATURE_RAY: { id: 'high_temperature_ray', name: '高温射线', tier: WEAPON_TIER.EVOLUTION, order: 47 },
     LAVA: { id: 'lava', name: '熔岩', tier: WEAPON_TIER.EVOLUTION, order: 48 },
     FROST_WRAITH: { id: 'frost_wraith', name: '霜灵', tier: WEAPON_TIER.EVOLUTION, order: 50 },
@@ -1172,7 +1178,7 @@ export const WEAPON_ID_MAP = {
     HOLY_HAMMER: { id: 'holy_hammer', name: '圣锤', tier: WEAPON_TIER.EVOLUTION, order: 70 },
     HOLY_HEAL: { id: 'holy_heal', name: '圣愈', tier: WEAPON_TIER.EVOLUTION, order: 72 },
     THUNDER_GRIT: { id: 'thunder_grit', name: '雷砾', tier: WEAPON_TIER.EVOLUTION, order: 75 },
-    MAG_RAIL: { id: 'mag_rail', name: '磁轨', tier: WEAPON_TIER.EVOLUTION, order: 76 },
+    MAG_RAIL: { id: 'mag_rail', name: '避雷针', tier: WEAPON_TIER.EVOLUTION, order: 76 },
     LEECH_ARC: { id: 'leech_arc', name: '雷汲脉冲', tier: WEAPON_TIER.EVOLUTION, order: 77 },
     SWAMP: { id: 'swamp', name: '沼泽', tier: WEAPON_TIER.EVOLUTION, order: 79 },
     TOXIC_SPIKE: { id: 'toxic_spike', name: '毒钉', tier: WEAPON_TIER.EVOLUTION, order: 80 },
@@ -1287,12 +1293,12 @@ export const WEAPON_EVOLUTION_TABLE = [{
     },
     {
         id: 'fusion_dark_steel',
-        name: '黑钢',
+        name: '手里剑',
         materials: ['dark', 'steel'],
         result: 'dark_steel',
-        description: '由黑暗与钢铁融合而成，效果：高伤 + 易伤',
+        description: '由黑暗与钢铁融合而成，效果：分裂小子弹',
         tier: 1,
-        icon: '✨',
+        icon: '🥷',
         status: '建议'
     },{
         id: 'fusion_dark_vampire',
@@ -1325,12 +1331,12 @@ export const WEAPON_EVOLUTION_TABLE = [{
         status: '建议'
     },{
         id: 'fusion_fire_poison',
-        name: '毒焰',
+        name: '硫磺',
         materials: ['fire', 'poison'],
         result: 'toxic_flame',
         description: '由火焰与剧毒融合而成，效果：燃烧DOT + 中毒DOT',
         tier: 1,
-        icon: '🔥',
+        icon: '🟡',
         status: '建议'
     },
     {
@@ -1539,10 +1545,10 @@ export const WEAPON_EVOLUTION_TABLE = [{
     },
     {
         id: 'fusion_lightning_steel',
-        name: '磁轨',
+        name: '避雷针',
         materials: ['lightning', 'steel'],
         result: 'mag_rail',
-        description: '由闪电与钢铁融合而成，效果：高伤 + 连锁闪电',
+        description: '由闪电与钢铁融合而成，效果：连锁闪电 + 引雷',
         tier: 1,
         icon: '⚡',
         status: '建议'
@@ -1689,7 +1695,7 @@ export const WEAPON_ICON_MAP = {
     cursed_stone: '🪨',
     dark: '🌑',
     dark_flame: '🔥',
-    dark_steel: '✨',
+    dark_steel: '🥷',
     rift_hammer: '🔨',
     eclipse: '🌟',
     fire: '🔥',
@@ -1708,7 +1714,7 @@ export const WEAPON_ICON_MAP = {
     leech_arc: '⚡',
     light: '✨',
     lightning: '⚡',
-    mag_rail: '⚡',
+    mag_rail: '🗼',
     lava: '🌋',
     electric_soul: '⚡',
     poison: '☠️',
@@ -1733,7 +1739,7 @@ export const WEAPON_ICON_MAP = {
     swift: '💨',
     thunder_grit: '⚡',
     swamp: '☠️',
-    toxic_flame: '🔥',
+    toxic_flame: '🟡',
     toxic_spike: '☠️',
     plague: '🦠',
     vampire: '🩸',
@@ -1762,4 +1768,7 @@ export function getWeaponIdByOrder(order) {
     }
     return null;
 }
+
+
+
 

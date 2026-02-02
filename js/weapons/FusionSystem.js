@@ -187,6 +187,7 @@ export function buildFusionDefinition(defA, defB, recipe = null) {
         def.canSplit = true;
         setIfDefined(def, 'splitCount', pickMax(defA.splitCount, defB.splitCount));
         setIfDefined(def, 'splitRange', rangeCombine(defA.splitRange, defB.splitRange));
+        setIfDefined(def, 'splitDamageMultiplier', pickMin(defA.splitDamageMultiplier, defB.splitDamageMultiplier));
     }
 
     setIfDefined(def, 'burnDuration', pickMax(defA.burnDuration, defB.burnDuration));

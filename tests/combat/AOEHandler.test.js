@@ -45,4 +45,36 @@ describe('AOEHandler', () => {
         handler.handleRangeEffects(bullet, hitEnemy, enemies, 5, applyStatus);
         expect(enemies.map(enemy => enemy.hp)).toEqual([8, 8, 8]);
     });
+
+    test('split bullets scale damage and inherit status fields', () => {
+        const spawned = [];
+        handler.setDependencies(null, {
+            spawnBullet: (data) => spawned.push(data)
+        });
+
+        const hitEnemy = { x: 0, y: 0, radius: 5, hp: 100 };
+        const enemies = [
+            hitEnemy,
+            { x: 30, y: 0, radius: 5, hp: 100 },
+            { x: 0, y: 30, radius: 5, hp: 100 }
+        ];
+
+        const bullet = {
+            x: 0,
+            y: 0,
+            radius: 2,
+            speed: 6,
+            damage: 10,
+            canSplit: true,
+            splitCount: 5,
+            splitRange: 200,
+            splitDamageMultiplier: 0.2,
+            burnDuration: 120
+        };
+
+        handler.handleSplitBullets(bullet, hitEnemy, enemies);
+        expect(spawned.length).toBe(2);
+        expect(spawned[0].damage).toBe(2);
+        expect(spawned[0].burnDuration).toBe(120);
+    });
 });

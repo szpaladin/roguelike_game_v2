@@ -203,12 +203,12 @@ export const WEAPON_EVOLUTION_TABLE_DRAFT = [
     },
     {
         id: 'fusion_dark_steel',
-        name: '黑钢',
+        name: '手里剑',
         materials: ['dark', 'steel'],
         result: 'dark_steel',
-        description: '由黑暗与钢铁融合而成，效果：高伤 + 易伤',
+        description: '由黑暗与钢铁融合而成，效果：分裂小子弹',
         tier: 1,
-        icon: '✨',
+        icon: '🥷',
         status: '现有'
     },
     {
@@ -273,12 +273,12 @@ export const WEAPON_EVOLUTION_TABLE_DRAFT = [
     },
     {
         id: 'fusion_fire_poison',
-        name: '毒焰',
+        name: '硫磺',
         materials: ['fire', 'poison'],
         result: 'toxic_flame',
         description: '由火焰与剧毒融合而成，效果：燃烧DOT + 中毒DOT',
         tier: 1,
-        icon: '🔥',
+        icon: '🟡',
         status: '现有'
     },
     {
@@ -603,10 +603,10 @@ export const WEAPON_EVOLUTION_TABLE_DRAFT = [
     },
     {
         id: 'fusion_lightning_steel',
-        name: '磁轨',
+        name: '避雷针',
         materials: ['lightning', 'steel'],
         result: 'mag_rail',
-        description: '由闪电与钢铁融合而成，效果：高伤 + 连锁闪电',
+        description: '由闪电与钢铁融合而成，效果：连锁闪电 + 引雷',
         tier: 1,
         icon: '⚡',
         status: '现有'

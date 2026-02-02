@@ -318,6 +318,9 @@ export default class AOEHandler {
         const selectedTargets = splitTargets.slice(0, Math.min(bullet.splitCount, splitTargets.length));
 
         // 为每个目标生成分裂子弹
+        const splitMultiplier = Number.isFinite(bullet.splitDamageMultiplier) ? bullet.splitDamageMultiplier : 1;
+        const splitDamage = (bullet.damage || 0) * splitMultiplier;
+
         for (const { enemy } of selectedTargets) {
             const dx = enemy.x - hitEnemy.x;
             const dy = enemy.y - hitEnemy.y;
@@ -339,8 +342,10 @@ export default class AOEHandler {
                 piercing: false,
                 canSplit: false,
                 splitCount: 0,
+                splitDamageMultiplier: undefined,
                 aoeRadius: 0,
-                aoeDamage: 0
+                aoeDamage: 0,
+                damage: splitDamage
             });
         }
     }

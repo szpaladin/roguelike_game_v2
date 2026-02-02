@@ -28,7 +28,7 @@ export const NAME_TO_ID = {
     '棱光群': 'prism_swarm',
     '毒孢群': 'toxic_spore_swarm',
     '毒灵': 'toxic_wraith',
-    '毒焰': 'toxic_flame',
+    '硫磺': 'toxic_flame',
     '毒爆': 'swamp',
     '毒电链': 'venom_arc',
     '毒眩': 'toxic_daze',
@@ -47,7 +47,7 @@ export const NAME_TO_ID = {
     '砂暴': 'sandstorm',
     '破冰锤': 'icebreaker_hammer',
     '破片核': 'shrapnel_core',
-    '磁轨': 'mag_rail',
+    '避雷针': 'mag_rail',
     '离子束': 'ion_beam',
     '等离火链': 'plasma_chain',
     '虚空射线': 'void_beam',
@@ -73,7 +73,7 @@ export const NAME_TO_ID = {
     '霜灵': 'frost_wraith',
     '怨灵': 'frost_corrosion',
     '鬼火': 'ghost_fire',
-    '黑钢': 'dark_steel'
+    '手里剑': 'dark_steel'
 };
 
 const REQUIRED_COLUMNS = [

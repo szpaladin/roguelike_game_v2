@@ -16,6 +16,7 @@ import EffectsManager from '../effects/EffectsManager.js';
 import StatusVFXManager from '../effects/StatusVFXManager.js';
 import PlagueSystem from '../effects/PlagueSystem.js';
 import DarkFlameSystem from '../effects/DarkFlameSystem.js';
+import LightningRodSystem from '../effects/LightningRodSystem.js';
 import TerrainEffectManager from '../effects/TerrainEffectManager.js';
 import ChestManager from '../chest/ChestManager.js';
 import HUD from '../ui/HUD.js';
@@ -76,6 +77,7 @@ export default class Game {
         this.statusVFXManager = new StatusVFXManager();
         this.plagueSystem = new PlagueSystem();
         this.darkFlameSystem = new DarkFlameSystem();
+        this.lightningRodSystem = new LightningRodSystem(this.effectsManager);
         this.terrainEffects = new TerrainEffectManager();
 
         // UI 系统
@@ -309,6 +311,7 @@ export default class Game {
         this.statusVFXManager.update(this.enemies);
         this.plagueSystem.update(this.enemies);
         this.darkFlameSystem.update(this.enemies);
+        this.lightningRodSystem.update(this.enemies, this.player.stats);
 
         // 9. 检查游戏结束
         if (!this.player.stats.isAlive()) {

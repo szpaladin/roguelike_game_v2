@@ -125,7 +125,8 @@ const STATUS_WEAPON_FIELDS = {
     ridge_control: ['terrainOnHit'],
     blinded: ['blindChance'],
     vulnerable: ['vulnerability'],
-    radiation_vulnerable: ['radiationVulnerability']
+    radiation_vulnerable: ['radiationVulnerability'],
+    lightning_rod: ['lightningRodDuration']
 };
 
 function fmtFrames(frames) {

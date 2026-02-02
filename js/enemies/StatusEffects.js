@@ -137,6 +137,20 @@ export const STATUS_EFFECTS = {
         defaultHeal: 2
     },
 
+    // 引雷 - 周期触发闪电打击
+    LIGHTNING_ROD: {
+        id: 'lightning_rod',
+        name: '引雷',
+        type: STATUS_TYPE.DEBUFF,
+        color: '#ffe066',
+        icon: '🗼',
+        maxStacks: 1,
+        description: '周期触发闪电打击，命中刷新次数',
+        defaultDuration: 180,
+        defaultInterval: 60,
+        defaultStrikes: 3
+    },
+
     // 岩脊带控场 - 地形减速
     RIDGE_CONTROL: {
         id: 'ridge_control',
@@ -206,6 +220,56 @@ export const STATUS_EFFECTS = {
     }
 };
 
+const LIGHTNING_ROD_STATUS_FIELDS = [
+    'burnDuration',
+    'burnDamagePerFrame',
+    'burnColor',
+    'freezeChance',
+    'freezeDuration',
+    'vulnerability',
+    'vulnerabilityDuration',
+    'radiationVulnerability',
+    'radiationVulnerabilityDuration',
+    'darkFlameDuration',
+    'darkFlameDamagePerFrame',
+    'darkFlameSpreadInterval',
+    'darkFlameContactPadding',
+    'darkFlameColor',
+    'abyssSacrificeDuration',
+    'abyssSacrificeHeal',
+    'plagueDuration',
+    'plagueDamagePerStack',
+    'plagueColor',
+    'plagueCloudRadius',
+    'poisonDuration',
+    'poisonDamagePerStack',
+    'overgrowthDuration',
+    'overgrowthTriggerStacks',
+    'overgrowthExplosionRadius',
+    'overgrowthExplosionMultiplier',
+    'overgrowthExplosionColor',
+    'curseDuration',
+    'curseConsumeStacks',
+    'curseDamageMultiplier',
+    'blindChance',
+    'blindDuration',
+    'lifeStealChance',
+    'lifeStealAmount',
+    'lightningRodDuration',
+    'lightningRodInterval',
+    'lightningRodStrikes'
+];
+
+function buildLightningRodStatusPayload(bulletData) {
+    const payload = {};
+    for (const field of LIGHTNING_ROD_STATUS_FIELDS) {
+        if (bulletData[field] !== undefined) {
+            payload[field] = bulletData[field];
+        }
+    }
+    return payload;
+}
+
 /**
  * 根据ID获取状态效果定义
  * @param {string} effectId - 效果ID
@@ -235,6 +299,7 @@ export function extractStatusEffectsFromBullet(bulletData) {
     const hasFreeze = bulletData.freezeChance > 0;
     const hasDarkFlame = bulletData.darkFlameDuration > 0;
     const hasAbyssSacrifice = bulletData.abyssSacrificeDuration > 0;
+    const hasLightningRod = bulletData.lightningRodDuration > 0;
 
     // 燃烧效果
     if (hasBurn) {
@@ -384,6 +449,23 @@ export function extractStatusEffectsFromBullet(bulletData) {
         });
     }
 
+    // 引雷效果
+    if (hasLightningRod) {
+        const rodDuration = bulletData.lightningRodDuration || STATUS_EFFECTS.LIGHTNING_ROD.defaultDuration;
+        effects.push({
+            effectId: 'lightning_rod',
+            duration: rodDuration,
+            params: {
+                interval: bulletData.lightningRodInterval || STATUS_EFFECTS.LIGHTNING_ROD.defaultInterval,
+                strikesRemaining: bulletData.lightningRodStrikes || STATUS_EFFECTS.LIGHTNING_ROD.defaultStrikes,
+                damage: bulletData.damage || 0,
+                chainCount: bulletData.chainCount || 0,
+                chainRange: bulletData.chainRange || 0,
+                statusPayload: buildLightningRodStatusPayload(bulletData)
+            }
+        });
+    }
+
     return effects;
 }
 
@@ -404,7 +486,9 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null, opti
     const hasFreeze = bullet.freezeChance > 0;
     const hasDarkFlame = bullet.darkFlameDuration > 0;
     const hasAbyssSacrifice = bullet.abyssSacrificeDuration > 0;
+    const hasLightningRod = bullet.lightningRodDuration > 0;
     const suppressFreeze = options && options.suppressFreeze === true;
+    const suppressLightningRod = options && options.suppressLightningRod === true;
 
     // 冰冻效果（触发时同时施加易伤）
     if (hasFreeze && !suppressFreeze && Math.random() < bullet.freezeChance) {
@@ -518,6 +602,34 @@ export function applyBulletStatusEffects(bullet, enemy, playerStats = null, opti
         enemy.applyStatusEffect('abyss_sacrifice', duration, {
             healAmount
         });
+    }
+
+    // 引雷效果（周期闪电，刷新次数）
+    if (hasLightningRod && !suppressLightningRod) {
+        const duration = bullet.lightningRodDuration || STATUS_EFFECTS.LIGHTNING_ROD.defaultDuration;
+        const interval = bullet.lightningRodInterval || STATUS_EFFECTS.LIGHTNING_ROD.defaultInterval;
+        const strikes = bullet.lightningRodStrikes || STATUS_EFFECTS.LIGHTNING_ROD.defaultStrikes;
+        const statusPayload = buildLightningRodStatusPayload(bullet);
+
+        enemy.applyStatusEffect('lightning_rod', duration, {
+            interval,
+            strikesRemaining: strikes,
+            damage: bullet.damage || 0,
+            chainCount: bullet.chainCount || 0,
+            chainRange: bullet.chainRange || 0,
+            statusPayload
+        });
+
+        const effect = enemy.statusEffects ? enemy.statusEffects.getEffect('lightning_rod') : null;
+        if (effect) {
+            effect.params.interval = interval;
+            effect.params.strikesRemaining = strikes;
+            effect.params.damage = bullet.damage || 0;
+            effect.params.chainCount = bullet.chainCount || 0;
+            effect.params.chainRange = bullet.chainRange || 0;
+            effect.params.statusPayload = statusPayload;
+            effect.strikeCooldown = interval;
+        }
     }
 
     // 诅咒效果（叠层，受伤时触发）

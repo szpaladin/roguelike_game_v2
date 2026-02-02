@@ -25,14 +25,14 @@
 | 黑暗 (dark) | 剧毒 (poison) | 瘟疫 (plague) | 现有 | 由黑暗与剧毒融合而成，效果：瘟疫扩散 + 持续DOT |
 | 黑暗 (dark) | 射线 (ray) | 虚空射线 (void_beam) | 现有 | 由黑暗与射线融合而成，效果：射线AOE + 诅咒 |
 | 黑暗 (dark) | 岩石 (rock) | 暗蚀地带 (cursed_stone) | 现有 | 由黑暗与岩石融合而成，效果：圆形AOE + 诅咒 |
-| 黑暗 (dark) | 钢铁 (steel) | 黑钢 (dark_steel) | 现有 | 由黑暗与钢铁融合而成，效果：高伤 + 易伤 |
+| 黑暗 (dark) | 钢铁 (steel) | 手里剑 (dark_steel) | 现有 | 由黑暗与钢铁融合而成，效果：分裂小子弹 |
 | 黑暗 (dark) | 疾风 (swift) | 夜刃 (night_blade) | 现有 | 由黑暗与疾风融合而成，效果：穿透 + 易伤 |
 | 黑暗 (dark) | 吸血 (vampire) | 血咒 (soul_drain) | 现有 | 由黑暗与吸血融合而成，效果：诅咒 + 海渊献祭 |
 | 冰霜 (frost) | 火焰 (fire) | 燃霜 (frostfire) | 现有 | 冰霜与火焰的矛盾融合为燃霜 |
 | 火焰 (fire) | 幽灵 (ghost) | 鬼火 (ghost_fire) | 现有 | 由火焰与幽灵融合而成，效果：穿透 + 黑焰 |
 | 火焰 (fire) | 光芒 (light) | 眩光焰 (dazzle_flame) | 现有 | 由火焰与光芒融合而成，效果：燃烧DOT + 致盲 |
 | 火焰 (fire) | 闪电 (lightning) | 等离火链 (plasma_chain) | 现有 | 由火焰与闪电融合而成，效果：燃烧DOT + 连锁闪电 |
-| 火焰 (fire) | 剧毒 (poison) | 毒焰 (toxic_flame) | 现有 | 由火焰与剧毒融合而成，效果：燃烧DOT + 中毒DOT |
+| 火焰 (fire) | 剧毒 (poison) | 硫磺 (toxic_flame) | 现有 | 由火焰与剧毒融合而成，效果：燃烧DOT + 中毒DOT |
 | 火焰 (fire) | 射线 (ray) | 高温射线 (high_temperature_ray) | 现有 | 由火焰与射线融合而成，效果：射线AOE |
 | 火焰 (fire) | 岩石 (rock) | 熔岩 (lava) | 现有 | 由火焰与岩石融合而成，效果：顶落岩石 + 燃烧 |
 | 钢铁 (steel) | 火焰 (fire) | 炸弹 (bomb) | 现有 | 钢铁的威力与火焰的爆炸融合为炸弹 |
@@ -65,7 +65,7 @@
 | 闪电 (lightning) | 剧毒 (poison) | 毒电链 (venom_arc) | 现有 | 由闪电与剧毒融合而成，效果：中毒DOT + 连锁闪电 |
 | 闪电 (lightning) | 射线 (ray) | 离子束 (ion_beam) | 现有 | 由闪电与射线融合而成，效果：连锁闪电 + 射线AOE |
 | 闪电 (lightning) | 岩石 (rock) | 雷砾 (thunder_grit) | 现有 | 由闪电与岩石融合而成，效果：顶落岩石 + 岩脊带控场 |
-| 闪电 (lightning) | 钢铁 (steel) | 磁轨 (mag_rail) | 现有 | 由闪电与钢铁融合而成，效果：高伤 + 连锁闪电 |
+| 闪电 (lightning) | 钢铁 (steel) | 避雷针 (mag_rail) | 现有 | 由闪电与钢铁融合而成，效果：连锁闪电 + 引雷 |
 | 疾风 (swift) | 闪电 (lightning) | 风暴 (storm) | 现有 | 疾风的穿透与闪电的连锁融合为风暴 |
 | 闪电 (lightning) | 吸血 (vampire) | 雷汲脉冲 (leech_arc) | 现有 | 由闪电与吸血融合而成，效果：连锁闪电 + 吸血 |
 | 剧毒 (poison) | 射线 (ray) | 辐射射线 (radiation_beam) | 现有 | 由剧毒与射线融合而成，效果：射线AOE + 辐射易伤 |
