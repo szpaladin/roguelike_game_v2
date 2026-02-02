@@ -1,6 +1,8 @@
 import PlayerStats from './PlayerStats.js';
 import WeaponSystem from '../weapons/WeaponSystem.js';
 import { GAME_CONFIG } from '../config.js';
+import { ASSET_MANAGER } from '../assets/AssetManager.js';
+import { SPRITES } from '../assets/Sprites.js';
 
 /**
  * Player - 玩家类
@@ -117,13 +119,20 @@ export default class Player {
         if (this.invulnerable && Math.floor(Date.now() / 100) % 2 === 0) {
             ctx.globalAlpha = 0.5;
         }
-
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = '#00f';
-        ctx.fill();
-        ctx.strokeStyle = '#fff';
-        ctx.stroke();
+        const sprite = SPRITES.player;
+        const img = sprite ? ASSET_MANAGER.getImage(sprite.id) : null;
+        if (img) {
+            const w = sprite.w || this.radius * 2;
+            const h = sprite.h || this.radius * 2;
+            ctx.drawImage(img, this.x - w / 2, this.y - h / 2, w, h);
+        } else {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#00f';
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.stroke();
+        }
 
         ctx.restore();
     }

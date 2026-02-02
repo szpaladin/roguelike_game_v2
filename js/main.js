@@ -1,11 +1,13 @@
 import Game from './core/Game.js';
 import GameLoop from './core/GameLoop.js';
 import { WEAPONS } from './weapons/WeaponsData.js';
+import { ASSET_MANAGER } from './assets/AssetManager.js';
+import { SPRITES } from './assets/Sprites.js';
 
 /**
  * 游戏入口文件
  */
-function init() {
+async function init() {
     const canvas = document.getElementById('game-canvas');
     if (!canvas) return;
 
@@ -14,6 +16,12 @@ function init() {
     // 设置画布分辨率为固定 600x600
     canvas.width = 600;
     canvas.height = 600;
+
+    try {
+        await ASSET_MANAGER.loadImages(Object.values(SPRITES));
+    } catch (e) {
+        console.warn('Failed to preload sprites:', e);
+    }
 
     const game = new Game(ctx, canvas.width, canvas.height);
 
